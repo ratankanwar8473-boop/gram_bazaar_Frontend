@@ -4,13 +4,13 @@ const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/gram-bazaar/auth/login.html',
-  '/gram-bazaar/customer/index.html',
-  '/gram-bazaar/seller/index.html',
-  '/gram-bazaar/admin/index.html',
-  '/gram-bazaar/shared/js/api.js',
-  '/gram-bazaar/shared/icons/icon-192.png',
-  '/gram-bazaar/shared/icons/icon-512.png',
+  '/auth/login.html',
+  '/customer/index.html',
+  '/seller/index.html',
+  '/admin/index.html',
+  '/shared/js/api.js',
+  '/shared/icons/icon-192.png',
+  '/shared/icons/icon-512.png',
   'https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Hind:wght@400;500;600&display=swap'
 ];
 
@@ -85,8 +85,8 @@ self.addEventListener('push', (e) => {
   e.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
-      icon: '/gram-bazaar/shared/icons/icon-192.png',
-      badge: '/gram-bazaar/shared/icons/icon-192.png',
+      icon: '/shared/icons/icon-192.png',
+      badge: '/shared/icons/icon-192.png',
       vibrate: [200, 100, 200],
       data: { url: data.url || '/' }
     })

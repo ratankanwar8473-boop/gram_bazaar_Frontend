@@ -51,7 +51,7 @@ body{font-family:'Hind',sans-serif;display:flex;align-items:center;justify-conte
   <div class="app-tagline">गाँव की अपनी दुकान – सब कुछ एक जगह</div>
   <div class="role-section">
     <div class="role-label">आप कौन हैं?</div>
-    <a href="gram-bazaar/auth/login.html?role=customer" class="role-btn btn-customer">
+    <a href="auth/login.html?role=customer" class="role-btn btn-customer">
       <div class="role-icon">🛒</div>
       <div class="role-text">
         <span class="role-title">Customer</span>
@@ -59,7 +59,7 @@ body{font-family:'Hind',sans-serif;display:flex;align-items:center;justify-conte
       </div>
       <span class="role-arrow">›</span>
     </a>
-    <a href="gram-bazaar/auth/login.html?role=seller" class="role-btn btn-seller">
+    <a href="auth/login.html?role=seller" class="role-btn btn-seller">
       <div class="role-icon">🏪</div>
       <div class="role-text">
         <span class="role-title">Seller / Provider</span>
@@ -75,9 +75,9 @@ body{font-family:'Hind',sans-serif;display:flex;align-items:center;justify-conte
 const token = localStorage.getItem('gb_token');
 const role  = localStorage.getItem('gb_role');
 if (token && role) {
-  if (role === 'seller') window.location.href = 'gram-bazaar/seller/index.html';
-  else if (role === 'admin') window.location.href = 'gram-bazaar/admin/index.html';
-  else window.location.href = 'gram-bazaar/customer/index.html';
+  if (role === 'seller') window.location.href = 'seller/index.html';
+  else if (role === 'admin') window.location.href = 'admin/index.html';
+  else window.location.href = 'customer/index.html';
 }
 </script>
 
