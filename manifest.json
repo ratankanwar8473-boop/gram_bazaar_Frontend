@@ -1,0 +1,28 @@
+{
+  "name": "Gram Bazaar – गाँव की अपनी दुकान",
+  "short_name": "Gram Bazaar",
+  "description": "Rural India ke liye complete marketplace – tent, gadi, saman, khana, karigar.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#1b4332",
+  "theme_color": "#1b4332",
+  "orientation": "portrait",
+  "lang": "hi",
+  "icons": [
+    {
+      "src": "/gram-bazaar/shared/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/gram-bazaar/shared/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "utilities", "lifestyle"],
+  "screenshots": []
+}

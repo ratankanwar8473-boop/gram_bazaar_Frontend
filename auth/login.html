@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Login – Gram Bazaar</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--green:#2d6a4f;--green-dark:#1b4332;--green-mid:#40916c;--green-light:#d8f3dc;--orange:#c25c2c;--gray:#f5f5f0;--border:#e0e0d8;--text:#1a1a1a;--text2:#555;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:linear-gradient(160deg,#1b4332,#40916c);}
+body{font-family:'Hind',sans-serif;display:flex;align-items:center;justify-content:center;padding:20px;}
+.card{background:white;border-radius:24px;padding:32px 24px;width:100%;max-width:390px;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.logo{text-align:center;margin-bottom:28px;}
+.logo-icon{width:72px;height:72px;background:linear-gradient(135deg,#1b4332,#40916c);border-radius:20px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:36px;}
+.logo h1{font-family:'Baloo 2';font-size:28px;font-weight:800;color:var(--green-dark);}
+.logo p{font-size:13px;color:#888;margin-top:2px;}
+.tabs{display:flex;background:var(--gray);border-radius:12px;padding:4px;margin-bottom:24px;}
+.tab{flex:1;text-align:center;padding:9px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text2);}
+.tab.active{background:white;color:var(--green-dark);box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.form-group{margin-bottom:16px;}
+label{font-size:12px;color:var(--text2);font-weight:500;display:block;margin-bottom:6px;}
+input,select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Hind';font-size:14px;background:var(--gray);outline:none;transition:border-color .15s;}
+input:focus,select:focus{border-color:var(--green-mid);background:white;}
+.btn{width:100%;padding:14px;background:linear-gradient(135deg,#1b4332,#40916c);color:white;border:none;border-radius:10px;font-family:'Baloo 2';font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .15s;}
+.btn:active{opacity:.85;}
+.btn.orange{background:linear-gradient(135deg,#7c3a1a,#c25c2c);}
+.toggle-form{display:none;}
+.toggle-form.active{display:block;}
+.error{background:#fdecea;color:#c62828;border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:14px;display:none;}
+.footer{text-align:center;margin-top:20px;font-size:12px;color:#aaa;}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a1a;color:white;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;transition:all .3s;pointer-events:none;z-index:999;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.loading{opacity:.6;pointer-events:none;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="logo-icon">🌾</div>
+    <h1>Gram Bazaar</h1>
+    <p>गाँव की अपनी दुकान</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('login')">Login</div>
+    <div class="tab" onclick="switchTab('register')">Register</div>
+  </div>
+
+  <div id="error-box" class="error"></div>
+
+  <!-- LOGIN -->
+  <div id="form-login" class="toggle-form active">
+    <div class="form-group">
+      <label>📱 Phone Number</label>
+      <input type="tel" id="login-phone" placeholder="10-digit number" maxlength="10">
+    </div>
+    <div class="form-group">
+      <label>🔒 Password</label>
+      <input type="password" id="login-password" placeholder="Apna password dalein">
+    </div>
+    <button class="btn" id="login-btn" onclick="doLogin()">Login Karein →</button>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="form-register" class="toggle-form">
+    <div class="form-group">
+      <label>👤 Poora Naam</label>
+      <input type="text" id="reg-name" placeholder="Jaise: Ramesh Kumar">
+    </div>
+    <div class="form-group">
+      <label>📱 Phone Number</label>
+      <input type="tel" id="reg-phone" placeholder="10-digit number" maxlength="10">
+    </div>
+    <div class="form-group">
+      <label>🔒 Password</label>
+      <input type="password" id="reg-password" placeholder="Strong password dalein">
+    </div>
+    <div class="form-group">
+      <label>🏠 Aap kya hain?</label>
+      <select id="reg-role" onchange="toggleBizName()">
+        <option value="customer">Customer – Services book karna hai</option>
+        <option value="seller">Seller/Provider – Services deni hain</option>
+      </select>
+    </div>
+    <div class="form-group" id="biz-group" style="display:none">
+      <label>🏪 Business Name</label>
+      <input type="text" id="reg-biz" placeholder="Jaise: Raju Tent House">
+    </div>
+    <div class="form-group">
+      <label>📍 Village / Shahar</label>
+      <input type="text" id="reg-village" placeholder="Aapka gaon ya shahar">
+    </div>
+    <button class="btn orange" id="reg-btn" onclick="doRegister()">Register Karein →</button>
+  </div>
+
+  <div class="footer">Made with ❤️ for Rural India</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="../shared/js/api.js"></script>
+<script>
+// Redirect if already logged in
+if (api.isLoggedIn()) {
+  const role = api.getRole();
+  window.location.href = role === 'seller' ? '../seller/index.html' :
+                         role === 'admin'  ? '../admin/index.html' :
+                         '../customer/index.html';
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('form-login').classList.toggle('active', tab==='login');
+  document.getElementById('form-register').classList.toggle('active', tab==='register');
+  document.getElementById('error-box').style.display = 'none';
+}
+
+function toggleBizName() {
+  document.getElementById('biz-group').style.display =
+    document.getElementById('reg-role').value === 'seller' ? 'block' : 'none';
+}
+
+function showError(msg) {
+  const e = document.getElementById('error-box');
+  e.textContent = msg; e.style.display = 'block';
+}
+
+async function doLogin() {
+  const phone    = document.getElementById('login-phone').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (phone.length !== 10) return showError('10-digit phone number dalein.');
+  if (!password)            return showError('Password dalein.');
+
+  const btn = document.getElementById('login-btn');
+  btn.textContent = 'Login ho raha hai...'; btn.classList.add('loading');
+
+  const res = await api.post('/auth/login', { phone, password });
+  btn.textContent = 'Login Karein →'; btn.classList.remove('loading');
+
+  if (!res || !res.success) return showError(res?.message || 'Login failed.');
+
+  api.setSession(res.token, res.user);
+  showToast('✅ Login successful! Welcome ' + res.user.name);
+
+  setTimeout(() => {
+    const role = res.user.role;
+    window.location.href = role === 'seller' ? '../seller/index.html' :
+                           role === 'admin'  ? '../admin/index.html' :
+                           '../customer/index.html';
+  }, 800);
+}
+
+async function doRegister() {
+  const name     = document.getElementById('reg-name').value.trim();
+  const phone    = document.getElementById('reg-phone').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const role     = document.getElementById('reg-role').value;
+  const biz      = document.getElementById('reg-biz').value.trim();
+  const village  = document.getElementById('reg-village').value.trim();
+
+  if (!name)              return showError('Naam dalein.');
+  if (phone.length !== 10)return showError('10-digit phone number dalein.');
+  if (password.length < 6)return showError('Password kam se kam 6 characters ka hona chahiye.');
+  if (role === 'seller' && !biz) return showError('Business name dalein.');
+
+  const btn = document.getElementById('reg-btn');
+  btn.textContent = 'Register ho raha hai...'; btn.classList.add('loading');
+
+  const res = await api.post('/auth/register', { name, phone, password, role, business_name: biz, village });
+  btn.textContent = 'Register Karein →'; btn.classList.remove('loading');
+
+  if (!res || !res.success) return showError(res?.message || 'Registration failed.');
+
+  api.setSession(res.token, res.user);
+  showToast('🎉 Welcome to Gram Bazaar, ' + res.user.name + '!');
+
+  setTimeout(() => {
+    window.location.href = role === 'seller' ? '../seller/index.html' : '../customer/index.html';
+  }, 800);
+}
+
+// Enter key support
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    if (document.getElementById('form-login').classList.contains('active')) doLogin();
+    else doRegister();
+  }
+});
+</script>
+</body>
+</html>

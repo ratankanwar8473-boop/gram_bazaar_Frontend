@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1b4332">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Gram Bazaar">
+<link rel="manifest" href="manifest.json">
+<title>Gram Bazaar – गाँव की अपनी दुकान</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:linear-gradient(160deg,#1b4332 0%,#2d6a4f 40%,#40916c 70%,#52b788 100%);}
+body{font-family:'Hind',sans-serif;display:flex;align-items:center;justify-content:center;padding:20px;min-height:100vh;}
+.card{width:100%;max-width:390px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px 60px;text-align:center;}
+.logo-wrap{width:90px;height:90px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:46px;margin-bottom:22px;box-shadow:0 8px 32px rgba(0,0,0,0.2);animation:popIn .6s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes popIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.app-name{font-family:'Baloo 2';font-size:38px;font-weight:800;color:white;line-height:1;animation:fadeUp .5s .2s ease both;}
+.app-tagline{font-size:15px;color:rgba(255,255,255,.8);margin-top:8px;margin-bottom:48px;animation:fadeUp .5s .3s ease both;}
+.role-section{width:100%;animation:fadeUp .5s .4s ease both;}
+.role-label{font-size:12px;color:rgba(255,255,255,.65);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;}
+.role-btn{display:flex;align-items:center;gap:16px;width:100%;padding:20px 24px;border:none;border-radius:18px;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .15s;margin-bottom:14px;}
+.role-btn:active{transform:scale(.97);}
+.btn-customer{background:white;box-shadow:0 4px 20px rgba(0,0,0,.2);}
+.btn-customer:hover{box-shadow:0 8px 28px rgba(0,0,0,.25);transform:translateY(-2px);}
+.btn-seller{background:linear-gradient(135deg,#7c3a1a,#c25c2c);box-shadow:0 4px 20px rgba(124,58,26,.4);}
+.btn-seller:hover{box-shadow:0 8px 28px rgba(124,58,26,.5);transform:translateY(-2px);}
+.role-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.btn-customer .role-icon{background:#d8f3dc;}
+.btn-seller .role-icon{background:rgba(255,255,255,.15);}
+.role-text{text-align:left;flex:1;}
+.role-title{font-family:'Baloo 2';font-size:18px;font-weight:700;display:block;}
+.role-sub{font-size:12px;margin-top:2px;display:block;}
+.btn-customer .role-title{color:#1b4332;}
+.btn-customer .role-sub{color:#40916c;}
+.btn-seller .role-title,.btn-seller .role-sub{color:white;}
+.btn-seller .role-sub{opacity:.8;}
+.role-arrow{font-size:18px;opacity:.5;}
+.btn-customer .role-arrow{color:#2d6a4f;}
+.btn-seller .role-arrow{color:white;}
+.footer-note{margin-top:36px;font-size:11px;color:rgba(255,255,255,.45);animation:fadeUp .5s .5s ease both;}
+.footer-note strong{color:rgba(255,255,255,.7);}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo-wrap">🌾</div>
+  <div class="app-name">Gram Bazaar</div>
+  <div class="app-tagline">गाँव की अपनी दुकान – सब कुछ एक जगह</div>
+  <div class="role-section">
+    <div class="role-label">आप कौन हैं?</div>
+    <a href="gram-bazaar/auth/login.html?role=customer" class="role-btn btn-customer">
+      <div class="role-icon">🛒</div>
+      <div class="role-text">
+        <span class="role-title">Customer</span>
+        <span class="role-sub">Tent, gadi, saman, khana book karein</span>
+      </div>
+      <span class="role-arrow">›</span>
+    </a>
+    <a href="gram-bazaar/auth/login.html?role=seller" class="role-btn btn-seller">
+      <div class="role-icon">🏪</div>
+      <div class="role-text">
+        <span class="role-title">Seller / Provider</span>
+        <span class="role-sub">Orders manage karein, kamaai dekhein</span>
+      </div>
+      <span class="role-arrow">›</span>
+    </a>
+  </div>
+  <div class="footer-note">Made with ❤️ for Rural India &nbsp;·&nbsp; <strong>Gram Bazaar v1.0</strong></div>
+</div>
+<script>
+// Auto redirect if already logged in
+const token = localStorage.getItem('gb_token');
+const role  = localStorage.getItem('gb_role');
+if (token && role) {
+  if (role === 'seller') window.location.href = 'gram-bazaar/seller/index.html';
+  else if (role === 'admin') window.location.href = 'gram-bazaar/admin/index.html';
+  else window.location.href = 'gram-bazaar/customer/index.html';
+}
+</script>
+
+<!-- Install Banner -->
+<div id="installBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#1b4332,#2d6a4f);padding:16px 20px;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.3);">
+  <div style="font-size:28px">📲</div>
+  <div style="flex:1;color:white;">
+    <div style="font-family:Baloo 2,sans-serif;font-weight:700;font-size:15px">App Install Karein</div>
+    <div style="font-size:12px;opacity:.8;margin-top:2px">Home screen par add karein – offline bhi chalega!</div>
+  </div>
+  <button id="installBtn" style="background:white;color:#1b4332;border:none;border-radius:10px;padding:10px 16px;font-weight:700;font-size:13px;cursor:pointer;font-family:Hind,sans-serif;white-space:nowrap;">Install</button>
+  <button id="dismissBtn" style="background:rgba(255,255,255,.15);color:white;border:none;border-radius:10px;padding:10px 12px;font-size:13px;cursor:pointer;">✕</button>
+</div>
+
+<script>
+// ─── Service Worker Registration ───
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('[SW] Registered:', reg.scope))
+      .catch(err => console.warn('[SW] Failed:', err));
+  });
+}
+
+// ─── PWA Install Prompt ───
+let deferredPrompt;
+const installBanner = document.getElementById('installBanner');
+const installBtn = document.getElementById('installBtn');
+const dismissBtn = document.getElementById('dismissBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show banner after 2 seconds
+  setTimeout(() => {
+    if (installBanner) installBanner.style.display = 'flex';
+  }, 2000);
+});
+
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log('Install outcome:', outcome);
+    deferredPrompt = null;
+    installBanner.style.display = 'none';
+  });
+}
+
+if (dismissBtn) {
+  dismissBtn.addEventListener('click', () => {
+    installBanner.style.display = 'none';
+    sessionStorage.setItem('gb_install_dismissed', '1');
+  });
+}
+
+window.addEventListener('appinstalled', () => {
+  console.log('[PWA] App installed!');
+  if (installBanner) installBanner.style.display = 'none';
+  deferredPrompt = null;
+});
+</script>
+</body>
+</html>

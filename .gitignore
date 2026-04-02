@@ -1,0 +1,8 @@
+node_modules/
+npm-debug.log*
+gram-bazaar-backend/.env
+gram-bazaar-backend/.env.production
+gram-bazaar-backend/uploads/*
+!gram-bazaar-backend/uploads/.gitkeep
+.DS_Store
+Thumbs.db

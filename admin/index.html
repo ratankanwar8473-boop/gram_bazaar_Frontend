@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel – Gram Bazaar</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#2d6a4f;--green-dark:#1b4332;--green-mid:#40916c;--green-light:#d8f3dc;--green-pale:#f0faf2;
+  --orange:#c25c2c;--orange-dark:#7c3a1a;--orange-light:#fdf0eb;
+  --blue:#1565c0;--blue-light:#e3f0ff;
+  --red:#c62828;--red-light:#fdecea;
+  --amber:#e07b00;--amber-light:#fff3e0;
+  --gray:#f5f5f0;--border:#e0e0d8;--text:#1a1a1a;--text2:#555;--text3:#888;
+  --sidebar-w:240px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hind',sans-serif;background:var(--gray);color:var(--text);display:flex;min-height:100vh;}
+
+/* ─── Sidebar ─── */
+.sidebar{width:var(--sidebar-w);background:linear-gradient(180deg,#1b4332 0%,#2d6a4f 100%);color:white;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .3s;}
+.sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid rgba(255,255,255,0.1);}
+.sidebar-logo h1{font-family:'Baloo 2';font-size:22px;font-weight:800;}
+.sidebar-logo p{font-size:11px;opacity:.65;margin-top:2px;}
+.sidebar-logo .badge{background:var(--orange);font-size:9px;padding:2px 7px;border-radius:10px;margin-left:6px;font-weight:700;}
+nav{flex:1;padding:12px 0;overflow-y:auto;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;border-left:3px solid transparent;transition:all .2s;font-size:14px;font-weight:500;}
+.nav-item:hover{background:rgba(255,255,255,0.08);}
+.nav-item.active{background:rgba(255,255,255,0.12);border-left-color:white;}
+.nav-icon{font-size:18px;width:24px;text-align:center;}
+.nav-badge{background:var(--orange);color:white;font-size:10px;padding:2px 7px;border-radius:10px;margin-left:auto;font-weight:700;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.1);font-size:12px;opacity:.6;cursor:pointer;}
+.sidebar-footer:hover{opacity:1;}
+
+/* ─── Main ─── */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{background:white;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;}
+.topbar h2{font-family:'Baloo 2';font-size:20px;font-weight:700;color:var(--text);}
+.topbar-right{display:flex;align-items:center;gap:14px;}
+.notif-btn{width:38px;height:38px;background:var(--gray);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;position:relative;}
+.notif-dot{width:8px;height:8px;background:var(--red);border-radius:50%;position:absolute;top:6px;right:6px;}
+.admin-chip{background:var(--green-pale);border:1px solid var(--green-light);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--green-dark);}
+.content{padding:24px 28px;flex:1;}
+
+/* ─── Pages ─── */
+.page{display:none;}.page.active{display:block;}
+
+/* ─── Stats Grid ─── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.stat-card{background:white;border-radius:16px;padding:20px;border:1px solid var(--border);box-shadow:0 1px 8px rgba(0,0,0,0.05);}
+.stat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px;}
+.stat-num{font-family:'Baloo 2';font-size:28px;font-weight:700;}
+.stat-label{font-size:12px;color:var(--text3);margin-top:2px;}
+.stat-change{font-size:11px;margin-top:6px;font-weight:600;}
+.stat-change.up{color:var(--green);}
+.stat-change.down{color:var(--red);}
+
+/* ─── Tables ─── */
+.table-card{background:white;border-radius:16px;border:1px solid var(--border);overflow:hidden;margin-bottom:20px;}
+.table-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.table-title{font-family:'Baloo 2';font-size:16px;font-weight:700;}
+.table-actions{display:flex;gap:8px;}
+.search-input{padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;outline:none;width:220px;font-family:'Hind';}
+.search-input:focus{border-color:var(--green-mid);}
+.btn-sm{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;}
+.btn-green{background:var(--green);color:white;}
+.btn-orange{background:var(--orange);color:white;}
+.btn-gray{background:var(--gray);color:var(--text2);border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;}
+th{background:var(--gray);padding:11px 16px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;text-align:left;}
+td{padding:12px 16px;font-size:13px;border-top:1px solid var(--border);vertical-align:middle;}
+tr:hover td{background:#fafaf8;}
+.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block;}
+.b-customer{background:var(--blue-light);color:var(--blue);}
+.b-seller{background:var(--green-light);color:var(--green);}
+.b-admin{background:var(--orange-light);color:var(--orange);}
+.b-active{background:var(--green-light);color:var(--green-dark);}
+.b-inactive{background:var(--red-light);color:var(--red);}
+.b-pending{background:var(--amber-light);color:var(--amber);}
+.b-confirmed{background:var(--blue-light);color:var(--blue);}
+.b-completed{background:var(--green-light);color:var(--green);}
+.b-cancelled{background:var(--red-light);color:var(--red);}
+.toggle-btn{padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;border:none;font-weight:600;}
+.t-deactivate{background:var(--red-light);color:var(--red);}
+.t-activate{background:var(--green-light);color:var(--green);}
+
+/* ─── Charts ─── */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:20px;}
+.chart-card{background:white;border-radius:16px;border:1px solid var(--border);padding:20px;}
+.chart-title{font-family:'Baloo 2';font-size:15px;font-weight:700;margin-bottom:16px;}
+.bar-wrap{display:flex;flex-direction:column;gap:10px;}
+.bar-row{display:flex;align-items:center;gap:10px;}
+.bar-label{font-size:12px;color:var(--text2);width:80px;flex-shrink:0;}
+.bar-bg{flex:1;height:24px;background:var(--gray);border-radius:6px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:700;color:white;transition:width .8s ease;}
+.donut-wrap{display:flex;flex-direction:column;gap:8px;}
+.donut-item{display:flex;align-items:center;gap:10px;}
+.donut-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.donut-text{font-size:13px;flex:1;}
+.donut-val{font-size:13px;font-weight:700;}
+
+/* ─── Broadcast ─── */
+.broadcast-card{background:white;border-radius:16px;border:1px solid var(--border);padding:24px;margin-bottom:20px;}
+.form-group{margin-bottom:16px;}
+.form-label{font-size:12px;color:var(--text2);font-weight:600;display:block;margin-bottom:6px;}
+.form-input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Hind';font-size:14px;outline:none;background:var(--gray);}
+.form-input:focus{border-color:var(--green-mid);background:white;}
+textarea.form-input{resize:vertical;min-height:90px;}
+select.form-input{cursor:pointer;}
+
+/* ─── Toast ─── */
+.toast{position:fixed;bottom:30px;right:30px;background:#1a1a1a;color:white;padding:12px 20px;border-radius:12px;font-size:13px;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;transform:translateY(10px);}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* ─── Mobile ─── */
+.menu-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer;padding:4px;}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .charts-row{grid-template-columns:1fr;}
+  .menu-toggle{display:block;}
+  .content{padding:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Sidebar ─── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h1>🌾 Gram Bazaar <span class="badge">ADMIN</span></h1>
+    <p>Admin Control Panel</p>
+  </div>
+  <nav>
+    <div class="nav-item active" onclick="showPage('dashboard')">
+      <span class="nav-icon">📊</span> Dashboard
+    </div>
+    <div class="nav-item" onclick="showPage('users')">
+      <span class="nav-icon">👥</span> Users
+      <span class="nav-badge" id="nav-users-count">–</span>
+    </div>
+    <div class="nav-item" onclick="showPage('orders')">
+      <span class="nav-icon">📦</span> Orders
+      <span class="nav-badge" id="nav-orders-count">–</span>
+    </div>
+    <div class="nav-item" onclick="showPage('sellers')">
+      <span class="nav-icon">🏪</span> Sellers
+    </div>
+    <div class="nav-item" onclick="showPage('broadcast')">
+      <span class="nav-icon">📢</span> Notifications
+    </div>
+  </nav>
+  <div class="sidebar-footer" onclick="doLogout()">🚪 Logout</div>
+</aside>
+
+<!-- ─── Main ─── -->
+<main class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <h2 id="page-title">Dashboard</h2>
+    </div>
+    <div class="topbar-right">
+      <div class="notif-btn" onclick="showPage('broadcast')">🔔<span class="notif-dot"></span></div>
+      <div class="admin-chip" id="admin-name-chip">👤 Admin</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#d8f3dc">👥</div>
+          <div class="stat-num" id="s-users">–</div>
+          <div class="stat-label">Total Users</div>
+          <div class="stat-change up" id="s-customers">0 customers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#fdf0eb">🏪</div>
+          <div class="stat-num" id="s-sellers">–</div>
+          <div class="stat-label">Registered Sellers</div>
+          <div class="stat-change up">Active providers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#e3f0ff">📦</div>
+          <div class="stat-num" id="s-orders">–</div>
+          <div class="stat-label">Total Orders</div>
+          <div class="stat-change up" id="s-pending">0 pending</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#fff3e0">💰</div>
+          <div class="stat-num" id="s-gmv">–</div>
+          <div class="stat-label">Total GMV</div>
+          <div class="stat-change up" id="s-today">₹0 today</div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-title">📊 Service-wise Orders</div>
+          <div class="bar-wrap" id="service-bars">
+            <div style="color:#aaa;font-size:13px;">Loading...</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">🎯 Order Status</div>
+          <div class="donut-wrap" id="status-donut">
+            <div style="color:#aaa;font-size:13px;">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">🕐 Recent Orders</div>
+          <button class="btn-sm btn-green" onclick="showPage('orders')">Sab dekho</button>
+        </div>
+        <table>
+          <thead><tr>
+            <th>Order #</th><th>Customer</th><th>Seller</th><th>Service</th><th>Amount</th><th>Status</th>
+          </tr></thead>
+          <tbody id="recent-orders-body">
+            <tr><td colspan="6" style="text-align:center;color:#aaa;padding:24px;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">⭐ Top Sellers</div>
+        </div>
+        <table>
+          <thead><tr><th>Seller</th><th>Business</th><th>Rating</th><th>Total Earned</th></tr></thead>
+          <tbody id="top-sellers-body">
+            <tr><td colspan="4" style="text-align:center;color:#aaa;padding:24px;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ USERS ═══ -->
+    <div class="page" id="page-users">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">👥 Saare Users</div>
+          <div class="table-actions">
+            <input class="search-input" id="user-search" placeholder="🔍 Naam ya phone..." oninput="filterUsers()">
+            <select class="search-input" id="user-role-filter" style="width:130px" onchange="loadUsers()">
+              <option value="">Sabhi roles</option>
+              <option value="customer">Customer</option>
+              <option value="seller">Seller</option>
+            </select>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>#</th><th>Naam</th><th>Phone</th><th>Role</th><th>Village</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody id="users-body">
+            <tr><td colspan="7" style="text-align:center;color:#aaa;padding:24px;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ ORDERS ═══ -->
+    <div class="page" id="page-orders">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">📦 Saare Orders</div>
+          <div class="table-actions">
+            <select class="search-input" id="order-status-filter" style="width:160px" onchange="loadOrders()">
+              <option value="">Sabhi status</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="in_progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>Order #</th><th>Customer</th><th>Seller</th><th>Service</th><th>Amount</th><th>Payment</th><th>Status</th></tr></thead>
+          <tbody id="orders-body">
+            <tr><td colspan="7" style="text-align:center;color:#aaa;padding:24px;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ SELLERS ═══ -->
+    <div class="page" id="page-sellers">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">🏪 Registered Sellers</div>
+        </div>
+        <table>
+          <thead><tr><th>Naam</th><th>Business</th><th>Phone</th><th>Village</th><th>Rating</th><th>Earned</th><th>Online</th><th>Action</th></tr></thead>
+          <tbody id="sellers-body">
+            <tr><td colspan="8" style="text-align:center;color:#aaa;padding:24px;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ BROADCAST ═══ -->
+    <div class="page" id="page-broadcast">
+      <div class="broadcast-card">
+        <div class="chart-title">📢 Notification Bhejein</div>
+        <p style="font-size:13px;color:var(--text2);margin:6px 0 20px">Saare users ya specific role ko ek saath notification bhejein.</p>
+        <div class="form-group">
+          <label class="form-label">📌 Title</label>
+          <input class="form-input" id="bc-title" placeholder="Jaise: Nayi offer aa gayi!">
+        </div>
+        <div class="form-group">
+          <label class="form-label">💬 Message</label>
+          <textarea class="form-input" id="bc-body" placeholder="Poora message yahan likhein..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">👥 Kishe Bhejein?</label>
+          <select class="form-input" id="bc-role">
+            <option value="">Sabhi Users</option>
+            <option value="customer">Sirf Customers</option>
+            <option value="seller">Sirf Sellers</option>
+          </select>
+        </div>
+        <button class="btn-sm btn-green" style="padding:12px 28px;font-size:14px;" onclick="sendBroadcast()">📢 Bhejein</button>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header"><div class="table-title">📋 Recent Broadcasts</div></div>
+        <div style="padding:20px;color:var(--text3);font-size:13px;">
+          Notifications database mein store hain. Users ke notification page pe dikhti hain.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="../shared/js/api.js"></script>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+// ─── Auth Guard ─────────────────────────────────────────
+(function(){
+  if(!api.isLoggedIn()||api.getRole()!=='admin'){
+    window.location.href='../auth/login.html'; return;
+  }
+  const u=api.getUser();
+  if(u) document.getElementById('admin-name-chip').textContent='👤 '+u.name;
+})();
+
+const socket = initSocket();
+let allUsers = [];
+
+// ─── Page Navigation ────────────────────────────────────
+const pageTitles={dashboard:'Dashboard',users:'Users Management',orders:'Orders',sellers:'Sellers',broadcast:'Notifications'};
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{if(n.textContent.toLowerCase().includes(name.substring(0,4)))n.classList.add('active');});
+  document.getElementById('page-title').textContent=pageTitles[name]||name;
+  if(name==='users')    loadUsers();
+  if(name==='orders')   loadOrders();
+  if(name==='sellers')  loadSellers();
+  if(window.innerWidth<768) document.getElementById('sidebar').classList.remove('open');
+}
+
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
+
+// ─── Dashboard ──────────────────────────────────────────
+async function loadDashboard(){
+  const res=await api.get('/admin/overview');
+  if(!res||!res.success){showToast('Dashboard data load failed.'); return;}
+  const {stats,topSellers,recentOrders}=res;
+
+  document.getElementById('s-users').textContent    = stats.users.total||0;
+  document.getElementById('s-customers').textContent= (stats.users.customers||0)+' customers';
+  document.getElementById('s-sellers').textContent  = stats.users.sellers||0;
+  document.getElementById('s-orders').textContent   = stats.orders.total||0;
+  document.getElementById('s-pending').textContent  = (stats.orders.pending||0)+' pending';
+  document.getElementById('s-gmv').textContent      = '₹'+(parseFloat(stats.orders.gmv||0).toLocaleString('hi-IN'));
+  document.getElementById('s-today').textContent    = '₹'+(stats.today.revenue_today||0)+' aaj';
+  document.getElementById('nav-users-count').textContent  = stats.users.total||0;
+  document.getElementById('nav-orders-count').textContent = stats.orders.total||0;
+
+  // Recent orders table
+  const tbody=document.getElementById('recent-orders-body');
+  tbody.innerHTML = recentOrders.length
+    ? recentOrders.map(o=>`<tr>
+        <td><strong>${o.order_number}</strong></td>
+        <td>${o.customer}</td>
+        <td>${o.seller}</td>
+        <td>${serviceEmoji(o.service_type)} ${o.service_type}</td>
+        <td><strong>₹${o.total_amount}</strong></td>
+        <td><span class="badge b-${o.status}">${o.status}</span></td>
+      </tr>`).join('')
+    : '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px;">Koi orders nahi.</td></tr>';
+
+  // Top sellers table
+  const sb=document.getElementById('top-sellers-body');
+  sb.innerHTML = topSellers.length
+    ? topSellers.map(s=>`<tr>
+        <td>${s.name}</td>
+        <td>${s.business_name||'–'}</td>
+        <td>⭐ ${parseFloat(s.rating||0).toFixed(1)} (${s.total_reviews||0})</td>
+        <td><strong style="color:var(--green)">₹${parseFloat(s.total_earnings||0).toLocaleString('hi-IN')}</strong></td>
+      </tr>`).join('')
+    : '<tr><td colspan="4" style="text-align:center;color:#aaa;padding:20px;">Koi sellers nahi.</td></tr>';
+
+  // Service bars (mock from orders data)
+  const services=[
+    {name:'Tent',emoji:'⛺',pct:35,color:'#2d6a4f'},
+    {name:'Gadi',emoji:'🚗',pct:25,color:'#1565c0'},
+    {name:'Saman',emoji:'🛒',pct:20,color:'#e07b00'},
+    {name:'Khana',emoji:'🍛',pct:12,color:'#c25c2c'},
+    {name:'Karigar',emoji:'🔧',pct:8,color:'#6a2d6a'},
+  ];
+  document.getElementById('service-bars').innerHTML=services.map(s=>`
+    <div class="bar-row">
+      <div class="bar-label">${s.emoji} ${s.name}</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${s.pct}%;background:${s.color}">${s.pct}%</div></div>
+    </div>`).join('');
+
+  // Status donut
+  const statuses=[
+    {label:'Completed',val:stats.orders.completed||0,color:'#2d6a4f'},
+    {label:'Pending',  val:stats.orders.pending||0,  color:'#e07b00'},
+    {label:'Others',   val:Math.max(0,(stats.orders.total||0)-(stats.orders.completed||0)-(stats.orders.pending||0)),color:'#aaa'},
+  ];
+  document.getElementById('status-donut').innerHTML=statuses.map(s=>`
+    <div class="donut-item">
+      <div class="donut-dot" style="background:${s.color}"></div>
+      <div class="donut-text">${s.label}</div>
+      <div class="donut-val">${s.val}</div>
+    </div>`).join('');
+}
+
+// ─── Users ───────────────────────────────────────────────
+async function loadUsers(){
+  const role=document.getElementById('user-role-filter').value;
+  const res=await api.get('/admin/users'+(role?'?role='+role:''));
+  if(!res||!res.success){showToast('Users load failed.'); return;}
+  allUsers=res.users;
+  renderUsers(allUsers);
+}
+
+function renderUsers(users){
+  const tbody=document.getElementById('users-body');
+  tbody.innerHTML=users.length
+    ? users.map(u=>`<tr>
+        <td>${u.id}</td>
+        <td><strong>${u.name}</strong></td>
+        <td>${u.phone}</td>
+        <td><span class="badge b-${u.role}">${u.role}</span></td>
+        <td>${u.village||'–'}</td>
+        <td><span class="badge ${u.is_active?'b-active':'b-inactive'}">${u.is_active?'Active':'Inactive'}</span></td>
+        <td><button class="toggle-btn ${u.is_active?'t-deactivate':'t-activate'}" onclick="toggleUser(${u.id},this)">${u.is_active?'Deactivate':'Activate'}</button></td>
+      </tr>`).join('')
+    : '<tr><td colspan="7" style="text-align:center;color:#aaa;padding:24px;">Koi users nahi.</td></tr>';
+}
+
+function filterUsers(){
+  const q=document.getElementById('user-search').value.toLowerCase();
+  renderUsers(allUsers.filter(u=>u.name.toLowerCase().includes(q)||u.phone.includes(q)));
+}
+
+async function toggleUser(id,btn){
+  const res=await api.put('/admin/users/'+id+'/toggle');
+  if(!res||!res.success){showToast('Toggle failed.'); return;}
+  const isActive=res.is_active;
+  btn.textContent=isActive?'Deactivate':'Activate';
+  btn.className='toggle-btn '+(isActive?'t-deactivate':'t-activate');
+  const statusCell=btn.closest('tr').querySelector('td:nth-child(6)');
+  statusCell.innerHTML=`<span class="badge ${isActive?'b-active':'b-inactive'}">${isActive?'Active':'Inactive'}</span>`;
+  showToast(isActive?'User activate ho gaya.':'User deactivate ho gaya.');
+}
+
+// ─── Orders ──────────────────────────────────────────────
+async function loadOrders(){
+  const status=document.getElementById('order-status-filter').value;
+  const res=await api.get('/admin/orders'+(status?'?status='+status:''));
+  if(!res||!res.success){showToast('Orders load failed.'); return;}
+  const tbody=document.getElementById('orders-body');
+  tbody.innerHTML=res.orders.length
+    ? res.orders.map(o=>`<tr>
+        <td><strong>${o.order_number}</strong></td>
+        <td>${o.customer_name}<br><small style="color:#aaa">${o.customer_phone}</small></td>
+        <td>${o.seller_name}<br><small style="color:#aaa">${o.business_name||''}</small></td>
+        <td>${serviceEmoji(o.service_type)} ${o.service_type}</td>
+        <td><strong>₹${o.total_amount}</strong></td>
+        <td><span class="badge b-${o.payment_status||'pending'}">${o.payment_status||'pending'}</span></td>
+        <td><span class="badge b-${o.status}">${o.status}</span></td>
+      </tr>`).join('')
+    : '<tr><td colspan="7" style="text-align:center;color:#aaa;padding:24px;">Koi orders nahi.</td></tr>';
+}
+
+// ─── Sellers ─────────────────────────────────────────────
+async function loadSellers(){
+  const res=await api.get('/sellers');
+  if(!res||!res.success){showToast('Sellers load failed.'); return;}
+  const tbody=document.getElementById('sellers-body');
+  tbody.innerHTML=res.sellers.length
+    ? res.sellers.map(s=>`<tr>
+        <td><strong>${s.name}</strong></td>
+        <td>${s.business_name||'–'}</td>
+        <td>${s.phone||'–'}</td>
+        <td>${s.village||'–'}, ${s.district||'–'}</td>
+        <td>⭐ ${parseFloat(s.rating||0).toFixed(1)}</td>
+        <td>–</td>
+        <td><span class="badge ${s.is_online?'b-active':'b-inactive'}">${s.is_online?'Online':'Offline'}</span></td>
+        <td><button class="toggle-btn t-deactivate" onclick="toggleUser(${s.id},this)">Deactivate</button></td>
+      </tr>`).join('')
+    : '<tr><td colspan="8" style="text-align:center;color:#aaa;padding:24px;">Koi sellers nahi.</td></tr>';
+}
+
+// ─── Broadcast ───────────────────────────────────────────
+async function sendBroadcast(){
+  const title=document.getElementById('bc-title').value.trim();
+  const body =document.getElementById('bc-body').value.trim();
+  const role =document.getElementById('bc-role').value;
+  if(!title||!body){showToast('Title aur message dono bharein.'); return;}
+  const res=await api.post('/admin/broadcast',{title,body,role:role||undefined});
+  if(res&&res.success){
+    showToast('✅ '+res.message);
+    document.getElementById('bc-title').value='';
+    document.getElementById('bc-body').value='';
+  } else {
+    showToast('❌ Broadcast failed.');
+  }
+}
+
+// ─── Helpers ─────────────────────────────────────────────
+function serviceEmoji(t){return{tent:'⛺',saman:'🛒',gadi:'🚗',tractor:'🚜',khana:'🍛',karigar:'🔧'}[t]||'📦';}
+function doLogout(){ if(confirm('Logout karna chahte hain?')) api.logout(); }
+
+// ─── Socket ──────────────────────────────────────────────
+if(socket){
+  socket.on('new_order',()=>loadDashboard());
+}
+
+// ─── Init ────────────────────────────────────────────────
+loadDashboard();
+</script>
+</body>
+</html>
