@@ -7,36 +7,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green: #2d6a4f;
-  --green-dark: #1b4332;
-  --green-mid: #40916c;
-  --green-light: #d8f3dc;
-  --green-pale: #f0faf2;
-  --amber: #e76f51;
-  --amber-light: #fdf0eb;
-  --blue: #1565c0;
-  --blue-light: #e3f0ff;
-  --red: #c62828;
-  --red-light: #fdecea;
-  --gray: #f5f5f0;
-  --text: #1a1a1a;
-  --text2: #555;
-  --text3: #888;
-  --border: #e0e0d8;
-  --white: #fff;
-  --radius: 14px;
-  --radius-sm: 8px;
-  --shadow: 0 2px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+  --green: #2d6a4f; --green-dark: #1b4332; --green-mid: #40916c;
+  --green-light: #d8f3dc; --green-pale: #f0faf2;
+  --amber: #e76f51; --amber-light: #fdf0eb;
+  --blue: #1565c0; --blue-light: #e3f0ff;
+  --red: #c62828; --red-light: #fdecea;
+  --gray: #f5f5f0; --text: #1a1a1a; --text2: #555; --text3: #888;
+  --border: #e0e0d8; --white: #fff;
+  --radius: 14px; --radius-sm: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08); --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; overflow: hidden; background: #1b4332; }
 body { font-family: 'Hind', sans-serif; }
-
-/* ─── App Shell ─── */
 #app { max-width: 430px; margin: 0 auto; height: 100vh; display: flex; flex-direction: column; background: var(--gray); position: relative; overflow: hidden; }
-
-/* ─── Header ─── */
 .app-header { background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 60%, #40916c 100%); color: white; padding: 0; flex-shrink: 0; }
 .header-inner { padding: 16px 16px 0; }
 .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
@@ -44,19 +28,18 @@ body { font-family: 'Hind', sans-serif; }
 .brand-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
 .brand-text h1 { font-family: 'Baloo 2', cursive; font-size: 20px; font-weight: 700; line-height: 1; }
 .brand-text p { font-size: 11px; opacity: 0.75; margin-top: 1px; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.notif-btn { width: 34px; height: 34px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; border: none; }
+.notif-badge { position: absolute; top: -2px; right: -2px; width: 16px; height: 16px; background: #e76f51; border-radius: 50%; font-size: 9px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; display: none; }
 .user-avatar { width: 38px; height: 38px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Baloo 2'; font-size: 16px; font-weight: 600; cursor: pointer; border: 2px solid rgba(255,255,255,0.3); }
 .location-pill { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 12px; font-size: 12px; display: flex; align-items: center; gap: 5px; margin-bottom: 14px; }
 .search-wrap { padding: 0 16px 16px; }
 .search-box { background: white; border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow); }
 .search-box input { border: none; outline: none; font-family: 'Hind'; font-size: 14px; color: var(--text); flex: 1; background: transparent; }
 .search-box input::placeholder { color: var(--text3); }
-
-/* ─── Pages ─── */
 .page { display: none; flex: 1; overflow-y: auto; padding-bottom: 80px; }
 .page.active { display: block; }
 .page::-webkit-scrollbar { display: none; }
-
-/* ─── Home Page ─── */
 .hero-banner { margin: 14px 14px 0; background: linear-gradient(135deg, #d8f3dc, #b7e4c7); border-radius: var(--radius); padding: 18px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #95d5b2; }
 .hero-banner h2 { font-family: 'Baloo 2'; font-size: 17px; color: var(--green-dark); font-weight: 700; }
 .hero-banner p { font-size: 12px; color: var(--green-mid); margin-top: 4px; }
@@ -64,7 +47,6 @@ body { font-family: 'Hind', sans-serif; }
 .section { padding: 16px 14px 0; }
 .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .section-title { font-family: 'Baloo 2'; font-size: 16px; font-weight: 600; color: var(--text); }
-.section-link { font-size: 12px; color: var(--green-mid); font-weight: 500; }
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .service-card { background: white; border-radius: var(--radius); padding: 14px 8px 12px; text-align: center; cursor: pointer; border: 1.5px solid transparent; transition: all 0.18s; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
 .service-card:active { transform: scale(0.96); }
@@ -76,13 +58,9 @@ body { font-family: 'Hind', sans-serif; }
 .promo-strip .p-icon { font-size: 28px; }
 .promo-strip h3 { font-size: 13px; font-weight: 600; color: #c25c2c; }
 .promo-strip p { font-size: 11px; color: #9c4a22; margin-top: 2px; }
-
-/* ─── Service Panel ─── */
 .panel-header { background: white; padding: 14px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); flex-shrink: 0; position: sticky; top: 0; z-index: 10; }
 .back-btn { width: 34px; height: 34px; border: none; background: var(--gray); border-radius: 10px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
 .panel-title { font-family: 'Baloo 2'; font-size: 17px; font-weight: 600; color: var(--text); }
-
-/* ─── Forms ─── */
 .form-section { background: white; border-radius: var(--radius); padding: 16px; margin: 12px 14px 0; border: 1px solid var(--border); }
 .form-section h3 { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
 .form-group { margin-bottom: 12px; }
@@ -98,41 +76,33 @@ select.form-input { cursor: pointer; }
 .check-item:has(input:checked) { border-color: var(--green-mid); background: var(--green-pale); }
 .btn-primary { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%); color: white; border: none; border-radius: var(--radius-sm); font-family: 'Baloo 2'; font-size: 16px; font-weight: 600; cursor: pointer; letter-spacing: 0.3px; margin-top: 4px; transition: opacity 0.15s; }
 .btn-primary:active { opacity: 0.85; transform: scale(0.99); }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 .btn-secondary { width: 100%; padding: 12px; background: var(--gray); color: var(--text); border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: 'Hind'; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 8px; }
-
-/* ─── Product Grid ─── */
-.product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 14px 0; }
-.product-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; cursor: pointer; transition: all 0.15s; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
-.product-card:active { transform: scale(0.97); }
-.p-img { height: 80px; background: var(--gray); display: flex; align-items: center; justify-content: center; font-size: 34px; }
-.p-body { padding: 9px 10px; }
-.p-name { font-size: 12px; font-weight: 600; color: var(--text); }
-.p-price { font-size: 13px; font-weight: 700; color: var(--green); margin-top: 2px; }
-.p-shop { font-size: 10px; color: var(--text3); }
-.p-add { width: 100%; padding: 6px; background: var(--green-pale); color: var(--green-dark); border: 1px solid var(--green-light); border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; margin-top: 6px; }
-.cart-bar { margin: 12px 14px 0; background: var(--green); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
-.cart-info { color: white; }
-.cart-info span { font-size: 13px; opacity: 0.85; }
-.cart-info strong { font-family: 'Baloo 2'; font-size: 18px; display: block; }
-.btn-cart { background: white; color: var(--green-dark); border: none; border-radius: 8px; padding: 9px 18px; font-family: 'Baloo 2'; font-size: 14px; font-weight: 700; cursor: pointer; }
-
-/* ─── Vehicle List ─── */
+/* Vehicle / Seller List */
 .vehicle-list { margin: 12px 14px 0; display: flex; flex-direction: column; gap: 10px; }
-.vehicle-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.15s; }
+.vehicle-card { background: white; border-radius: var(--radius); border: 1.5px solid var(--border); padding: 14px; cursor: pointer; transition: all 0.15s; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
 .vehicle-card:active { transform: scale(0.98); }
-.vehicle-card:hover { border-color: var(--green-mid); }
-.v-icon { font-size: 32px; width: 50px; text-align: center; flex-shrink: 0; }
+.vehicle-card.selected { border-color: var(--green-mid); background: var(--green-pale); }
+.vehicle-card.booked-out { opacity: 0.55; cursor: not-allowed; }
+.v-top { display: flex; align-items: center; gap: 12px; }
+.v-icon { font-size: 28px; width: 44px; text-align: center; flex-shrink: 0; }
 .v-info { flex: 1; }
 .v-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.v-detail { font-size: 11px; color: var(--text3); margin-top: 2px; }
-.v-right { text-align: right; }
+.v-seller { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.v-right { text-align: right; flex-shrink: 0; }
 .v-price { font-size: 14px; font-weight: 700; color: var(--green); }
 .badge { font-size: 10px; padding: 3px 9px; border-radius: 20px; font-weight: 600; display: inline-block; margin-top: 3px; }
 .badge-green { background: var(--green-light); color: var(--green-dark); }
 .badge-amber { background: var(--amber-light); color: #c05c2a; }
 .badge-red { background: var(--red-light); color: var(--red); }
-
-/* ─── Orders Page ─── */
+.badge-gray { background: #eee; color: #666; }
+.v-services { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text3); }
+.v-call-btn { background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin-top: 6px; text-decoration: none; display: inline-block; }
+/* Loading spinner */
+.loader { text-align: center; padding: 30px; color: var(--text3); }
+.loader-spin { width: 28px; height: 28px; border: 3px solid var(--green-light); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+/* Orders */
 .order-list { margin: 12px 14px 0; display: flex; flex-direction: column; gap: 10px; }
 .order-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; }
 .order-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
@@ -140,17 +110,12 @@ select.form-input { cursor: pointer; }
 .order-type { font-size: 14px; font-weight: 600; color: var(--text); margin-top: 2px; }
 .order-detail { font-size: 13px; color: var(--text2); }
 .order-meta { font-size: 11px; color: var(--text3); margin-top: 4px; }
-.order-actions { display: flex; gap: 8px; margin-top: 10px; }
-.btn-sm { padding: 7px 14px; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; }
-.btn-sm-green { background: var(--green-light); color: var(--green-dark); }
-.btn-sm-outline { background: transparent; border: 1px solid var(--border); color: var(--text2); }
 .status-badge { font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
 .s-confirmed { background: var(--blue-light); color: var(--blue); }
 .s-pending { background: var(--amber-light); color: #b85c00; }
 .s-delivered { background: var(--green-light); color: var(--green-dark); }
 .s-cancelled { background: var(--red-light); color: var(--red); }
-
-/* ─── Profile ─── */
+/* Profile */
 .profile-hero { background: linear-gradient(135deg, #1b4332, #40916c); margin: 14px 14px 0; border-radius: var(--radius); padding: 20px; text-align: center; color: white; }
 .profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-family: 'Baloo 2'; font-size: 28px; font-weight: 700; margin: 0 auto 10px; border: 3px solid rgba(255,255,255,0.35); }
 .profile-name { font-family: 'Baloo 2'; font-size: 20px; font-weight: 700; }
@@ -166,8 +131,19 @@ select.form-input { cursor: pointer; }
 .menu-icon { font-size: 20px; width: 28px; text-align: center; }
 .menu-text { flex: 1; font-size: 14px; font-weight: 500; color: var(--text); }
 .menu-arrow { font-size: 14px; color: var(--text3); }
-
-/* ─── Bottom Nav ─── */
+/* Notifications */
+.notif-panel { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; height: 100vh; background: white; z-index: 200; display: none; flex-direction: column; }
+.notif-panel.open { display: flex; }
+.notif-header { background: var(--green-dark); color: white; padding: 16px; display: flex; align-items: center; gap: 10px; }
+.notif-back { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+.notif-title { font-family: 'Baloo 2'; font-size: 16px; font-weight: 600; flex: 1; }
+.notif-list { flex: 1; overflow-y: auto; }
+.notif-item { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.notif-item.unread { background: var(--green-pale); }
+.notif-item-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.notif-item-body { font-size: 12px; color: var(--text2); margin-top: 3px; }
+.notif-item-time { font-size: 10px; color: var(--text3); margin-top: 4px; }
+/* Bottom Nav */
 .bottom-nav { background: white; border-top: 1px solid var(--border); display: flex; padding: 6px 0 env(safe-area-inset-bottom, 6px); flex-shrink: 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); }
 .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 4px; border: none; background: none; cursor: pointer; }
 .nav-icon { font-size: 22px; display: block; }
@@ -175,31 +151,16 @@ select.form-input { cursor: pointer; }
 .nav-btn.active .nav-label { color: var(--green); font-weight: 700; }
 .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); position: absolute; top: -2px; right: -3px; }
 .nav-icon-wrap { position: relative; display: inline-block; }
-
-/* ─── QR Modal ─── */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 100; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal-sheet { background: white; border-radius: 24px 24px 0 0; padding: 24px 20px 36px; width: 100%; max-width: 430px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-.modal-overlay.open .modal-sheet { transform: translateY(0); }
-.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
-.modal-title { font-family: 'Baloo 2'; font-size: 18px; font-weight: 700; text-align: center; color: var(--text); margin-bottom: 4px; }
-.modal-sub { font-size: 13px; color: var(--text2); text-align: center; margin-bottom: 20px; }
-.qr-container { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-.qr-box { width: 200px; height: 200px; border: 3px solid var(--green); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; background: white; box-shadow: var(--shadow); padding: 8px; }
-.qr-box canvas { width: 100%; height: 100%; }
-.upi-id-display { background: var(--green-pale); border: 1px solid var(--green-light); border-radius: var(--radius-sm); padding: 10px 16px; font-size: 14px; font-weight: 600; color: var(--green-dark); text-align: center; font-family: monospace; }
-.modal-close { width: 100%; padding: 13px; background: var(--gray); color: var(--text); border: none; border-radius: var(--radius-sm); font-family: 'Hind'; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; }
-
-/* ─── Toast ─── */
-.toast-wrap { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); z-index: 200; pointer-events: none; }
-.toast { background: #1b4332; color: white; padding: 11px 20px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; box-shadow: var(--shadow-lg); opacity: 0; transform: translateY(8px); transition: all 0.25s; }
+/* Toast */
+.toast-wrap { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); z-index: 300; pointer-events: none; }
+.toast { background: #1b4332; color: white; padding: 11px 20px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; box-shadow: var(--shadow-lg); opacity: 0; transform: translateY(8px); transition: all 0.25s; max-width: 320px; text-align: center; white-space: normal; }
 .toast.show { opacity: 1; transform: translateY(0); }
-
-/* ─── Animations ─── */
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text3); }
+.empty-state .e-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 .page.active > * { animation: fadeUp 0.3s ease forwards; }
-
-/* ─── Karigar list ─── */
+/* Karigar */
 .karigar-list { margin: 12px 14px 0; display: flex; flex-direction: column; gap: 10px; }
 .karigar-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; display: flex; align-items: center; gap: 12px; }
 .k-avatar { width: 46px; height: 46px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
@@ -210,10 +171,6 @@ select.form-input { cursor: pointer; }
 .k-right { text-align: right; }
 .k-price { font-size: 14px; font-weight: 700; color: var(--green); }
 .k-btn { background: var(--green); color: white; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 4px; }
-
-.empty-state { text-align: center; padding: 40px 20px; color: var(--text3); }
-.empty-state .e-icon { font-size: 48px; margin-bottom: 12px; }
-.empty-state p { font-size: 14px; }
 </style>
 <script src="../shared/js/config.js"></script>
 <script src="../shared/js/api.js"></script>
@@ -232,17 +189,23 @@ select.form-input { cursor: pointer; }
             <p>Aapka Gaon, Aapka Bazaar</p>
           </div>
         </div>
-        <div class="user-avatar" id="top-avatar" onclick="switchPage('profile')">?</div>
+        <div class="header-right">
+          <button class="notif-btn" onclick="openNotifications()" id="notif-btn">
+            🔔
+            <span class="notif-badge" id="notif-badge">0</span>
+          </button>
+          <div class="user-avatar" id="top-avatar" onclick="switchPage('profile')">?</div>
+        </div>
       </div>
       <div class="location-pill">
         <span>📍</span>
-        <span id="user-location">📍 —</span>
+        <span id="user-location">Loading...</span>
       </div>
     </div>
     <div class="search-wrap">
       <div class="search-box">
         <span>🔍</span>
-        <input type="text" placeholder="Tent, kirana, gadi, karigar, garments...">
+        <input type="text" placeholder="Tent, kirana, gadi, karigar..." id="search-input">
       </div>
     </div>
   </div>
@@ -261,74 +224,23 @@ select.form-input { cursor: pointer; }
         <span class="section-title">Hamaari Services</span>
       </div>
       <div class="services-grid">
-        <div class="service-card" onclick="openService('tent')">
-          <span class="s-icon">⛺</span>
-          <div class="s-name">Tent Booking</div>
-          <div class="s-count">Shadi, function</div>
-        </div>
-        <div class="service-card" onclick="openService('kirana')">
-          <span class="s-icon">🛒</span>
-          <div class="s-name">Kirana</div>
-          <div class="s-count">Ghar pe delivery</div>
-        </div>
-        <div class="service-card" onclick="openService('gadi')">
-          <span class="s-icon">🚗</span>
-          <div class="s-name">Gadi Rent</div>
-          <div class="s-count">Local travel</div>
-        </div>
-        <div class="service-card" onclick="openService('tractor')">
-          <span class="s-icon">🚜</span>
-          <div class="s-name">Tractor</div>
-          <div class="s-count">Kheti ka kaam</div>
-        </div>
-        <div class="service-card" onclick="openService('khana')">
-          <span class="s-icon">🍛</span>
-          <div class="s-name">Khana Order</div>
-          <div class="s-count">Ghar ka khana</div>
-        </div>
-        <div class="service-card" onclick="openService('karigar')">
-          <span class="s-icon">🔧</span>
-          <div class="s-name">Karigar</div>
-          <div class="s-count">Mistri, plumber</div>
-        </div>
-        <div class="service-card" onclick="openService('garments')">
-          <span class="s-icon">👕</span>
-          <div class="s-name">Garments</div>
-          <div class="s-count">Kapde, stitching</div>
-        </div>
-        <div class="service-card" onclick="openService('hardware')">
-          <span class="s-icon">🏗️</span>
-          <div class="s-name">Hardware</div>
-          <div class="s-count">Tiles, cement</div>
-        </div>
-        <div class="service-card" onclick="openService('electronics')">
-          <span class="s-icon">📱</span>
-          <div class="s-name">Electronics</div>
-          <div class="s-count">Mobile, repair</div>
-        </div>
-        <div class="service-card" onclick="openService('furniture')">
-          <span class="s-icon">🪑</span>
-          <div class="s-name">Furniture</div>
-          <div class="s-count">Sofa, almirah</div>
-        </div>
-        <div class="service-card" onclick="openService('medical')">
-          <span class="s-icon">💊</span>
-          <div class="s-name">Medical</div>
-          <div class="s-count">Pharmacy, dawai</div>
-        </div>
-        <div class="service-card" onclick="openService('other')">
-          <span class="s-icon">🏪</span>
-          <div class="s-name">Other</div>
-          <div class="s-count">Aur bhi services</div>
-        </div>
+        <div class="service-card" onclick="openService('tent')"><span class="s-icon">⛺</span><div class="s-name">Tent Booking</div><div class="s-count">Shadi, function</div></div>
+        <div class="service-card" onclick="openService('kirana')"><span class="s-icon">🛒</span><div class="s-name">Kirana</div><div class="s-count">Ghar pe delivery</div></div>
+        <div class="service-card" onclick="openService('gadi')"><span class="s-icon">🚗</span><div class="s-name">Gadi Rent</div><div class="s-count">Local travel</div></div>
+        <div class="service-card" onclick="openService('tractor')"><span class="s-icon">🚜</span><div class="s-name">Tractor</div><div class="s-count">Kheti ka kaam</div></div>
+        <div class="service-card" onclick="openService('khana')"><span class="s-icon">🍛</span><div class="s-name">Khana Order</div><div class="s-count">Ghar ka khana</div></div>
+        <div class="service-card" onclick="openService('karigar')"><span class="s-icon">🔧</span><div class="s-name">Karigar</div><div class="s-count">Mistri, plumber</div></div>
+        <div class="service-card" onclick="openService('garments')"><span class="s-icon">👕</span><div class="s-name">Garments</div><div class="s-count">Kapde, stitching</div></div>
+        <div class="service-card" onclick="openService('hardware')"><span class="s-icon">🏗️</span><div class="s-name">Hardware</div><div class="s-count">Tiles, cement</div></div>
+        <div class="service-card" onclick="openService('electronics')"><span class="s-icon">📱</span><div class="s-name">Electronics</div><div class="s-count">Mobile, repair</div></div>
+        <div class="service-card" onclick="openService('furniture')"><span class="s-icon">🪑</span><div class="s-name">Furniture</div><div class="s-count">Sofa, almirah</div></div>
+        <div class="service-card" onclick="openService('medical')"><span class="s-icon">💊</span><div class="s-name">Medical</div><div class="s-count">Pharmacy, dawai</div></div>
+        <div class="service-card" onclick="openService('other')"><span class="s-icon">🏪</span><div class="s-name">Other</div><div class="s-count">Aur bhi services</div></div>
       </div>
     </div>
     <div class="promo-strip section" style="padding: 14px;">
       <span class="p-icon">🎪</span>
-      <div>
-        <h3>Shadi season aa gaya!</h3>
-        <p>Tent aur catering dono ek saath book karo</p>
-      </div>
+      <div><h3>Shadi season aa gaya!</h3><p>Tent aur catering dono ek saath book karo</p></div>
     </div>
   </div>
 
@@ -339,27 +251,51 @@ select.form-input { cursor: pointer; }
       <span class="panel-title" id="service-title">Service</span>
     </div>
 
+    <!-- Generic Seller/Provider List Panel -->
+    <div id="panel-sellers" style="display:none;">
+      <div id="sellers-list-container">
+        <div class="loader"><div class="loader-spin"></div><p>Sellers dhoondh rahe hain...</p></div>
+      </div>
+      <!-- Booking Form (shown after seller selected) -->
+      <div id="booking-form-container" style="display:none;">
+        <div class="form-section">
+          <h3>📝 Booking Details</h3>
+          <div id="booking-form-fields"></div>
+          <input type="hidden" id="selected-seller-id">
+          <input type="hidden" id="selected-service-type">
+          <div class="form-group">
+            <label class="form-label">Aapka Mobile Number</label>
+            <input type="tel" id="book-phone" class="form-input" placeholder="9XXXXXXXXX" maxlength="10">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Address / Jagah</label>
+            <input type="text" id="book-address" class="form-input" placeholder="Kahan chahiye?">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Koi khaas baat (optional)</label>
+            <textarea id="book-notes" class="form-input" rows="2" placeholder="Koi zaroorat ya details..."></textarea>
+          </div>
+          <button class="btn-primary" id="submit-booking-btn" onclick="submitBooking()">✅ Book Karo</button>
+          <button class="btn-secondary" onclick="cancelBookingForm()">← Wapas Jao</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Tent Panel -->
     <div id="panel-tent" class="panel-content" style="display:none;">
       <div class="form-section">
         <h3>Event Details</h3>
         <div class="form-group">
           <label class="form-label">Event ka prakar</label>
-          <select class="form-input"><option>💒 Shadi</option><option>✂️ Mundan</option><option>🎂 Janamdin</option><option>🙏 Katha / Jagran</option><option>📿 Bhandara</option><option>📋 Aur kuch</option></select>
+          <select class="form-input" id="tent-event-type"><option>💒 Shadi</option><option>✂️ Mundan</option><option>🎂 Janamdin</option><option>🙏 Katha / Jagran</option><option>📿 Bhandara</option><option>📋 Aur kuch</option></select>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Start Date</label>
-            <input type="date" class="form-input">
-          </div>
-          <div class="form-group">
-            <label class="form-label">End Date</label>
-            <input type="date" class="form-input">
-          </div>
+          <div class="form-group"><label class="form-label">Start Date</label><input type="date" class="form-input" id="tent-start-date"></div>
+          <div class="form-group"><label class="form-label">End Date</label><input type="date" class="form-input" id="tent-end-date"></div>
         </div>
         <div class="form-group">
           <label class="form-label">Kitne log aayenge?</label>
-          <select class="form-input"><option>50 se kam</option><option>50–100 log</option><option>100–200 log</option><option>200–500 log</option><option>500 se zyada</option></select>
+          <select class="form-input" id="tent-guests"><option>50 se kam</option><option>50–100 log</option><option>100–200 log</option><option>200–500 log</option><option>500 se zyada</option></select>
         </div>
       </div>
       <div class="form-section">
@@ -376,413 +312,88 @@ select.form-input { cursor: pointer; }
         </div>
       </div>
       <div class="form-section">
-        <h3>Contact Info</h3>
-        <div class="form-group">
-          <label class="form-label">Jagah / Address</label>
-          <input type="text" class="form-input" placeholder="Gaon mein kahan chahiye?">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Aapka Mobile Number</label>
-          <input type="tel" class="form-input" placeholder="9XXXXXXXXX">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Koi aur baat (optional)</label>
-          <textarea class="form-input" rows="2" placeholder="Koi khaas zaroorat..."></textarea>
-        </div>
-        <button class="btn-primary" onclick="submitRequest('Tent Booking')">⛺ Booking Request Bhejo</button>
-        <button class="btn-secondary" onclick="showQRModal('Raju Tent House','rajutent@upi')">💳 UPI se Advance Do</button>
-      </div>
-    </div>
-
-    <!-- Saman Panel -->
-    <div id="panel-saman" class="panel-content" style="display:none;">
-      <div class="cart-bar" id="cart-bar" style="display:none;">
-        <div class="cart-info">
-          <span id="cart-count">0 items</span>
-          <strong id="cart-total">₹0</strong>
-        </div>
-        <button class="btn-cart" onclick="submitRequest('Saman Order')">Order Karo →</button>
-      </div>
-      <div class="product-grid">
-        <div class="product-card">
-          <div class="p-img">🌾</div>
-          <div class="p-body">
-            <div class="p-name">Gehu (1 kg)</div>
-            <div class="p-price">₹35</div>
-            <div class="p-shop">Ram ki dukan</div>
-            <button class="p-add" onclick="addToCart(this, 35)">+ Cart mein</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="p-img">🥛</div>
-          <div class="p-body">
-            <div class="p-name">Doodh (1 L)</div>
-            <div class="p-price">₹60</div>
-            <div class="p-shop">Shyam Dairy</div>
-            <button class="p-add" onclick="addToCart(this, 60)">+ Cart mein</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="p-img">🧴</div>
-          <div class="p-body">
-            <div class="p-name">Surf Excel 500g</div>
-            <div class="p-price">₹55</div>
-            <div class="p-shop">General Store</div>
-            <button class="p-add" onclick="addToCart(this, 55)">+ Cart mein</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="p-img">🫙</div>
-          <div class="p-body">
-            <div class="p-name">Sarson Tel 1L</div>
-            <div class="p-price">₹145</div>
-            <div class="p-shop">Kirana Store</div>
-            <button class="p-add" onclick="addToCart(this, 145)">+ Cart mein</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="p-img">🍚</div>
-          <div class="p-body">
-            <div class="p-name">Chawal (2 kg)</div>
-            <div class="p-price">₹90</div>
-            <div class="p-shop">Ram ki dukan</div>
-            <button class="p-add" onclick="addToCart(this, 90)">+ Cart mein</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="p-img">🧅</div>
-          <div class="p-body">
-            <div class="p-name">Pyaaz (1 kg)</div>
-            <div class="p-price">₹30</div>
-            <div class="p-shop">Sabzi wale</div>
-            <button class="p-add" onclick="addToCart(this, 30)">+ Cart mein</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="p-img">🧆</div>
-          <div class="p-body">
-            <div class="p-name">Chana Dal 1kg</div>
-            <div class="p-price">₹85</div>
-            <div class="p-shop">Kirana Store</div>
-            <button class="p-add" onclick="addToCart(this, 85)">+ Cart mein</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="p-img">🫒</div>
-          <div class="p-body">
-            <div class="p-name">Ghee 500ml</div>
-            <div class="p-price">₹280</div>
-            <div class="p-shop">Shyam Dairy</div>
-            <button class="p-add" onclick="addToCart(this, 280)">+ Cart mein</button>
-          </div>
-        </div>
-      </div>
-      <div style="margin:12px 14px;">
-        <div class="form-group">
-          <label class="form-label">Ghar ka address</label>
-          <input type="text" class="form-input" placeholder="Ghar ka pata likhein">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Mobile number</label>
-          <input type="tel" class="form-input" placeholder="9XXXXXXXXX">
-        </div>
+        <h3>Available Tent Sellers</h3>
+        <div id="seller-list-tent"><div class="loader"><div class="loader-spin"></div></div></div>
       </div>
     </div>
 
     <!-- Gadi Panel -->
     <div id="panel-gadi" class="panel-content" style="display:none;">
-      <div class="vehicle-list">
-        <div class="vehicle-card">
-          <div class="v-icon">🛺</div>
-          <div class="v-info">
-            <div class="v-name">Auto Rickshaw</div>
-            <div class="v-detail">Ramesh Kumar • ⭐ 4.8</div>
-            <div class="v-detail">📱 98765-XXXXX</div>
-          </div>
-          <div class="v-right">
-            <div class="v-price">₹15/km</div>
-            <span class="badge badge-green">Available</span>
-          </div>
-        </div>
-        <div class="vehicle-card">
-          <div class="v-icon">🚐</div>
-          <div class="v-info">
-            <div class="v-name">Bolero (7 Seater)</div>
-            <div class="v-detail">Suresh Singh • ⭐ 4.6</div>
-          </div>
-          <div class="v-right">
-            <div class="v-price">₹25/km</div>
-            <span class="badge badge-green">Available</span>
-          </div>
-        </div>
-        <div class="vehicle-card">
-          <div class="v-icon">🚛</div>
-          <div class="v-info">
-            <div class="v-name">Pickup Truck</div>
-            <div class="v-detail">Mohan Yadav • ⭐ 4.5</div>
-          </div>
-          <div class="v-right">
-            <div class="v-price">₹30/km</div>
-            <span class="badge badge-amber">Busy</span>
-          </div>
-        </div>
-        <div class="vehicle-card">
-          <div class="v-icon">🚌</div>
-          <div class="v-info">
-            <div class="v-name">Mini Bus (20 Seater)</div>
-            <div class="v-detail">Dinesh Transport • ⭐ 4.7</div>
-          </div>
-          <div class="v-right">
-            <div class="v-price">₹18/km</div>
-            <span class="badge badge-green">Available</span>
-          </div>
-        </div>
+      <div class="form-section" style="margin-top:0; border-radius: 0; border-left:none; border-right:none; border-top:none;">
+        <h3>Available Gadiyan</h3>
+        <div id="seller-list-gadi"><div class="loader"><div class="loader-spin"></div></div></div>
       </div>
-      <div class="form-section" style="margin-top:14px;">
+      <div class="form-section">
+        <h3>Booking Details</h3>
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Kahan se</label>
-            <input type="text" class="form-input" placeholder="Apna gaon">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Kahan jaana</label>
-            <input type="text" class="form-input" placeholder="Destination">
-          </div>
+          <div class="form-group"><label class="form-label">Kahan se</label><input type="text" class="form-input" id="gadi-from" placeholder="Apna gaon"></div>
+          <div class="form-group"><label class="form-label">Kahan jaana</label><input type="text" class="form-input" id="gadi-to" placeholder="Destination"></div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Date</label>
-            <input type="date" class="form-input">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Time</label>
-            <input type="time" class="form-input">
-          </div>
+          <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="gadi-date"></div>
+          <div class="form-group"><label class="form-label">Time</label><input type="time" class="form-input" id="gadi-time"></div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Mobile number</label>
-          <input type="tel" class="form-input" placeholder="9XXXXXXXXX">
-        </div>
-        <button class="btn-primary" onclick="submitRequest('Gadi Booking')">🚗 Gadi Book Karo</button>
-        <button class="btn-secondary" onclick="showQRModal('Ramesh Auto','ramesh.auto@upi')">💳 UPI se Advance Do</button>
+        <div class="form-group"><label class="form-label">Mobile number</label><input type="tel" class="form-input" id="gadi-phone" placeholder="9XXXXXXXXX"></div>
+        <div class="form-group"><label class="form-label">Address</label><input type="text" class="form-input" id="gadi-address" placeholder="Pickup location"></div>
+        <div class="form-group"><label class="form-label">Koi khaas baat</label><textarea class="form-input" id="gadi-notes" rows="2"></textarea></div>
+        <div id="gadi-selected-seller" style="display:none; background:var(--green-pale); border:1px solid var(--green-light); border-radius:8px; padding:10px; margin-bottom:10px; font-size:13px; color:var(--green-dark);"></div>
+        <button class="btn-primary" id="gadi-book-btn" onclick="bookGadi()" disabled>🚗 Pehle Gadi Select Karo</button>
       </div>
     </div>
 
     <!-- Tractor Panel -->
     <div id="panel-tractor" class="panel-content" style="display:none;">
-      <div class="vehicle-list">
-        <div class="vehicle-card">
-          <div class="v-icon">🚜</div>
-          <div class="v-info">
-            <div class="v-name">Mahindra 575 (50 HP)</div>
-            <div class="v-detail">Jailal Patel • ⭐ 4.9</div>
-            <div class="v-detail">Jotai + Buwai • 2 implements</div>
-          </div>
-          <div class="v-right">
-            <div class="v-price">₹800/ghanta</div>
-            <span class="badge badge-green">Available</span>
-          </div>
-        </div>
-        <div class="vehicle-card">
-          <div class="v-icon">🌾</div>
-          <div class="v-info">
-            <div class="v-name">Harvester (Combine)</div>
-            <div class="v-detail">Deepak Sharma • ⭐ 4.8</div>
-            <div class="v-detail">Gehu, Chawal katai</div>
-          </div>
-          <div class="v-right">
-            <div class="v-price">₹1500/bigha</div>
-            <span class="badge badge-green">Available</span>
-          </div>
-        </div>
-        <div class="vehicle-card">
-          <div class="v-icon">💧</div>
-          <div class="v-info">
-            <div class="v-name">Water Tanker (5000L)</div>
-            <div class="v-detail">Banwari Lal • ⭐ 4.5</div>
-            <div class="v-detail">Sinchai ka kaam</div>
-          </div>
-          <div class="v-right">
-            <div class="v-price">₹500/trip</div>
-            <span class="badge badge-amber">2 din baad</span>
-          </div>
-        </div>
+      <div class="form-section" style="margin-top:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
+        <h3>Available Tractors</h3>
+        <div id="seller-list-tractor"><div class="loader"><div class="loader-spin"></div></div></div>
       </div>
-      <div class="form-section" style="margin-top:14px;">
-        <div class="form-group">
-          <label class="form-label">Kaam ka prakar</label>
-          <select class="form-input"><option>Jotai (Ploughing)</option><option>Buwai (Sowing)</option><option>Fasal katai (Harvesting)</option><option>Transport</option><option>Sinchai (Irrigation)</option></select>
-        </div>
+      <div class="form-section">
+        <h3>Booking Details</h3>
+        <div class="form-group"><label class="form-label">Kaam ka prakar</label><select class="form-input" id="tractor-work"><option>Jotai (Ploughing)</option><option>Buwai (Sowing)</option><option>Fasal katai (Harvesting)</option><option>Transport</option><option>Sinchai (Irrigation)</option></select></div>
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Date</label>
-            <input type="date" class="form-input">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Kitne din/ghante?</label>
-            <select class="form-input"><option>2 ghante</option><option>Aadha din</option><option>Poora din</option><option>2 din</option><option>1 hafte</option></select>
-          </div>
+          <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="tractor-date"></div>
+          <div class="form-group"><label class="form-label">Kitne din?</label><select class="form-input" id="tractor-days"><option>2 ghante</option><option>Aadha din</option><option>Poora din</option><option>2 din</option><option>1 hafte</option></select></div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Khet ka address / location</label>
-          <input type="text" class="form-input" placeholder="Khet kahan hai?">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Mobile number</label>
-          <input type="tel" class="form-input" placeholder="9XXXXXXXXX">
-        </div>
-        <button class="btn-primary" onclick="submitRequest('Tractor Booking')">🚜 Tractor Book Karo</button>
-        <button class="btn-secondary" onclick="showQRModal('Jailal Patel Tractor','jailal.tractor@upi')">💳 UPI se Advance Do</button>
-      </div>
-    </div>
-
-    <!-- Khana Panel -->
-    <div id="panel-khana" class="panel-content" style="display:none;">
-      <div class="cart-bar" id="cart-bar-khana">
-        <div class="cart-info">
-          <span id="khana-count">0 items</span>
-          <strong id="khana-total">₹0</strong>
-        </div>
-        <button class="btn-cart" onclick="submitRequest('Khana Order')">Order Karo →</button>
-      </div>
-      <div class="product-grid">
-        <div class="product-card">
-          <div class="p-img">🥘</div>
-          <div class="p-body">
-            <div class="p-name">Dal Baati (2 pcs)</div>
-            <div class="p-price">₹80</div>
-            <div class="p-shop">Maa ka Dhaba</div>
-            <button class="p-add" onclick="addToKhana(this, 80)">+ Daalo</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="p-img">🫓</div>
-          <div class="p-body">
-            <div class="p-name">Roti + Sabzi (4 pcs)</div>
-            <div class="p-price">₹50</div>
-            <div class="p-shop">Geeta Ji Ghar</div>
-            <button class="p-add" onclick="addToKhana(this, 50)">+ Daalo</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="p-img">🍱</div>
-          <div class="p-body">
-            <div class="p-name">Full Thali</div>
-            <div class="p-price">₹120</div>
-            <div class="p-shop">Maa ka Dhaba</div>
-            <button class="p-add" onclick="addToKhana(this, 120)">+ Daalo</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="p-img">🍵</div>
-          <div class="p-body">
-            <div class="p-name">Chai (2 cups)</div>
-            <div class="p-price">₹20</div>
-            <div class="p-shop">Pappu ki chai</div>
-            <button class="p-add" onclick="addToKhana(this, 20)">+ Daalo</button>
-          </div>
-        </div>
-      </div>
-      <div style="margin:12px 14px;">
-        <div class="form-group">
-          <label class="form-label">Delivery address</label>
-          <input type="text" class="form-input" placeholder="Ghar ka pata">
-        </div>
-        <button class="btn-secondary" onclick="showQRModal('Maa ka Dhaba','maakadhabaa@upi')">💳 UPI se Pay Karo</button>
+        <div class="form-group"><label class="form-label">Mobile</label><input type="tel" class="form-input" id="tractor-phone" placeholder="9XXXXXXXXX"></div>
+        <div class="form-group"><label class="form-label">Khet ka address</label><input type="text" class="form-input" id="tractor-address" placeholder="Khet kahan hai?"></div>
+        <div id="tractor-selected-seller" style="display:none; background:var(--green-pale); border:1px solid var(--green-light); border-radius:8px; padding:10px; margin-bottom:10px; font-size:13px; color:var(--green-dark);"></div>
+        <button class="btn-primary" id="tractor-book-btn" onclick="bookTractor()" disabled>🚜 Pehle Tractor Select Karo</button>
       </div>
     </div>
 
     <!-- Karigar Panel -->
     <div id="panel-karigar" class="panel-content" style="display:none;">
-      <div class="karigar-list">
-        <div class="karigar-card">
-          <div class="k-avatar">🔌</div>
-          <div class="k-info">
-            <div class="k-name">Ramkhelawan Ji</div>
-            <div class="k-skill">Bijli Mistri (Electrician)</div>
-            <div class="k-rating">⭐⭐⭐⭐⭐ 4.9</div>
-          </div>
-          <div class="k-right">
-            <div class="k-price">₹300/din</div>
-            <button class="k-btn" onclick="submitRequest('Karigar Booking')">Book Karo</button>
-          </div>
-        </div>
-        <div class="karigar-card">
-          <div class="k-avatar">🔧</div>
-          <div class="k-info">
-            <div class="k-name">Chhote Lal</div>
-            <div class="k-skill">Plumber</div>
-            <div class="k-rating">⭐⭐⭐⭐ 4.5</div>
-          </div>
-          <div class="k-right">
-            <div class="k-price">₹250/din</div>
-            <button class="k-btn" onclick="submitRequest('Karigar Booking')">Book Karo</button>
-          </div>
-        </div>
-        <div class="karigar-card">
-          <div class="k-avatar">🪣</div>
-          <div class="k-info">
-            <div class="k-name">Bhura Mistri</div>
-            <div class="k-skill">Painter</div>
-            <div class="k-rating">⭐⭐⭐⭐⭐ 4.8</div>
-          </div>
-          <div class="k-right">
-            <div class="k-price">₹400/din</div>
-            <button class="k-btn" onclick="submitRequest('Karigar Booking')">Book Karo</button>
-          </div>
-        </div>
-        <div class="karigar-card">
-          <div class="k-avatar">🧱</div>
-          <div class="k-info">
-            <div class="k-name">Dhanraj Raj</div>
-            <div class="k-skill">Raj Mistri (Mason)</div>
-            <div class="k-rating">⭐⭐⭐⭐ 4.6</div>
-          </div>
-          <div class="k-right">
-            <div class="k-price">₹450/din</div>
-            <button class="k-btn" onclick="submitRequest('Karigar Booking')">Book Karo</button>
-          </div>
-        </div>
-        <div class="karigar-card">
-          <div class="k-avatar">🌳</div>
-          <div class="k-info">
-            <div class="k-name">Bunty Mali</div>
-            <div class="k-skill">Mali (Gardener)</div>
-            <div class="k-rating">⭐⭐⭐⭐ 4.4</div>
-          </div>
-          <div class="k-right">
-            <div class="k-price">₹200/din</div>
-            <button class="k-btn" onclick="submitRequest('Karigar Booking')">Book Karo</button>
-          </div>
-        </div>
+      <div class="form-section" style="margin-top:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
+        <h3>Available Karigar</h3>
+        <div id="seller-list-karigar"><div class="loader"><div class="loader-spin"></div></div></div>
       </div>
-      <div class="form-section" style="margin-top:14px;">
-        <div class="form-group">
-          <label class="form-label">Kaam ki taareekh</label>
-          <input type="date" class="form-input">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Kaam ka description</label>
-          <textarea class="form-input" rows="2" placeholder="Kya kaam karwana hai?"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Mobile number</label>
-          <input type="tel" class="form-input" placeholder="9XXXXXXXXX">
-        </div>
+      <div class="form-section">
+        <h3>Booking Details</h3>
+        <div class="form-group"><label class="form-label">Kaam ki taareekh</label><input type="date" class="form-input" id="karigar-date"></div>
+        <div class="form-group"><label class="form-label">Mobile</label><input type="tel" class="form-input" id="karigar-phone" placeholder="9XXXXXXXXX"></div>
+        <div class="form-group"><label class="form-label">Kaam ka description</label><textarea class="form-input" id="karigar-notes" rows="2" placeholder="Kya kaam karwana hai?"></textarea></div>
+        <div id="karigar-selected-seller" style="display:none; background:var(--green-pale); border:1px solid var(--green-light); border-radius:8px; padding:10px; margin-bottom:10px; font-size:13px; color:var(--green-dark);"></div>
+        <button class="btn-primary" id="karigar-book-btn" onclick="bookKarigar()" disabled>🔧 Pehle Karigar Select Karo</button>
       </div>
     </div>
+
+    <!-- Generic panels for other services (tent/kirana/khana/garments/hardware/electronics/furniture/medical/other) -->
+    <div id="panel-kirana" class="panel-content" style="display:none;"></div>
+    <div id="panel-khana" class="panel-content" style="display:none;"></div>
+    <div id="panel-garments" class="panel-content" style="display:none;"></div>
+    <div id="panel-hardware" class="panel-content" style="display:none;"></div>
+    <div id="panel-electronics" class="panel-content" style="display:none;"></div>
+    <div id="panel-furniture" class="panel-content" style="display:none;"></div>
+    <div id="panel-medical" class="panel-content" style="display:none;"></div>
+    <div id="panel-other" class="panel-content" style="display:none;"></div>
   </div>
 
   <!-- ═══ PAGE: ORDERS ═══ -->
   <div id="page-orders" class="page">
     <div style="padding:14px 14px 0;">
       <div class="section-title" style="margin-bottom:12px;">Meri Bookings & Orders</div>
-      <div class="order-list">
-        <div id="no-orders-msg" style="text-align:center;padding:40px;color:#888;">
-          <div style="font-size:36px;margin-bottom:10px;">📦</div>
-          <div>Abhi koi order nahi hai</div>
-          <div style="font-size:12px;margin-top:6px;">Koi bhi service book karo!</div>
-        </div>
+      <div class="order-list" id="orders-list">
+        <div class="loader"><div class="loader-spin"></div><p>Orders load ho rahe hain...</p></div>
       </div>
     </div>
   </div>
@@ -795,103 +406,55 @@ select.form-input { cursor: pointer; }
       <div class="profile-phone" id="profile-phone">📱 —</div>
     </div>
     <div class="stats-strip">
-      <div class="stat-box">
-        <div class="stat-num" id="profile-orders">0</div>
-        <div class="stat-label">Orders</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num" id="profile-bookings">0</div>
-        <div class="stat-label">Bookings</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num" id="profile-rating">—</div>
-        <div class="stat-label">Rating</div>
-      </div>
+      <div class="stat-box"><div class="stat-num" id="profile-orders">0</div><div class="stat-label">Orders</div></div>
+      <div class="stat-box"><div class="stat-num" id="profile-bookings">0</div><div class="stat-label">Complete</div></div>
+      <div class="stat-box"><div class="stat-num" id="profile-rating">—</div><div class="stat-label">Rating</div></div>
     </div>
     <div class="menu-list">
-      <div class="menu-item">
-        <span class="menu-icon">👤</span>
-        <span class="menu-text">Profile Edit Karo</span>
-        <span class="menu-arrow">›</span>
-      </div>
-      <div class="menu-item">
-        <span class="menu-icon">📍</span>
-        <span class="menu-text">Address Change Karo</span>
-        <span class="menu-arrow">›</span>
-      </div>
-      <div class="menu-item">
-        <span class="menu-icon">📋</span>
-        <span class="menu-text">Meri Booking History</span>
-        <span class="menu-arrow">›</span>
-      </div>
-      <div class="menu-item">
-        <span class="menu-icon">💬</span>
-        <span class="menu-text">Help / Madad</span>
-        <span class="menu-arrow">›</span>
-      </div>
-      <div class="menu-item">
-        <span class="menu-icon">🌐</span>
-        <span class="menu-text">Language / Bhasha</span>
-        <span class="menu-arrow">›</span>
-      </div>
-      <div class="menu-item" style="color:#c62828;">
-        <span class="menu-icon">🚪</span>
-        <span class="menu-text" style="color:#c62828;">Logout</span>
-        <span class="menu-arrow">›</span>
-      </div>
+      <div class="menu-item" onclick="openNotifications()"><span class="menu-icon">🔔</span><span class="menu-text">Notifications</span><span class="menu-arrow">›</span></div>
+      <div class="menu-item"><span class="menu-icon">📍</span><span class="menu-text" id="profile-location-text">Village loading...</span><span class="menu-arrow">›</span></div>
+      <div class="menu-item"><span class="menu-icon">📋</span><span class="menu-text">Meri Booking History</span><span class="menu-arrow">›</span></div>
+      <div class="menu-item"><span class="menu-icon">💬</span><span class="menu-text">Help / Madad</span><span class="menu-arrow">›</span></div>
+      <div class="menu-item" id="logout-btn" style="color:#c62828;"><span class="menu-icon">🚪</span><span class="menu-text" style="color:#c62828;">Logout</span><span class="menu-arrow">›</span></div>
     </div>
-    <div style="text-align:center; padding:20px; color:var(--text3); font-size:12px;" id="footer-location">Gram Bazaar v1.0</div>
+    <div style="text-align:center; padding:20px; color:var(--text3); font-size:12px;" id="footer-location">Gram Bazaar v2.0</div>
   </div>
 
   <!-- ═══ BOTTOM NAV ═══ -->
   <div class="bottom-nav">
-    <button class="nav-btn active" id="nav-home" onclick="switchPage('home')">
-      <span class="nav-icon">🏠</span>
-      <span class="nav-label">Ghar</span>
-    </button>
-    <button class="nav-btn" id="nav-service" onclick="switchPage('service')">
-      <span class="nav-icon-wrap"><span class="nav-icon">🛍️</span></span>
-      <span class="nav-label">Services</span>
-    </button>
-    <button class="nav-btn" id="nav-orders" onclick="switchPage('orders')">
-      <span class="nav-icon-wrap">
-        <span class="nav-icon">📋</span>
-        <span class="nav-dot"></span>
-      </span>
-      <span class="nav-label">Orders</span>
-    </button>
-    <button class="nav-btn" id="nav-profile" onclick="switchPage('profile')">
-      <span class="nav-icon">👤</span>
-      <span class="nav-label">Profile</span>
-    </button>
+    <button class="nav-btn active" id="nav-home" onclick="switchPage('home')"><span class="nav-icon">🏠</span><span class="nav-label">Ghar</span></button>
+    <button class="nav-btn" id="nav-service" onclick="switchPage('service')"><span class="nav-icon">🛍️</span><span class="nav-label">Services</span></button>
+    <button class="nav-btn" id="nav-orders" onclick="switchPage('orders'); loadMyOrders();"><span class="nav-icon-wrap"><span class="nav-icon">📋</span><span class="nav-dot" id="orders-dot" style="display:none;"></span></span><span class="nav-label">Orders</span></button>
+    <button class="nav-btn" id="nav-profile" onclick="switchPage('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
   </div>
 </div>
 
-<!-- ═══ QR MODAL ═══ -->
-<div class="modal-overlay" id="qr-modal" onclick="closeModal(event)">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="qr-seller-name">Payment</div>
-    <div class="modal-sub">UPI se payment karein</div>
-    <div class="qr-container">
-      <div class="qr-box">
-        <canvas id="qr-canvas" width="180" height="180"></canvas>
-      </div>
-      <div class="upi-id-display" id="qr-upi-id">upi@id</div>
-      <div style="font-size:12px; color:#888; text-align:center;">Apne UPI app se scan karein<br>PhonePe • GPay • Paytm • BHIM</div>
-    </div>
-    <button class="modal-close" onclick="document.getElementById('qr-modal').classList.remove('open')">Wapas Jao</button>
+<!-- NOTIFICATIONS PANEL -->
+<div class="notif-panel" id="notif-panel">
+  <div class="notif-header">
+    <button class="notif-back" onclick="closeNotifications()">←</button>
+    <span class="notif-title">🔔 Notifications</span>
+    <button style="background:none;border:none;color:rgba(255,255,255,0.8);font-size:12px;cursor:pointer;" onclick="markAllRead()">Sab Read Karo</button>
   </div>
+  <div class="notif-list" id="notif-list"><div class="loader"><div class="loader-spin"></div></div></div>
 </div>
 
-<!-- ═══ TOAST ═══ -->
-<div class="toast-wrap">
-  <div class="toast" id="toast"></div>
-</div>
+<!-- TOAST -->
+<div class="toast-wrap"><div class="toast" id="toast"></div></div>
 
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script>
-// ─── Page Navigation ───
+// ── Auth check + sync from DB ──
+(function(){
+  if(!api.isLoggedIn()){ window.location.href='../auth/login.html'; return; }
+})();
+
+const socket = initSocket();
 let currentPage = 'home';
+let currentService = null;
+let selectedSellers = {}; // service -> {id, name, phone, price}
+
+// ── Navigation ──
 function switchPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
@@ -899,226 +462,469 @@ function switchPage(name) {
   const navEl = document.getElementById('nav-' + name);
   if (navEl) navEl.classList.add('active');
   currentPage = name;
-  window.scrollTo(0,0);
 }
 
 function openService(name) {
+  currentService = name;
   switchPage('service');
   document.querySelectorAll('.panel-content').forEach(p => p.style.display = 'none');
-  document.getElementById('panel-' + name).style.display = 'block';
   const titles = {
-    tent: '⛺ Tent Booking',
-    saman: '🛒 Saman Order',
-    gadi: '🚗 Gadi Rent',
-    tractor: '🚜 Tractor Kiraya',
-    khana: '🍛 Khana Order',
-    karigar: '🔧 Karigar Book'
+    tent:'⛺ Tent Booking', kirana:'🛒 Kirana', gadi:'🚗 Gadi Rent',
+    tractor:'🚜 Tractor', khana:'🍛 Khana', karigar:'🔧 Karigar',
+    garments:'👕 Garments', hardware:'🏗️ Hardware', electronics:'📱 Electronics',
+    furniture:'🪑 Furniture', medical:'💊 Medical', other:'🏪 Other'
   };
   document.getElementById('service-title').textContent = titles[name] || name;
+
+  const panel = document.getElementById('panel-' + name);
+  if (panel) panel.style.display = 'block';
+
+  // Load sellers for this service type
+  if (['gadi','tractor','karigar'].includes(name)) {
+    loadSellersForService(name);
+  } else if (['tent'].includes(name)) {
+    loadSellersForService(name);
+  } else {
+    // Generic panels - show sellers + simple form
+    loadGenericServicePanel(name, panel);
+  }
 }
 
 function goBack() {
   switchPage('home');
+  currentService = null;
 }
 
-// ─── Cart Logic ───
-let cartTotal = 0, cartCount = 0;
-function addToCart(btn, price) {
-  cartTotal += price;
-  cartCount++;
-  document.getElementById('cart-total').textContent = '₹' + cartTotal;
-  document.getElementById('cart-count').textContent = cartCount + ' items';
-  document.getElementById('cart-bar').style.display = 'flex';
-  btn.textContent = '✓ Added!';
-  btn.style.background = '#d8f3dc';
-  btn.style.color = '#1b4332';
-  setTimeout(() => { btn.textContent = '+ Cart mein'; btn.style.background=''; btn.style.color=''; }, 1200);
-  showToast('Cart mein add ho gaya! 🛒');
-}
+// ── Load sellers from API ──
+async function loadSellersForService(serviceType) {
+  const containerId = `seller-list-${serviceType}`;
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = '<div class="loader"><div class="loader-spin"></div><p>Dhoondh rahe hain...</p></div>';
 
-let khanaTotal = 0, khanaCount = 0;
-function addToKhana(btn, price) {
-  khanaTotal += price;
-  khanaCount++;
-  document.getElementById('khana-total').textContent = '₹' + khanaTotal;
-  document.getElementById('khana-count').textContent = khanaCount + ' items';
-  btn.textContent = '✓ Added!';
-  setTimeout(() => { btn.textContent = '+ Daalo'; }, 1200);
-  showToast('Khane mein add ho gaya! 🍛');
-}
-
-// ─── Submit Request ───
-function submitRequest(type) {
-  showToast('✅ ' + type + ' request bhej di! Provider jald sampark karega.');
-}
-
-// ─── QR Code Modal ───
-function showQRModal(sellerName, upiId) {
-  document.getElementById('qr-seller-name').textContent = '💳 ' + sellerName;
-  document.getElementById('qr-upi-id').textContent = upiId;
-  drawQR(upiId);
-  document.getElementById('qr-modal').classList.add('open');
-}
-
-function closeModal(e) {
-  if (e.target === document.getElementById('qr-modal')) {
-    document.getElementById('qr-modal').classList.remove('open');
-  }
-}
-
-// ─── QR Code Generator (pure JS) ───
-function drawQR(upiId) {
-  const canvas = document.getElementById('qr-canvas');
-  const ctx = canvas.getContext('2d');
-  const size = 180;
-  canvas.width = size; canvas.height = size;
-  ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, size, size);
-
-  // Simple visual QR pattern based on UPI string
-  const str = 'upi://pay?pa=' + upiId + '&pn=GramBazaar';
-  const cellSize = 6;
-  const cols = Math.floor(size / cellSize);
-  ctx.fillStyle = '#1b4332';
-
-  // Seeded pseudo-random for consistent pattern
-  let seed = 0;
-  for (let i = 0; i < str.length; i++) seed = (seed * 31 + str.charCodeAt(i)) & 0xffffffff;
-  function rng() { seed = (seed * 1664525 + 1013904223) & 0xffffffff; return (seed >>> 0) / 4294967296; }
-
-  // Fill data modules
-  for (let r = 0; r < cols; r++) {
-    for (let c = 0; c < cols; c++) {
-      const inFinder = (r < 8 && c < 8) || (r < 8 && c >= cols-8) || (r >= cols-8 && c < 8);
-      if (!inFinder && rng() > 0.48) {
-        ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
-      }
-    }
+  const res = await api.get(`/sellers?type=${serviceType}`);
+  if (!res || !res.success || !res.sellers || !res.sellers.length) {
+    el.innerHTML = '<div class="empty-state"><div class="e-icon">😔</div><p>Is area mein koi seller nahi mila</p></div>';
+    return;
   }
 
-  // Draw finder patterns (three corners)
-  [[0,0],[0,cols-7],[cols-7,0]].forEach(([r,c]) => {
-    ctx.fillStyle = '#1b4332';
-    ctx.fillRect(c*cellSize, r*cellSize, 7*cellSize, 7*cellSize);
-    ctx.fillStyle = 'white';
-    ctx.fillRect((c+1)*cellSize, (r+1)*cellSize, 5*cellSize, 5*cellSize);
-    ctx.fillStyle = '#1b4332';
-    ctx.fillRect((c+2)*cellSize, (r+2)*cellSize, 3*cellSize, 3*cellSize);
+  const VEHICLE_ICON = { gadi:'🚗', tractor:'🚜', karigar:'🔧', tent:'⛺', kirana:'🛒', khana:'🍛', garments:'👕', hardware:'🏗️', electronics:'📱', furniture:'🪑', medical:'💊', other:'🏪' };
+
+  el.innerHTML = res.sellers.map(s => {
+    const isOnline = s.is_online;
+    const services = s.service_types ? s.service_types.split(',') : [];
+    const mainService = services.find(st => st === serviceType);
+    const icon = VEHICLE_ICON[serviceType] || '🏪';
+    const statusBadge = isOnline
+      ? '<span class="badge badge-green">Available</span>'
+      : '<span class="badge badge-gray">Offline</span>';
+
+    return `<div class="vehicle-card ${!isOnline ? 'booked-out' : ''}" 
+              id="seller-card-${serviceType}-${s.id}"
+              onclick="${isOnline ? `selectSeller('${serviceType}', ${s.id}, '${(s.business_name||s.name).replace(/'/g,"\\'")}', '${s.phone||''}')` : 'showToast(\"Yeh seller abhi offline hai\")'}" >
+      <div class="v-top">
+        <div class="v-icon">${icon}</div>
+        <div class="v-info">
+          <div class="v-name">${s.business_name || s.name}</div>
+          <div class="v-seller">👤 ${s.name} ${s.village ? '• 📍 '+s.village : ''}</div>
+          ${s.rating ? `<div class="v-seller">⭐ ${parseFloat(s.rating).toFixed(1)} (${s.total_reviews||0} reviews)</div>` : ''}
+        </div>
+        <div class="v-right">
+          ${statusBadge}
+        </div>
+      </div>
+      ${s.phone ? `<a href="tel:${s.phone}" class="v-call-btn" onclick="event.stopPropagation()">📞 Call Karo</a>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function selectSeller(serviceType, sellerId, sellerName, sellerPhone) {
+  // Deselect all cards of this type
+  document.querySelectorAll(`[id^="seller-card-${serviceType}-"]`).forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById(`seller-card-${serviceType}-${sellerId}`);
+  if (card) card.classList.add('selected');
+
+  selectedSellers[serviceType] = { id: sellerId, name: sellerName, phone: sellerPhone };
+
+  // Update UI
+  const selectedDiv = document.getElementById(`${serviceType}-selected-seller`);
+  const bookBtn = document.getElementById(`${serviceType}-book-btn`);
+  if (selectedDiv) {
+    selectedDiv.style.display = 'block';
+    selectedDiv.innerHTML = `✅ Selected: <strong>${sellerName}</strong>${sellerPhone ? ` <a href="tel:${sellerPhone}" style="color:var(--blue)">📞 ${sellerPhone}</a>` : ''}`;
+  }
+  if (bookBtn) {
+    const icons = { gadi:'🚗', tractor:'🚜', karigar:'🔧' };
+    bookBtn.textContent = `${icons[serviceType]||'✅'} Book Karo`;
+    bookBtn.disabled = false;
+  }
+  showToast(`✅ ${sellerName} select ho gaya!`);
+}
+
+// ── Booking functions ──
+async function bookGadi() {
+  const sel = selectedSellers['gadi'];
+  if (!sel) return showToast('Pehle koi gadi select karein');
+  const from = document.getElementById('gadi-from').value;
+  const to = document.getElementById('gadi-to').value;
+  const date = document.getElementById('gadi-date').value;
+  const time = document.getElementById('gadi-time').value;
+  const phone = document.getElementById('gadi-phone').value;
+  const address = document.getElementById('gadi-address').value;
+  const notes = document.getElementById('gadi-notes').value;
+  if (!from || !to) return showToast('Kahan se aur kahan jaana hai — dono bharein');
+  if (!phone || phone.length < 10) return showToast('Sahi mobile number bharein');
+
+  const btn = document.getElementById('gadi-book-btn');
+  btn.disabled = true; btn.textContent = 'Booking ho rahi hai...';
+
+  const user = api.getUser();
+  const notesFull = `${from} se ${to}${notes ? ' | '+notes : ''}`;
+  const res = await api.post('/orders', {
+    seller_id: sel.id,
+    service_type: 'gadi',
+    total_amount: 0,
+    notes: notesFull,
+    address: address || from,
+    booking_date: date || null,
+    booking_time: time || null,
+    payment_method: 'cash',
+    items: [{ name: 'Gadi Rent', from, to }]
   });
 
-  // Center logo
-  const cx = size/2, cy = size/2, r = 18;
-  ctx.fillStyle = 'white';
-  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#1b4332';
-  ctx.beginPath(); ctx.arc(cx, cy, r-2, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = 'white';
-  ctx.font = 'bold 14px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('₹', cx, cy);
+  btn.disabled = false;
+  if (res && res.success) {
+    showToast('✅ Gadi booking ho gayi! ' + sel.name + ' se sampark karega');
+    resetGadiForm();
+    switchPage('orders');
+    loadMyOrders();
+  } else {
+    btn.textContent = '🚗 Book Karo';
+    showToast('❌ ' + (res?.message || 'Booking failed, dobara try karein'));
+  }
 }
 
-// ─── Toast ───
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
-}
-</script>
-</body>
-</html>
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<script>
-(function(){
-  if(!api.isLoggedIn()){window.location.href='../auth/login.html';return;}
-  const user=api.getUser();
-  if(user){const a=document.querySelector('.user-avatar');if(a)a.textContent=user.name.charAt(0).toUpperCase();}
-})();
-const socket=initSocket();
-const CAT_ICON={tent:'⛺',kirana:'🛒',gadi:'🚗',tractor:'🚜',khana:'🍛',karigar:'🔧',garments:'👕',hardware:'🏗️',electronics:'📱',furniture:'🪑',medical:'💊',other:'🏪'};
-function statusLabel(s){return{pending:'Pending',confirmed:'Confirmed',in_progress:'Chal raha',completed:'Complete',cancelled:'Cancel'}[s]||s;}
-function statusColor(s){const m={pending:{bg:'#fff3e0',fg:'#e07b00'},confirmed:{bg:'#e3f0ff',fg:'#1565c0'},in_progress:{bg:'#f0faf2',fg:'#2d6a4f'},completed:{bg:'#d8f3dc',fg:'#1b4332'},cancelled:{bg:'#fdecea',fg:'#c62828'}};return m[s]||{bg:'#eee',fg:'#555'};}
-async function loadMyOrders(){
-  const res = await api.get('/orders/my');
-  const list = document.querySelector('.order-list');
-  const noMsg = document.getElementById('no-orders-msg');
-  if(!res||!res.success||!res.orders||!res.orders.length){
-    if(noMsg) noMsg.style.display='block'; return;
+async function bookTractor() {
+  const sel = selectedSellers['tractor'];
+  if (!sel) return showToast('Pehle koi tractor select karein');
+  const work = document.getElementById('tractor-work').value;
+  const date = document.getElementById('tractor-date').value;
+  const days = document.getElementById('tractor-days').value;
+  const phone = document.getElementById('tractor-phone').value;
+  const address = document.getElementById('tractor-address').value;
+  if (!phone || phone.length < 10) return showToast('Sahi mobile number bharein');
+  if (!address) return showToast('Khet ka address bharein');
+
+  const btn = document.getElementById('tractor-book-btn');
+  btn.disabled = true; btn.textContent = 'Booking ho rahi hai...';
+
+  const res = await api.post('/orders', {
+    seller_id: sel.id,
+    service_type: 'tractor',
+    total_amount: 0,
+    notes: `${work} | ${days}`,
+    address,
+    booking_date: date || null,
+    payment_method: 'cash',
+    items: [{ name: work, duration: days }]
+  });
+
+  btn.disabled = false;
+  if (res && res.success) {
+    showToast('✅ Tractor booking ho gayi!');
+    switchPage('orders'); loadMyOrders();
+  } else {
+    btn.textContent = '🚜 Book Karo';
+    showToast('❌ ' + (res?.message || 'Booking failed'));
   }
-  if(noMsg) noMsg.style.display='none';
-  list.innerHTML = res.orders.map(o=>`
-    <div class="order-card">
+}
+
+async function bookKarigar() {
+  const sel = selectedSellers['karigar'];
+  if (!sel) return showToast('Pehle koi karigar select karein');
+  const date = document.getElementById('karigar-date').value;
+  const phone = document.getElementById('karigar-phone').value;
+  const notes = document.getElementById('karigar-notes').value;
+  if (!phone || phone.length < 10) return showToast('Sahi mobile number bharein');
+  if (!notes) return showToast('Kaam ka description bharein');
+
+  const btn = document.getElementById('karigar-book-btn');
+  btn.disabled = true; btn.textContent = 'Booking ho rahi hai...';
+
+  const res = await api.post('/orders', {
+    seller_id: sel.id,
+    service_type: 'karigar',
+    total_amount: 0,
+    notes,
+    address: '',
+    booking_date: date || null,
+    payment_method: 'cash',
+    items: [{ name: 'Karigar Booking' }]
+  });
+
+  btn.disabled = false;
+  if (res && res.success) {
+    showToast('✅ Karigar booking ho gayi!');
+    switchPage('orders'); loadMyOrders();
+  } else {
+    btn.textContent = '🔧 Book Karo';
+    showToast('❌ ' + (res?.message || 'Booking failed'));
+  }
+}
+
+function loadGenericServicePanel(serviceType, panel) {
+  if (!panel) return;
+  panel.innerHTML = `
+    <div class="form-section" style="margin-top:0; border-radius:0; border-left:none; border-right:none; border-top:none;">
+      <h3>Available Sellers</h3>
+      <div id="generic-seller-list-${serviceType}"><div class="loader"><div class="loader-spin"></div></div></div>
+    </div>
+    <div class="form-section">
+      <h3>Booking Details</h3>
+      <div class="form-group"><label class="form-label">Mobile Number</label><input type="tel" id="gen-phone-${serviceType}" class="form-input" placeholder="9XXXXXXXXX"></div>
+      <div class="form-group"><label class="form-label">Address</label><input type="text" id="gen-address-${serviceType}" class="form-input" placeholder="Apna address"></div>
+      <div class="form-group"><label class="form-label">Kya chahiye / Details</label><textarea id="gen-notes-${serviceType}" class="form-input" rows="2"></textarea></div>
+      <div id="gen-selected-${serviceType}" style="display:none; background:var(--green-pale); border:1px solid var(--green-light); border-radius:8px; padding:10px; margin-bottom:10px; font-size:13px; color:var(--green-dark);"></div>
+      <button class="btn-primary" id="gen-book-btn-${serviceType}" onclick="bookGeneric('${serviceType}')" disabled>✅ Pehle Seller Select Karo</button>
+    </div>`;
+
+  loadGenericSellers(serviceType);
+}
+
+async function loadGenericSellers(serviceType) {
+  const el = document.getElementById(`generic-seller-list-${serviceType}`);
+  if (!el) return;
+  const res = await api.get(`/sellers?type=${serviceType}`);
+  if (!res || !res.success || !res.sellers || !res.sellers.length) {
+    el.innerHTML = '<div class="empty-state"><div class="e-icon">😔</div><p>Koi seller nahi mila</p></div>'; return;
+  }
+  el.innerHTML = res.sellers.map(s => `
+    <div class="vehicle-card ${!s.is_online ? 'booked-out' : ''}" id="seller-card-${serviceType}-${s.id}"
+      onclick="${s.is_online ? `selectGenericSeller('${serviceType}', ${s.id}, '${(s.business_name||s.name).replace(/'/g,"\\'")}', '${s.phone||''}')` : 'showToast(\"Seller abhi offline hai\")'}" >
+      <div class="v-top">
+        <div class="v-icon">🏪</div>
+        <div class="v-info">
+          <div class="v-name">${s.business_name || s.name}</div>
+          <div class="v-seller">📍 ${s.village||''} ${s.district ? '• '+s.district : ''}</div>
+          ${s.rating ? `<div class="v-seller">⭐ ${parseFloat(s.rating).toFixed(1)}</div>` : ''}
+        </div>
+        <div class="v-right">${s.is_online ? '<span class="badge badge-green">Online</span>' : '<span class="badge badge-gray">Offline</span>'}</div>
+      </div>
+      ${s.phone ? `<a href="tel:${s.phone}" class="v-call-btn" onclick="event.stopPropagation()">📞 Call</a>` : ''}
+    </div>`).join('');
+}
+
+function selectGenericSeller(serviceType, sellerId, sellerName, sellerPhone) {
+  document.querySelectorAll(`[id^="seller-card-${serviceType}-"]`).forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById(`seller-card-${serviceType}-${sellerId}`);
+  if (card) card.classList.add('selected');
+  selectedSellers[serviceType] = { id: sellerId, name: sellerName, phone: sellerPhone };
+  const sel = document.getElementById(`gen-selected-${serviceType}`);
+  const btn = document.getElementById(`gen-book-btn-${serviceType}`);
+  if (sel) { sel.style.display='block'; sel.innerHTML=`✅ <strong>${sellerName}</strong>${sellerPhone ? ` <a href="tel:${sellerPhone}" style="color:var(--blue)">📞 ${sellerPhone}</a>` : ''}`; }
+  if (btn) { btn.textContent='✅ Book Karo'; btn.disabled=false; }
+  showToast(`✅ ${sellerName} select ho gaya!`);
+}
+
+async function bookGeneric(serviceType) {
+  const sel = selectedSellers[serviceType];
+  if (!sel) return showToast('Pehle seller select karein');
+  const phone = document.getElementById(`gen-phone-${serviceType}`)?.value;
+  const address = document.getElementById(`gen-address-${serviceType}`)?.value;
+  const notes = document.getElementById(`gen-notes-${serviceType}`)?.value;
+  if (!phone || phone.length < 10) return showToast('Sahi mobile number bharein');
+
+  const btn = document.getElementById(`gen-book-btn-${serviceType}`);
+  btn.disabled = true; btn.textContent = 'Booking ho rahi hai...';
+
+  const res = await api.post('/orders', {
+    seller_id: sel.id,
+    service_type: serviceType,
+    total_amount: 0,
+    notes: notes || '',
+    address: address || '',
+    payment_method: 'cash',
+    items: [{ name: serviceType + ' booking' }]
+  });
+
+  btn.disabled = false;
+  if (res && res.success) {
+    showToast('✅ Booking ho gayi! Seller jald sampark karega.');
+    switchPage('orders'); loadMyOrders();
+  } else {
+    btn.textContent = '✅ Book Karo';
+    showToast('❌ ' + (res?.message || 'Booking failed'));
+  }
+}
+
+function resetGadiForm() {
+  ['gadi-from','gadi-to','gadi-phone','gadi-address','gadi-notes'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  selectedSellers['gadi'] = null;
+  const sd = document.getElementById('gadi-selected-seller');
+  if(sd) sd.style.display='none';
+  const btn = document.getElementById('gadi-book-btn');
+  if(btn){ btn.disabled=true; btn.textContent='🚗 Pehle Gadi Select Karo'; }
+}
+
+// ── Load My Orders ──
+const CAT_ICON = {tent:'⛺',kirana:'🛒',gadi:'🚗',tractor:'🚜',khana:'🍛',karigar:'🔧',garments:'👕',hardware:'🏗️',electronics:'📱',furniture:'🪑',medical:'💊',other:'🏪'};
+function statusLabel(s){ return {pending:'Pending ⏳',confirmed:'Confirmed ✅',in_progress:'Chal raha 🔧',completed:'Complete 🎉',cancelled:'Cancel ❌'}[s]||s; }
+function statusBg(s){ return {pending:{bg:'#fff3e0',fg:'#e07b00'},confirmed:{bg:'#e3f0ff',fg:'#1565c0'},in_progress:{bg:'#f0faf2',fg:'#2d6a4f'},completed:{bg:'#d8f3dc',fg:'#1b4332'},cancelled:{bg:'#fdecea',fg:'#c62828'}}[s]||{bg:'#eee',fg:'#555'}; }
+
+async function loadMyOrders() {
+  const list = document.getElementById('orders-list');
+  list.innerHTML = '<div class="loader"><div class="loader-spin"></div><p>Loading...</p></div>';
+  const res = await api.get('/orders/my');
+  if (!res || !res.success || !res.orders || !res.orders.length) {
+    list.innerHTML = '<div class="empty-state"><div class="e-icon">📦</div><p>Abhi koi order nahi hai</p><p style="font-size:12px;margin-top:6px;">Koi bhi service book karo!</p></div>';
+    return;
+  }
+  const pendingCount = res.orders.filter(o => o.status === 'pending').length;
+  const dot = document.getElementById('orders-dot');
+  if (dot) dot.style.display = pendingCount > 0 ? 'block' : 'none';
+
+  list.innerHTML = res.orders.map(o => {
+    const sc = statusBg(o.status);
+    return `<div class="order-card">
       <div class="order-top">
         <div>
           <div class="order-id">${o.order_number}</div>
-          <div class="order-type">${CAT_ICON[o.service_type]||'📦'} ${o.service_type}</div>
+          <div class="order-type">${CAT_ICON[o.service_type]||'📦'} ${o.service_type.charAt(0).toUpperCase()+o.service_type.slice(1)}</div>
         </div>
-        <span class="status-badge" style="background:${statusColor(o.status).bg};color:${statusColor(o.status).fg}">${statusLabel(o.status)}</span>
+        <span class="status-badge" style="background:${sc.bg};color:${sc.fg};">${statusLabel(o.status)}</span>
       </div>
-      <div class="order-detail">${o.business_name||o.seller_name||'—'}</div>
-      <div class="order-meta">📅 ${new Date(o.created_at).toLocaleDateString('hi-IN')} · 💰 ₹${o.total_amount}</div>
+      <div class="order-detail">🏪 ${o.business_name||o.seller_name||'—'}</div>
+      ${o.notes ? `<div class="order-detail" style="margin-top:3px;">📝 ${o.notes}</div>` : ''}
+      <div class="order-meta">📅 ${new Date(o.created_at).toLocaleDateString('hi-IN')} ${o.total_amount>0 ? '· 💰 ₹'+o.total_amount : ''}</div>
+      ${o.seller_phone ? `<a href="tel:${o.seller_phone}" style="display:inline-block;margin-top:8px;background:var(--blue-light);color:var(--blue);border:1px solid var(--blue);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;text-decoration:none;">📞 Seller ko Call Karo</a>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ── Profile from DB (not just localStorage) ──
+async function loadProfile() {
+  // First show from localStorage (fast)
+  const user = api.getUser();
+  if (user) {
+    const initials = user.name ? user.name.charAt(0).toUpperCase() : '?';
+    ['top-avatar','profile-avatar'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=initials; });
+    const gr = document.getElementById('greeting-name');
+    if (gr) gr.textContent = 'Namaskar ' + (user.name?.split(' ')[0]||'') + ' ji! 🙏';
+    const nm = document.getElementById('profile-name');
+    if (nm) nm.textContent = user.name;
+    const ph = document.getElementById('profile-phone');
+    if (ph) ph.textContent = '📱 ' + (user.phone||'');
+  }
+
+  // Sync from DB (fresh data)
+  const res = await api.get('/auth/profile');
+  if (res && res.success && res.user) {
+    const u = res.user;
+    // Update localStorage with fresh DB data
+    const updatedUser = { ...user, ...u };
+    localStorage.setItem('gb_user', JSON.stringify(updatedUser));
+
+    const initials = u.name ? u.name.charAt(0).toUpperCase() : '?';
+    ['top-avatar','profile-avatar'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=initials; });
+    const gr = document.getElementById('greeting-name');
+    if (gr) gr.textContent = 'Namaskar ' + (u.name?.split(' ')[0]||'') + ' ji! 🙏';
+    const nm = document.getElementById('profile-name');
+    if (nm) nm.textContent = u.name;
+    const ph = document.getElementById('profile-phone');
+    if (ph) ph.textContent = '📱 ' + u.phone + (u.village ? ' • '+u.village : '');
+
+    const loc = document.getElementById('user-location');
+    if (loc) loc.textContent = [(u.village||''), (u.district||'')].filter(Boolean).join(', ') || 'Location set karein';
+    const locText = document.getElementById('profile-location-text');
+    if (locText) locText.textContent = [(u.village||''), (u.district||'')].filter(Boolean).join(', ') || 'Location —';
+    const footer = document.getElementById('footer-location');
+    if (footer) footer.textContent = 'Gram Bazaar v2.0' + (u.village ? ' • '+u.village : '');
+  }
+
+  // Load order stats
+  const ordRes = await api.get('/orders/my');
+  if (ordRes?.success) {
+    const orders = ordRes.orders || [];
+    const el = document.getElementById('profile-orders'); if(el) el.textContent = orders.length;
+    const bk = document.getElementById('profile-bookings'); if(bk) bk.textContent = orders.filter(o=>o.status==='completed').length;
+  }
+}
+
+// ── Notifications ──
+async function openNotifications() {
+  document.getElementById('notif-panel').classList.add('open');
+  const list = document.getElementById('notif-list');
+  list.innerHTML = '<div class="loader"><div class="loader-spin"></div></div>';
+  const res = await api.get('/notifications');
+  if (!res || !res.success || !res.notifications || !res.notifications.length) {
+    list.innerHTML = '<div class="empty-state"><div class="e-icon">🔔</div><p>Koi notification nahi</p></div>'; return;
+  }
+  // Update badge
+  updateNotifBadge(res.unread);
+  list.innerHTML = res.notifications.map(n => `
+    <div class="notif-item ${n.is_read ? '' : 'unread'}" onclick="markRead(${n.id}, this)">
+      <div class="notif-item-title">${n.title}</div>
+      <div class="notif-item-body">${n.body}</div>
+      <div class="notif-item-time">${new Date(n.created_at).toLocaleString('hi-IN')}</div>
     </div>`).join('');
 }
-async function loadProfile(){
-  const user = api.getUser();
-  if(!user) return;
 
-  // Top avatar
-  const topAv = document.getElementById('top-avatar');
-  if(topAv) topAv.textContent = user.name.charAt(0).toUpperCase();
+function closeNotifications() { document.getElementById('notif-panel').classList.remove('open'); }
 
-  // Greeting
-  const gr = document.getElementById('greeting-name');
-  if(gr) gr.textContent = 'Namaskar ' + user.name.split(' ')[0] + ' ji! 🙏';
-
-  // Location
-  const loc = document.getElementById('user-location');
-  if(loc) loc.textContent = (user.village ? user.village + ', ' : '') + (user.district || '');
-
-  // Profile page
-  const av = document.getElementById('profile-avatar');
-  const nm = document.getElementById('profile-name');
-  const ph = document.getElementById('profile-phone');
-  if(av) av.textContent = user.name.charAt(0).toUpperCase();
-  if(nm) nm.textContent = user.name;
-  if(ph) ph.textContent = '📱 ' + user.phone + (user.village ? ' • ' + user.village : '');
-
-  // Fetch live stats from API
-  const res = await api.get('/auth/profile');
-  if(res?.success){
-    const u = res.user;
-    // Update location if available in profile
-    if(loc && (u.village || u.district)){
-      loc.textContent = (u.village ? u.village + ', ' : '') + (u.district || '');
-    }
-  }
-
-  // Footer location
-  const footer = document.getElementById('footer-location');
-  if(footer && user.village) footer.textContent = 'Gram Bazaar v1.0 • ' + user.village;
-
-  // Orders count
-  const ordRes = await api.get('/orders/my');
-  if(ordRes?.success){
-    const orders = ordRes.orders || [];
-    const el = document.getElementById('profile-orders');
-    if(el) el.textContent = orders.length;
-    const bk = document.getElementById('profile-bookings');
-    if(bk) bk.textContent = orders.filter(o=>o.status==='completed').length;
-  }
+async function markRead(id, el) {
+  await api.put(`/notifications/${id}/read`, {});
+  if (el) el.classList.remove('unread');
 }
-document.addEventListener('DOMContentLoaded',()=>{
-  loadMyOrders();
-  loadProfile();
-  const a=document.querySelector('.user-avatar');
-  if(a)a.onclick=()=>{api.logout();};
-  document.querySelectorAll('.menu-item').forEach(item=>{
-    if(item.style.color&&item.style.color.includes('c62828'))
-      item.onclick=()=>{api.logout();};
+
+async function markAllRead() {
+  await api.put('/notifications/all/read', {});
+  document.querySelectorAll('.notif-item').forEach(el => el.classList.remove('unread'));
+  updateNotifBadge(0);
+}
+
+function updateNotifBadge(count) {
+  const badge = document.getElementById('notif-badge');
+  if (!badge) return;
+  if (count > 0) { badge.style.display='flex'; badge.textContent=count>9?'9+':count; }
+  else { badge.style.display='none'; }
+}
+
+async function loadNotifCount() {
+  const res = await api.get('/notifications');
+  if (res && res.success) updateNotifBadge(res.unread || 0);
+}
+
+// ── Toast ──
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── Socket events ──
+if (socket) {
+  socket.on('new_order', data => { showToast('🔔 ' + data.customer_name + ' – booking update'); loadMyOrders(); });
+  socket.on('order_update', data => {
+    showToast('📦 Order update: ' + (data.status||''));
+    loadMyOrders();
+    loadNotifCount();
   });
+  socket.on('broadcast', data => { showToast('📢 ' + data.title + ': ' + data.body); loadNotifCount(); });
+}
+
+// ── Logout ──
+document.getElementById('logout-btn').onclick = () => api.logout();
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  loadProfile();
+  loadNotifCount();
+  loadMyOrders();
 });
 </script>
+</body>
+</html>

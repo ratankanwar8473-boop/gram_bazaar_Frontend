@@ -7,87 +7,60 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --orange: #c25c2c;
-  --orange-dark: #7c3a1a;
-  --orange-mid: #e07040;
-  --orange-light: #fdf0eb;
-  --orange-pale: #fff8f5;
-  --green: #2d6a4f;
-  --green-light: #d8f3dc;
-  --green-pale: #f0faf2;
-  --amber: #e07b00;
-  --amber-light: #fff3e0;
-  --blue: #1565c0;
-  --blue-light: #e3f0ff;
-  --red: #c62828;
-  --red-light: #fdecea;
-  --gray: #f5f5f0;
-  --text: #1a1a1a;
-  --text2: #555;
-  --text3: #888;
-  --border: #e0e0d8;
-  --white: #fff;
-  --radius: 14px;
-  --radius-sm: 8px;
-  --shadow: 0 2px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.15);
+  --orange: #c25c2c; --orange-dark: #7c3a1a; --orange-mid: #e07040;
+  --orange-light: #fdf0eb; --orange-pale: #fff8f5;
+  --green: #2d6a4f; --green-light: #d8f3dc; --green-pale: #f0faf2;
+  --amber: #e07b00; --amber-light: #fff3e0;
+  --blue: #1565c0; --blue-light: #e3f0ff;
+  --red: #c62828; --red-light: #fdecea;
+  --gray: #f5f5f0; --text: #1a1a1a; --text2: #555; --text3: #888;
+  --border: #e0e0d8; --white: #fff;
+  --radius: 14px; --radius-sm: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08); --shadow-lg: 0 8px 32px rgba(0,0,0,0.15);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; overflow: hidden; background: #7c3a1a; }
 body { font-family: 'Hind', sans-serif; }
-
 #app { max-width: 430px; margin: 0 auto; height: 100vh; display: flex; flex-direction: column; background: var(--gray); overflow: hidden; }
-
-/* ─── Header ─── */
 .app-header { background: linear-gradient(135deg, #7c3a1a 0%, #c25c2c 60%, #e07040 100%); color: white; padding: 16px; flex-shrink: 0; }
 .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 .brand-text h1 { font-family: 'Baloo 2'; font-size: 18px; font-weight: 700; line-height: 1; }
 .brand-text p { font-size: 10px; opacity: 0.75; margin-top: 2px; }
-.seller-tag { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 5px 12px; font-size: 11px; font-weight: 600; }
+.seller-tag { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 5px 12px; font-size: 11px; font-weight: 600; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
 .stat-pill { background: rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 6px; text-align: center; }
 .stat-pill .sp-num { font-family: 'Baloo 2'; font-size: 16px; font-weight: 700; }
 .stat-pill .sp-label { font-size: 9px; opacity: 0.8; margin-top: 1px; }
-
-/* ─── Online Toggle ─── */
+.page { display: none; flex: 1; overflow-y: auto; padding-bottom: 80px; }
+.page.active { display: block; }
+.page::-webkit-scrollbar { display: none; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.page.active > * { animation: fadeUp 0.28s ease forwards; }
+.section { padding: 14px 14px 0; }
+.section-title { font-family: 'Baloo 2'; font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+/* Online Toggle */
 .online-toggle-bar { background: white; margin: 12px 14px 0; border-radius: var(--radius); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border); box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
-.toggle-text { }
 .toggle-title { font-size: 14px; font-weight: 600; color: var(--text); }
 .toggle-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
 .big-toggle { width: 56px; height: 30px; background: var(--green); border-radius: 15px; cursor: pointer; position: relative; transition: background 0.25s; flex-shrink: 0; }
 .big-toggle.off { background: #ccc; }
 .big-knob { width: 24px; height: 24px; background: white; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: left 0.25s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
 .big-toggle:not(.off) .big-knob { left: 29px; }
-
-/* ─── Pages ─── */
-.page { display: none; flex: 1; overflow-y: auto; padding-bottom: 80px; }
-.page.active { display: block; }
-.page::-webkit-scrollbar { display: none; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-.page.active > * { animation: fadeUp 0.28s ease forwards; }
-
-/* ─── Section ─── */
-.section { padding: 14px 14px 0; }
-.section-title { font-family: 'Baloo 2'; font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
-.section-sub { font-size: 12px; color: var(--text3); margin-bottom: 10px; }
-
-/* ─── Request Cards ─── */
+/* Request Cards */
 .request-list { display: flex; flex-direction: column; gap: 10px; }
 .request-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
 .request-card.urgent { border-left: 4px solid var(--orange-mid); }
 .req-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-.req-left { flex: 1; }
 .req-type { font-family: 'Baloo 2'; font-size: 15px; font-weight: 600; color: var(--text); }
 .req-customer { font-size: 12px; color: var(--text3); margin-top: 3px; }
 .req-body { font-size: 13px; color: var(--text2); margin-bottom: 4px; line-height: 1.5; }
 .req-meta { font-size: 11px; color: var(--text3); }
 .req-amount { font-size: 14px; font-weight: 700; color: var(--green); margin-top: 6px; }
-.req-actions { display: flex; gap: 8px; margin-top: 10px; }
-.btn-accept { flex: 1; padding: 10px; background: var(--green); color: white; border: none; border-radius: var(--radius-sm); font-family: 'Baloo 2'; font-size: 13px; font-weight: 600; cursor: pointer; }
-.btn-accept:active { opacity: 0.8; }
-.btn-call { padding: 10px 14px; background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
+.req-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.btn-accept { flex: 1; padding: 10px; background: var(--green); color: white; border: none; border-radius: var(--radius-sm); font-family: 'Baloo 2'; font-size: 13px; font-weight: 600; cursor: pointer; min-width: 90px; }
+.btn-call { padding: 10px 14px; background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
 .btn-decline { padding: 10px 14px; background: var(--gray); color: var(--text3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; cursor: pointer; }
 .btn-complete { flex: 1; padding: 10px; background: var(--orange); color: white; border: none; border-radius: var(--radius-sm); font-family: 'Baloo 2'; font-size: 13px; cursor: pointer; }
 .badge { font-size: 10px; padding: 3px 9px; border-radius: 20px; font-weight: 600; display: inline-block; }
@@ -95,13 +68,10 @@ body { font-family: 'Hind', sans-serif; }
 .b-confirmed { background: var(--blue-light); color: var(--blue); }
 .b-done { background: var(--green-light); color: var(--green); }
 .b-declined { background: var(--red-light); color: var(--red); }
-.b-pending-pay { background: var(--amber-light); color: var(--amber); }
-
-/* ─── Earnings ─── */
+/* Earnings */
 .earn-hero { background: linear-gradient(135deg, #7c3a1a, #c25c2c); border-radius: var(--radius); margin: 14px 14px 0; padding: 20px; color: white; text-align: center; }
 .earn-hero p { font-size: 13px; opacity: 0.8; }
 .earn-hero h2 { font-family: 'Baloo 2'; font-size: 36px; font-weight: 700; margin: 4px 0; }
-.earn-hero span { font-size: 12px; opacity: 0.75; }
 .earn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 14px 0; }
 .earn-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; }
 .earn-card-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
@@ -113,46 +83,42 @@ body { font-family: 'Hind', sans-serif; }
 .txn-item:last-child { border-bottom: none; }
 .txn-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
 .txn-icon.credit { background: var(--green-light); }
-.txn-icon.pending { background: var(--amber-light); }
 .txn-info { flex: 1; }
 .txn-name { font-size: 13px; font-weight: 600; color: var(--text); }
 .txn-date { font-size: 11px; color: var(--text3); margin-top: 1px; }
-.txn-amount { font-size: 14px; font-weight: 700; }
-.txn-amount.credit { color: var(--green); }
-.txn-amount.pending-amt { color: var(--amber); }
-
-/* ─── Settings / Profile ─── */
-.upi-setup-card { background: white; border-radius: var(--radius); margin: 14px 14px 0; border: 1.5px dashed var(--orange-mid); padding: 18px; }
-.upi-setup-card h3 { font-family: 'Baloo 2'; font-size: 16px; color: var(--orange); margin-bottom: 4px; }
-.upi-setup-card p { font-size: 12px; color: var(--text2); margin-bottom: 14px; }
+.txn-amount { font-size: 14px; font-weight: 700; color: var(--green); }
+/* Settings / Services */
 .form-label { font-size: 12px; color: var(--text2); font-weight: 500; display: block; margin-bottom: 5px; }
 .form-input { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: 'Hind'; font-size: 14px; color: var(--text); background: var(--gray); outline: none; transition: border-color 0.15s; }
 .form-input:focus { border-color: var(--orange-mid); background: white; }
 .form-group { margin-bottom: 12px; }
 .btn-primary { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--orange) 0%, var(--orange-mid) 100%); color: white; border: none; border-radius: var(--radius-sm); font-family: 'Baloo 2'; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 4px; }
 .btn-primary:active { opacity: 0.85; }
-.btn-show-qr { width: 100%; padding: 12px; background: var(--green-pale); color: var(--green); border: 1.5px solid var(--green); border-radius: var(--radius-sm); font-family: 'Baloo 2'; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px; }
-.services-settings { margin: 12px 14px 0; background: white; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
-.serv-row { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-bottom: 1px solid var(--border); }
-.serv-row:last-child { border-bottom: none; }
-.serv-icon { font-size: 20px; width: 28px; text-align: center; }
-.serv-info { flex: 1; }
-.serv-name { font-size: 13px; font-weight: 600; color: var(--text); }
-.serv-price-input { font-size: 11px; }
-.serv-price-input input { border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; font-size: 11px; width: 90px; color: var(--text); background: var(--gray); outline: none; }
-.mini-toggle { width: 38px; height: 22px; background: var(--green); border-radius: 11px; cursor: pointer; position: relative; flex-shrink: 0; transition: background 0.2s; }
-.mini-toggle.off { background: #ccc; }
-.mini-knob { width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: left 0.2s; }
-.mini-toggle:not(.off) .mini-knob { left: 19px; }
-
-/* ─── Profile Page ─── */
+.btn-secondary { width: 100%; padding: 12px; background: var(--gray); color: var(--text); border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: 'Hind'; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 8px; }
+/* Vehicle/Service Cards for seller */
+.my-services-list { margin: 12px 14px 0; display: flex; flex-direction: column; gap: 10px; }
+.my-service-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; }
+.msc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.msc-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.msc-type { font-size: 11px; color: var(--text3); }
+.msc-price { font-size: 13px; font-weight: 700; color: var(--green); }
+.msc-actions { display: flex; gap: 8px; margin-top: 8px; }
+.btn-sm { padding: 7px 12px; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; }
+.btn-sm-orange { background: var(--orange-light); color: var(--orange); }
+.btn-sm-red { background: var(--red-light); color: var(--red); }
+/* Add Service Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 100; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-sheet { background: white; border-radius: 24px 24px 0 0; padding: 24px 20px 36px; width: 100%; max-width: 430px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); max-height: 90vh; overflow-y: auto; }
+.modal-overlay.open .modal-sheet { transform: translateY(0); }
+.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
+.modal-title { font-family: 'Baloo 2'; font-size: 18px; font-weight: 700; text-align: center; color: var(--text); margin-bottom: 16px; }
+.modal-close { width: 100%; padding: 13px; background: var(--gray); color: var(--text); border: none; border-radius: var(--radius-sm); font-family: 'Hind'; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+/* Profile */
 .profile-hero { background: linear-gradient(135deg, #7c3a1a, #e07040); margin: 14px 14px 0; border-radius: var(--radius); padding: 20px; display: flex; align-items: center; gap: 14px; color: white; }
 .profile-avatar { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-family: 'Baloo 2'; font-size: 26px; font-weight: 700; border: 3px solid rgba(255,255,255,0.35); flex-shrink: 0; }
 .profile-name { font-family: 'Baloo 2'; font-size: 18px; font-weight: 700; }
 .profile-details { font-size: 12px; opacity: 0.85; margin-top: 3px; line-height: 1.6; }
-.rating-strip { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
-.stars { color: #ffd700; font-size: 14px; }
-.rating-num { font-size: 13px; font-weight: 600; }
 .profile-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border-radius: var(--radius); overflow: hidden; margin: 12px 14px 0; border: 1px solid var(--border); }
 .ps-box { background: white; padding: 12px 8px; text-align: center; }
 .ps-num { font-family: 'Baloo 2'; font-size: 20px; font-weight: 700; color: var(--orange); }
@@ -164,8 +130,7 @@ body { font-family: 'Hind', sans-serif; }
 .menu-icon2 { font-size: 18px; width: 26px; text-align: center; }
 .menu-text2 { flex: 1; font-size: 14px; font-weight: 500; color: var(--text); }
 .menu-arrow2 { font-size: 14px; color: var(--text3); }
-
-/* ─── Bottom Nav ─── */
+/* Bottom Nav */
 .bottom-nav { background: white; border-top: 1px solid var(--border); display: flex; padding: 6px 0 env(safe-area-inset-bottom, 6px); flex-shrink: 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); }
 .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 4px; border: none; background: none; cursor: pointer; }
 .nav-icon { font-size: 22px; display: block; }
@@ -173,27 +138,16 @@ body { font-family: 'Hind', sans-serif; }
 .nav-btn.active .nav-label { color: var(--orange); font-weight: 700; }
 .nav-dot { width: 6px; height: 6px; background: var(--orange-mid); border-radius: 50%; position: absolute; top: -1px; right: -1px; }
 .nav-icon-wrap { position: relative; display: inline-block; }
-
-/* ─── QR Modal ─── */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 100; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal-sheet { background: white; border-radius: 24px 24px 0 0; padding: 24px 20px 36px; width: 100%; max-width: 430px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-.modal-overlay.open .modal-sheet { transform: translateY(0); }
-.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
-.modal-title { font-family: 'Baloo 2'; font-size: 18px; font-weight: 700; text-align: center; color: var(--text); margin-bottom: 4px; }
-.modal-sub { font-size: 13px; color: var(--text2); text-align: center; margin-bottom: 20px; }
-.qr-container { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-.qr-box { width: 200px; height: 200px; border: 3px solid var(--orange); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; background: white; box-shadow: var(--shadow); padding: 8px; }
-.upi-display { background: var(--orange-pale); border: 1px solid #f4c2a8; border-radius: var(--radius-sm); padding: 10px 16px; font-size: 14px; font-weight: 600; color: var(--orange-dark); text-align: center; font-family: monospace; width: 100%; }
-.modal-close { width: 100%; padding: 13px; background: var(--gray); color: var(--text); border: none; border-radius: var(--radius-sm); font-family: 'Hind'; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; }
-
-/* ─── Toast ─── */
-.toast-wrap { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); z-index: 200; pointer-events: none; }
+/* Toast */
+.toast-wrap { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); z-index: 300; pointer-events: none; }
 .toast { background: #7c3a1a; color: white; padding: 11px 20px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; box-shadow: var(--shadow-lg); opacity: 0; transform: translateY(8px); transition: all 0.25s; max-width: 320px; text-align: center; white-space: normal; }
 .toast.show { opacity: 1; transform: translateY(0); }
-
+.loader { text-align: center; padding: 30px; color: var(--text3); }
+.loader-spin { width: 28px; height: 28px; border: 3px solid #f4c2a8; border-top-color: var(--orange); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px; }
+@keyframes spin { to { transform: rotate(360deg); } }
 .empty-state { text-align: center; padding: 30px 20px; color: var(--text3); }
 .empty-state .e-icon { font-size: 42px; margin-bottom: 10px; display: block; }
+select.form-input { cursor: pointer; }
 </style>
 <script src="../shared/js/config.js"></script>
 <script src="../shared/js/api.js"></script>
@@ -208,28 +162,16 @@ body { font-family: 'Hind', sans-serif; }
         <div class="brand-icon">🏪</div>
         <div class="brand-text">
           <h1>Gram Bazaar – Seller</h1>
-          <p>Dukandaar / Service Provider Panel</p>
+          <p>Dukandaar / Service Provider</p>
         </div>
       </div>
-      <span class="seller-tag" id="seller-type-tag">⛺ Tent House</span>
+      <span class="seller-tag" id="seller-tag">Loading...</span>
     </div>
     <div class="stats-grid">
-      <div class="stat-pill">
-        <div class="sp-num" id="stat-new">0</div>
-        <div class="sp-label">Nayi requests</div>
-      </div>
-      <div class="stat-pill">
-        <div class="sp-num" id="stat-active">0</div>
-        <div class="sp-label">Active jobs</div>
-      </div>
-      <div class="stat-pill">
-        <div class="sp-num" id="stat-earning">₹0</div>
-        <div class="sp-label">Is mahine</div>
-      </div>
-      <div class="stat-pill">
-        <div class="sp-num" id="stat-rating">0⭐</div>
-        <div class="sp-label">Rating</div>
-      </div>
+      <div class="stat-pill"><div class="sp-num" id="stat-new">0</div><div class="sp-label">Nayi requests</div></div>
+      <div class="stat-pill"><div class="sp-num" id="stat-active">0</div><div class="sp-label">Active</div></div>
+      <div class="stat-pill"><div class="sp-num" id="stat-earning">₹0</div><div class="sp-label">Is mahine</div></div>
+      <div class="stat-pill"><div class="sp-num" id="stat-rating">0⭐</div><div class="sp-label">Rating</div></div>
     </div>
   </div>
 
@@ -237,10 +179,10 @@ body { font-family: 'Hind', sans-serif; }
   <div id="page-requests" class="page active">
     <div class="online-toggle-bar">
       <div class="toggle-text">
-        <div class="toggle-title" id="online-status-text">🟢 Main Online Hoon</div>
-        <div class="toggle-sub">Nayi bookings aa rahi hain</div>
+        <div class="toggle-title" id="online-status-text">🔴 Loading...</div>
+        <div class="toggle-sub" id="online-status-sub">Status check ho raha hai...</div>
       </div>
-      <div class="big-toggle" id="online-toggle" onclick="toggleOnline()">
+      <div class="big-toggle off" id="online-toggle" onclick="toggleOnline()">
         <div class="big-knob"></div>
       </div>
     </div>
@@ -248,20 +190,27 @@ body { font-family: 'Hind', sans-serif; }
     <div class="section">
       <div class="section-title">🔔 Nayi Requests</div>
       <div class="request-list" id="new-requests-list">
-        <div id="no-new-requests" style="text-align:center;padding:30px;color:#888;">
-          <div style="font-size:32px;margin-bottom:8px;">📭</div>
-          <div>Abhi koi nayi request nahi</div>
-        </div>
+        <div class="loader"><div class="loader-spin"></div><p>Requests load ho rahi hain...</p></div>
       </div>
     </div>
 
     <div class="section" style="margin-top:6px;">
       <div class="section-title">📋 Confirmed Bookings</div>
       <div class="request-list" id="confirmed-orders-list">
-        <div id="no-confirmed" style="text-align:center;padding:30px;color:#888;">
-          <div style="font-size:32px;margin-bottom:8px;">📋</div>
-          <div>Koi confirmed booking nahi</div>
-        </div>
+        <div class="loader"><div class="loader-spin"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PAGE: MY SERVICES ═══ -->
+  <div id="page-services" class="page">
+    <div class="section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span class="section-title">Meri Services</span>
+        <button onclick="openAddServiceModal()" style="background:var(--orange);color:white;border:none;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;">+ Add Karo</button>
+      </div>
+      <div id="my-services-list">
+        <div class="loader"><div class="loader-spin"></div></div>
       </div>
     </div>
   </div>
@@ -271,117 +220,18 @@ body { font-family: 'Hind', sans-serif; }
     <div class="earn-hero">
       <p id="earn-month-label">Is mahine ki total kamaai</p>
       <h2 id="earn-total">₹0</h2>
-      <span id="earn-subtitle">Loading...</span>
+      <span id="earn-subtitle">Real-time data</span>
     </div>
     <div class="earn-grid">
-      <div class="earn-card">
-        <div class="earn-card-label">Aaj</div>
-        <div class="earn-card-val" id="earn-today">₹0</div>
-      </div>
-      <div class="earn-card">
-        <div class="earn-card-label">Is hafte</div>
-        <div class="earn-card-val" id="earn-week">₹0</div>
-      </div>
-      <div class="earn-card">
-        <div class="earn-card-label">Orders complete</div>
-        <div class="earn-card-val orange" id="earn-orders">0</div>
-      </div>
-      <div class="earn-card">
-        <div class="earn-card-label">Pending payment</div>
-        <div class="earn-card-val amber" id="earn-pending">₹0</div>
-      </div>
+      <div class="earn-card"><div class="earn-card-label">Aaj</div><div class="earn-card-val" id="earn-today">₹0</div></div>
+      <div class="earn-card"><div class="earn-card-label">Is hafte</div><div class="earn-card-val" id="earn-week">₹0</div></div>
+      <div class="earn-card"><div class="earn-card-label">Orders complete</div><div class="earn-card-val orange" id="earn-orders">0</div></div>
+      <div class="earn-card"><div class="earn-card-label">Pending payment</div><div class="earn-card-val amber" id="earn-pending">₹0</div></div>
     </div>
-    <div class="section" style="margin-top:12px;">
-      <div class="section-title">Recent Transactions</div>
-    </div>
+    <div class="section" style="margin-top:12px;"><div class="section-title">Recent Transactions</div></div>
     <div class="transaction-list" id="txn-list">
-      <div style="text-align:center;padding:30px;color:#888;">
-        <div style="font-size:32px;margin-bottom:8px;">💰</div>
-        <div>Abhi koi transaction nahi</div>
-      </div>
+      <div class="empty-state"><span class="e-icon">💰</span><p>Abhi koi transaction nahi</p></div>
     </div>
-    <div style="padding:14px;">
-      <button class="btn-primary" onclick="showQRModal()">📱 QR Code Dikhao – Payment Lo</button>
-    </div>
-  </div>
-
-  <!-- ═══ PAGE: SETTINGS ═══ -->
-  <div id="page-settings" class="page">
-    <!-- UPI Setup -->
-    <div class="upi-setup-card">
-      <h3>💳 UPI Setup Karo</h3>
-      <p>Apni UPI ID dalo — customers aapko seedha payment kar sakenge. QR code automatically ban jayega.</p>
-      <div class="form-group">
-        <label class="form-label">Business / Dukan ka naam</label>
-        <input type="text" id="upi-business-name" class="form-input" placeholder="Raju Tent House" value="Raju Tent House">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Aapki UPI ID</label>
-        <input type="text" id="upi-id-input" class="form-input" placeholder="yourname@upi" value="rajutent@upi">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Mobile Number</label>
-        <input type="tel" id="upi-mobile" class="form-input" placeholder="9XXXXXXXXX" value="9876543210">
-      </div>
-      <button class="btn-primary" onclick="saveUPI()">💾 UPI Save Karo</button>
-      <button class="btn-show-qr" onclick="showQRModal()">🔳 Apna QR Code Dekho</button>
-    </div>
-
-    <!-- Services Toggle -->
-    <div class="section" style="margin-top:14px;">
-      <div class="section-title">Meri Services On/Off Karo</div>
-    </div>
-    <div class="services-settings">
-      <div class="serv-row">
-        <span class="serv-icon">⛺</span>
-        <div class="serv-info">
-          <div class="serv-name">Bada Tent</div>
-          <div class="serv-price-input"><input type="text" value="₹5,000 se shuru" class="form-input" style="padding:3px 6px;"></div>
-        </div>
-        <div class="mini-toggle" onclick="flipMini(this)"><div class="mini-knob"></div></div>
-      </div>
-      <div class="serv-row">
-        <span class="serv-icon">🪑</span>
-        <div class="serv-info">
-          <div class="serv-name">Kursi / Table</div>
-          <div class="serv-price-input"><input type="text" value="₹10/kursi per din" class="form-input" style="padding:3px 6px;"></div>
-        </div>
-        <div class="mini-toggle" onclick="flipMini(this)"><div class="mini-knob"></div></div>
-      </div>
-      <div class="serv-row">
-        <span class="serv-icon">🔊</span>
-        <div class="serv-info">
-          <div class="serv-name">Sound System</div>
-          <div class="serv-price-input"><input type="text" value="₹1,500/din" class="form-input" style="padding:3px 6px;"></div>
-        </div>
-        <div class="mini-toggle" onclick="flipMini(this)"><div class="mini-knob"></div></div>
-      </div>
-      <div class="serv-row">
-        <span class="serv-icon">⚡</span>
-        <div class="serv-info">
-          <div class="serv-name">Generator</div>
-          <div class="serv-price-input"><input type="text" value="₹800/din" class="form-input" style="padding:3px 6px;"></div>
-        </div>
-        <div class="mini-toggle off" onclick="flipMini(this)"><div class="mini-knob"></div></div>
-      </div>
-      <div class="serv-row">
-        <span class="serv-icon">🎧</span>
-        <div class="serv-info">
-          <div class="serv-name">DJ Service</div>
-          <div class="serv-price-input"><input type="text" value="₹2,000/din" class="form-input" style="padding:3px 6px;"></div>
-        </div>
-        <div class="mini-toggle" onclick="flipMini(this)"><div class="mini-knob"></div></div>
-      </div>
-      <div class="serv-row">
-        <span class="serv-icon">💡</span>
-        <div class="serv-info">
-          <div class="serv-name">Decoration + Lighting</div>
-          <div class="serv-price-input"><input type="text" value="₹1,200/din" class="form-input" style="padding:3px 6px;"></div>
-        </div>
-        <div class="mini-toggle" onclick="flipMini(this)"><div class="mini-knob"></div></div>
-      </div>
-    </div>
-    <div style="height:20px;"></div>
   </div>
 
   <!-- ═══ PAGE: PROFILE ═══ -->
@@ -391,116 +241,118 @@ body { font-family: 'Hind', sans-serif; }
       <div>
         <div class="profile-name" id="sp-business-name">Loading...</div>
         <div class="profile-details" id="sp-details">—</div>
-        <div class="rating-strip">
-          <span class="stars">★★★★★</span>
-          <span class="rating-num" id="sp-rating">0</span>
-          <span style="font-size:11px; opacity:0.8;">(<span id="sp-reviews">0</span> reviews)</span>
-        </div>
+        <div style="font-size:13px;margin-top:4px;">⭐ <span id="sp-rating">0</span> (<span id="sp-reviews">0</span> reviews)</div>
       </div>
     </div>
     <div class="profile-stats">
-      <div class="ps-box">
-        <div class="ps-num" id="sp-total-orders">0</div>
-        <div class="ps-label">Total orders</div>
-      </div>
-      <div class="ps-box">
-        <div class="ps-num" id="sp-completed">0</div>
-        <div class="ps-label">Complete</div>
-      </div>
-      <div class="ps-box">
-        <div class="ps-num" id="sp-earned">₹0</div>
-        <div class="ps-label">Total kamaai</div>
-      </div>
+      <div class="ps-box"><div class="ps-num" id="sp-total-orders">0</div><div class="ps-label">Total orders</div></div>
+      <div class="ps-box"><div class="ps-num" id="sp-completed">0</div><div class="ps-label">Complete</div></div>
+      <div class="ps-box"><div class="ps-num" id="sp-earned">₹0</div><div class="ps-label">Total kamaai</div></div>
     </div>
-    <div style="padding:14px;">
-      <button class="btn-primary" onclick="showQRModal()">🔳 Mera QR Code Dikhao</button>
+    <!-- UPI Setup -->
+    <div style="margin:12px 14px 0; background:white; border-radius:var(--radius); border:1.5px dashed var(--orange-mid); padding:16px;">
+      <div style="font-family:'Baloo 2'; font-size:15px; color:var(--orange); margin-bottom:4px;">💳 UPI Setup</div>
+      <div class="form-group"><label class="form-label">Business / Dukan ka naam</label><input type="text" id="upi-business-name" class="form-input" placeholder="Raju Tent House"></div>
+      <div class="form-group"><label class="form-label">Aapki UPI ID</label><input type="text" id="upi-id-input" class="form-input" placeholder="yourname@upi"></div>
+      <div class="form-group"><label class="form-label">Mobile Number</label><input type="tel" id="upi-mobile" class="form-input" placeholder="9XXXXXXXXX"></div>
+      <button class="btn-primary" onclick="saveProfile()">💾 Profile Save Karo</button>
     </div>
     <div class="menu-list">
-      <div class="menu-item">
-        <span class="menu-icon2">✏️</span>
-        <span class="menu-text2">Profile Edit Karo</span>
-        <span class="menu-arrow2">›</span>
-      </div>
-      <div class="menu-item" onclick="switchPage('settings')">
-        <span class="menu-icon2">💳</span>
-        <span class="menu-text2">UPI Setting</span>
-        <span class="menu-arrow2">›</span>
-      </div>
-      <div class="menu-item">
-        <span class="menu-icon2">📋</span>
-        <span class="menu-text2">Booking History</span>
-        <span class="menu-arrow2">›</span>
-      </div>
-      <div class="menu-item">
-        <span class="menu-icon2">⭐</span>
-        <span class="menu-text2">Meri Reviews</span>
-        <span class="menu-arrow2">›</span>
-      </div>
-      <div class="menu-item">
-        <span class="menu-icon2">❓</span>
-        <span class="menu-text2">Help / Support</span>
-        <span class="menu-arrow2">›</span>
-      </div>
-      <div class="menu-item" id="logout-btn" style="cursor:pointer;">
-        <span class="menu-icon2">🚪</span>
-        <span class="menu-text2" style="color:#c62828;">Logout</span>
-        <span class="menu-arrow2">›</span>
-      </div>
+      <div class="menu-item" onclick="switchPage('services')"><span class="menu-icon2">🛠️</span><span class="menu-text2">Meri Services Manage Karo</span><span class="menu-arrow2">›</span></div>
+      <div class="menu-item"><span class="menu-icon2">📋</span><span class="menu-text2">Booking History</span><span class="menu-arrow2">›</span></div>
+      <div class="menu-item"><span class="menu-icon2">⭐</span><span class="menu-text2">Meri Reviews</span><span class="menu-arrow2">›</span></div>
+      <div class="menu-item" id="logout-btn"><span class="menu-icon2">🚪</span><span class="menu-text2" style="color:#c62828;">Logout</span><span class="menu-arrow2">›</span></div>
     </div>
-    <div style="text-align:center; padding:20px; color:var(--text3); font-size:12px;">Gram Bazaar v1.0 • Seller Panel</div>
+    <div style="text-align:center; padding:20px; color:var(--text3); font-size:12px;">Gram Bazaar v2.0 • Seller Panel</div>
   </div>
 
   <!-- ─── BOTTOM NAV ─── -->
   <div class="bottom-nav">
     <button class="nav-btn active" id="nav-requests" onclick="switchPage('requests')">
-      <span class="nav-icon-wrap">
-        <span class="nav-icon">📋</span>
-        <span class="nav-dot" id="req-dot"></span>
-      </span>
+      <span class="nav-icon-wrap"><span class="nav-icon">📋</span><span class="nav-dot" id="req-dot" style="display:none;"></span></span>
       <span class="nav-label">Requests</span>
     </button>
-    <button class="nav-btn" id="nav-earnings" onclick="switchPage('earnings')">
-      <span class="nav-icon">💰</span>
-      <span class="nav-label">Kamaai</span>
+    <button class="nav-btn" id="nav-services" onclick="switchPage('services'); loadMyServices();">
+      <span class="nav-icon">🛠️</span><span class="nav-label">Services</span>
     </button>
-    <button class="nav-btn" id="nav-settings" onclick="switchPage('settings')">
-      <span class="nav-icon">⚙️</span>
-      <span class="nav-label">Settings</span>
+    <button class="nav-btn" id="nav-earnings" onclick="switchPage('earnings'); loadKamaai();">
+      <span class="nav-icon">💰</span><span class="nav-label">Kamaai</span>
     </button>
-    <button class="nav-btn" id="nav-profile" onclick="switchPage('profile')">
-      <span class="nav-icon">👤</span>
-      <span class="nav-label">Profile</span>
+    <button class="nav-btn" id="nav-profile" onclick="switchPage('profile'); loadProfile();">
+      <span class="nav-icon">👤</span><span class="nav-label">Profile</span>
     </button>
   </div>
 </div>
 
-<!-- ═══ QR MODAL ═══ -->
-<div class="modal-overlay" id="qr-modal" onclick="closeModal(event)">
+<!-- ADD SERVICE MODAL -->
+<div class="modal-overlay" id="add-service-modal" onclick="closeAddModal(event)">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
-    <div class="modal-title">🔳 Mera QR Code</div>
-    <div class="modal-sub">Customer isko scan karke payment karein</div>
-    <div class="qr-container">
-      <div class="qr-box">
-        <canvas id="qr-canvas" width="180" height="180"></canvas>
+    <div class="modal-title">🛠️ Nayi Service Add Karo</div>
+    <div class="form-group">
+      <label class="form-label">Service Type</label>
+      <select id="svc-type" class="form-input">
+        <option value="tent">⛺ Tent</option>
+        <option value="kirana">🛒 Kirana</option>
+        <option value="gadi">🚗 Gadi Rent</option>
+        <option value="tractor">🚜 Tractor</option>
+        <option value="khana">🍛 Khana</option>
+        <option value="karigar">🔧 Karigar</option>
+        <option value="garments">👕 Garments</option>
+        <option value="hardware">🏗️ Hardware</option>
+        <option value="electronics">📱 Electronics</option>
+        <option value="furniture">🪑 Furniture</option>
+        <option value="medical">💊 Medical</option>
+        <option value="other">🏪 Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Title / Naam</label>
+      <input type="text" id="svc-title" class="form-input" placeholder="Jaise: Mahindra 575 Tractor, Auto Rickshaw...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea id="svc-desc" class="form-input" rows="2" placeholder="Kya kya milega, koi khaas info..."></textarea>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div class="form-group">
+        <label class="form-label">Price (₹)</label>
+        <input type="number" id="svc-price" class="form-input" placeholder="500">
       </div>
-      <div class="upi-display" id="qr-upi-label">rajutent@upi</div>
-      <div style="font-size:12px; color:#888; text-align:center; line-height:1.6;">
-        PhonePe • Google Pay • Paytm • BHIM<br>
-        <strong id="qr-business-label" style="color:#7c3a1a;">Raju Tent House</strong>
+      <div class="form-group">
+        <label class="form-label">Price Unit</label>
+        <select id="svc-unit" class="form-input">
+          <option value="per day">Per Din</option>
+          <option value="per hour">Per Ghante</option>
+          <option value="per km">Per KM</option>
+          <option value="per trip">Per Trip</option>
+          <option value="per bigha">Per Bigha</option>
+          <option value="fixed">Fixed</option>
+        </select>
       </div>
     </div>
-    <button class="modal-close" onclick="document.getElementById('qr-modal').classList.remove('open')">Band Karo</button>
+    <input type="hidden" id="svc-edit-id">
+    <button class="btn-primary" onclick="saveService()">💾 Service Save Karo</button>
+    <button class="modal-close" onclick="document.getElementById('add-service-modal').classList.remove('open')">Wapas Jao</button>
   </div>
 </div>
 
-<!-- ═══ TOAST ═══ -->
-<div class="toast-wrap">
-  <div class="toast" id="toast"></div>
-</div>
+<!-- TOAST -->
+<div class="toast-wrap"><div class="toast" id="toast"></div></div>
 
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script>
-// ─── Page Nav ───
+// ── Auth check ──
+(function(){
+  if(!api.isLoggedIn()){ window.location.href='../auth/login.html'; return; }
+  if(api.getRole()!=='seller'){ window.location.href='../auth/login.html'; return; }
+})();
+
+const socket = initSocket();
+const CAT_ICON = {tent:'⛺',kirana:'🛒',gadi:'🚗',tractor:'🚜',khana:'🍛',karigar:'🔧',garments:'👕',hardware:'🏗️',electronics:'📱',furniture:'🪑',medical:'💊',other:'🏪'};
+let isOnlineState = false;
+
+// ── Navigation ──
 function switchPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
@@ -509,353 +361,349 @@ function switchPage(name) {
   if (n) n.classList.add('active');
 }
 
-// ─── Online Toggle ───
-let isOnline = true;
-function toggleOnline() {
-  isOnline = !isOnline;
+// ── Online Toggle — calls API ──
+async function toggleOnline() {
+  const res = await api.post('/seller/toggle-online', {});
+  if (res && res.success) {
+    isOnlineState = !!res.is_online;
+    updateOnlineUI(isOnlineState);
+    showToast(res.message || (isOnlineState ? '🟢 Online ho gaye!' : '🔴 Offline ho gaye'));
+    if (socket) socket.emit('seller_status', { is_online: isOnlineState });
+  } else {
+    showToast('❌ Status update nahi hua. Dobara try karein.');
+  }
+}
+
+function updateOnlineUI(online) {
   const toggle = document.getElementById('online-toggle');
-  const statusText = document.getElementById('online-status-text');
-  if (isOnline) {
+  const text = document.getElementById('online-status-text');
+  const sub = document.getElementById('online-status-sub');
+  if (online) {
     toggle.classList.remove('off');
-    statusText.textContent = '🟢 Main Online Hoon';
-    showToast('Aap online hain! Nayi bookings aa sakti hain.');
+    text.textContent = '🟢 Main Online Hoon';
+    sub.textContent = 'Nayi bookings aa rahi hain';
   } else {
     toggle.classList.add('off');
-    statusText.textContent = '🔴 Main Offline Hoon';
-    showToast('Aap offline hain. Nayi bookings nahi aayengi.');
+    text.textContent = '🔴 Main Offline Hoon';
+    sub.textContent = 'Online ho jaiye taaki requests aayein';
   }
 }
 
-// ─── Accept / Decline ───
-let newCount = 3;
-function acceptReq(id, name) {
-  const card = document.getElementById(id);
-  card.classList.remove('urgent');
-  card.querySelector('.badge').className = 'badge b-confirmed';
-  card.querySelector('.badge').textContent = 'Accepted';
-  card.querySelector('.req-actions').innerHTML =
-    '<button class="btn-complete" onclick="markDone(\'' + id + '\')">✓ Kaam Poora Kiya</button>' +
-    '<button class="btn-call">📞 Call</button>';
-  newCount--;
-  updateNewCount();
-  showToast('✅ ' + name + ' ki booking accept kar li! Unhe call karein.');
-}
-
-function declineReq(id) {
-  const card = document.getElementById(id);
-  card.classList.remove('urgent');
-  card.querySelector('.badge').className = 'badge b-declined';
-  card.querySelector('.badge').textContent = 'Declined';
-  card.querySelector('.req-actions').remove();
-  card.style.opacity = '0.55';
-  newCount--;
-  updateNewCount();
-  showToast('Request decline kar di.');
-}
-
-function markDone(id) {
-  const card = document.getElementById(id);
-  card.querySelector('.badge').className = 'badge b-done';
-  card.querySelector('.badge').textContent = 'Complete';
-  const actions = card.querySelector('.req-actions');
-  if (actions) actions.remove();
-  showToast('🎉 Kaam poora mark kar diya! Payment le lena.');
-}
-
-function updateNewCount() {
-  document.getElementById('stat-new').textContent = newCount;
-  if (newCount === 0) document.getElementById('req-dot').style.display = 'none';
-}
-
-// ─── Services Toggle ───
-function flipMini(el) {
-  el.classList.toggle('off');
-}
-
-// ─── Save UPI ───
-function saveUPI() {
-  const name = document.getElementById('upi-business-name').value;
-  const upi = document.getElementById('upi-id-input').value;
-  if (!upi || !name) { showToast('Kripya naam aur UPI ID dono bharein.'); return; }
-  localStorage.setItem('gb_upi', upi);
-  localStorage.setItem('gb_name', name);
-  document.getElementById('qr-upi-label').textContent = upi;
-  document.getElementById('qr-business-label').textContent = name;
-  showToast('✅ UPI save ho gaya! Ab QR code taiyaar hai.');
-}
-
-// ─── QR Modal ───
-function showQRModal() {
-  const upi = document.getElementById('upi-id-input').value || 'rajutent@upi';
-  const name = document.getElementById('upi-business-name').value || 'Raju Tent House';
-  document.getElementById('qr-upi-label').textContent = upi;
-  document.getElementById('qr-business-label').textContent = name;
-  drawQR(upi, name);
-  document.getElementById('qr-modal').classList.add('open');
-}
-
-function closeModal(e) {
-  if (e.target === document.getElementById('qr-modal')) {
-    document.getElementById('qr-modal').classList.remove('open');
-  }
-}
-
-// ─── QR Code Drawing ───
-function drawQR(upiId, name) {
-  const canvas = document.getElementById('qr-canvas');
-  const ctx = canvas.getContext('2d');
-  const size = 180;
-  canvas.width = size; canvas.height = size;
-  ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, size, size);
-
-  const str = 'upi://pay?pa=' + upiId + '&pn=' + encodeURIComponent(name);
-  const cellSize = 6;
-  const cols = Math.floor(size / cellSize);
-
-  // Seeded RNG from UPI string
-  let seed = 0;
-  for (let i = 0; i < str.length; i++) seed = (seed * 31 + str.charCodeAt(i)) & 0xffffffff;
-  function rng() { seed = (seed * 1664525 + 1013904223) & 0xffffffff; return (seed >>> 0) / 4294967296; }
-
-  ctx.fillStyle = '#7c3a1a';
-  for (let r = 0; r < cols; r++) {
-    for (let c = 0; c < cols; c++) {
-      const inFinder = (r < 8 && c < 8) || (r < 8 && c >= cols-8) || (r >= cols-8 && c < 8);
-      if (!inFinder && rng() > 0.47) {
-        ctx.fillRect(c * cellSize, r * cellSize, cellSize - 0.5, cellSize - 0.5);
-      }
-    }
-  }
-
-  // Finder patterns
-  [[0,0],[0,cols-7],[cols-7,0]].forEach(([r,c]) => {
-    ctx.fillStyle = '#7c3a1a';
-    ctx.fillRect(c*cellSize, r*cellSize, 7*cellSize, 7*cellSize);
-    ctx.fillStyle = 'white';
-    ctx.fillRect((c+1)*cellSize, (r+1)*cellSize, 5*cellSize, 5*cellSize);
-    ctx.fillStyle = '#7c3a1a';
-    ctx.fillRect((c+2)*cellSize, (r+2)*cellSize, 3*cellSize, 3*cellSize);
-  });
-
-  // Center logo
-  const cx = size/2, cy = size/2;
-  ctx.fillStyle = 'white';
-  ctx.beginPath(); ctx.arc(cx, cy, 18, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#c25c2c';
-  ctx.beginPath(); ctx.arc(cx, cy, 16, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = 'white';
-  ctx.font = 'bold 15px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('₹', cx, cy);
-}
-
-// ─── Toast ───
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// ─── Init ───
-window.addEventListener('load', () => {
-  const savedUpi = localStorage.getItem('gb_upi');
-  const savedName = localStorage.getItem('gb_name');
-  if (savedUpi) document.getElementById('upi-id-input').value = savedUpi;
-  if (savedName) document.getElementById('upi-business-name').value = savedName;
-});
-</script>
-</body>
-</html>
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<script>
-(function(){
-  if(!api.isLoggedIn()){window.location.href='../auth/login.html';return;}
-  if(api.getRole()!=='seller'){window.location.href='../auth/login.html';return;}
-  const user=api.getUser();
-  if(user){const e=document.querySelector('.seller-tag');if(e)e.textContent=user.name;}
-})();
-const socket=initSocket();
-
-const CAT_ICON = {
-  tent:'⛺', kirana:'🛒', gadi:'🚗', tractor:'🚜', khana:'🍛',
-  karigar:'🔧', garments:'👕', hardware:'🏗️', electronics:'📱',
-  furniture:'🪑', medical:'💊', other:'🏪'
-};
-
-async function loadDashboard(){
+// ── Load Dashboard ──
+async function loadDashboard() {
   const res = await api.get('/seller/dashboard');
-  if(!res||!res.success) return;
+  if (!res || !res.success) return;
   const s = res.stats;
-  const set = (id,val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
-  set('stat-new',     s.new_orders||0);
-  set('stat-active',  s.active_orders||0);
-  set('stat-earning', '₹'+(s.month_earned||s.week_earned||0));
-  set('stat-rating',  (s.rating||0)+'⭐');
-  set('stat-done',    s.completed_orders||0);
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('stat-new',     s.new_orders || 0);
+  set('stat-active',  s.active_orders || 0);
+  set('stat-earning', '₹' + (s.month_earned || 0));
+  set('stat-rating',  (parseFloat(s.rating || 0).toFixed(1)) + '⭐');
+  // New requests dot
+  const dot = document.getElementById('req-dot');
+  if (dot) dot.style.display = (s.new_orders > 0) ? 'block' : 'none';
+  // Online status from DB
+  isOnlineState = !!s.is_online;
+  updateOnlineUI(isOnlineState);
 }
 
-async function loadOrders(){
-  // Pending orders
-  const pendingRes = await api.get('/orders/seller?status=pending');
+// ── Load Orders ──
+async function loadOrders() {
+  // Pending (new) orders
   const newList = document.getElementById('new-requests-list');
-  const noNew = document.getElementById('no-new-requests');
-  if(pendingRes && pendingRes.success && pendingRes.orders && pendingRes.orders.length){
-    noNew.style.display = 'none';
-    pendingRes.orders.forEach(o => {
-      const card = document.createElement('div');
-      card.className = 'request-card urgent';
-      card.id = 'order-'+o.id;
-      card.innerHTML = `
-        <div class="req-top">
-          <div class="req-left">
-            <div class="req-type">${CAT_ICON[o.service_type]||'📦'} ${o.service_type.charAt(0).toUpperCase()+o.service_type.slice(1)}</div>
-            <div class="req-customer">👤 ${o.customer_name||'Customer'} • 📱 ${o.customer_phone||''}</div>
-          </div>
-          <span class="badge b-new">Nayi</span>
-        </div>
-        <div class="req-body">${o.notes||'—'}</div>
-        <div class="req-meta">📅 ${o.booking_date||''} • 📍 ${o.address||''}</div>
-        <div class="req-amount">Total: ₹${o.total_amount}</div>
-        <div class="req-actions">
-          <button class="btn-accept" onclick="updateOrderStatus(${o.id},'confirmed','order-${o.id}')">✓ Accept Karo</button>
-          <button class="btn-call" onclick="showToast('${o.customer_phone||''} par call karo')">📞 Call</button>
-          <button class="btn-decline" onclick="updateOrderStatus(${o.id},'cancelled','order-${o.id}')">✕</button>
-        </div>`;
-      newList.appendChild(card);
-    });
+  const pendingRes = await api.get('/orders/seller?status=pending');
+  if (pendingRes && pendingRes.success && pendingRes.orders && pendingRes.orders.length) {
+    newList.innerHTML = '';
+    pendingRes.orders.forEach(o => newList.appendChild(makeOrderCard(o, 'pending')));
+  } else {
+    newList.innerHTML = '<div class="empty-state"><span class="e-icon">📭</span><p>Abhi koi nayi request nahi</p></div>';
   }
 
   // Confirmed orders
-  const confRes = await api.get('/orders/seller?status=confirmed');
   const confList = document.getElementById('confirmed-orders-list');
-  const noConf = document.getElementById('no-confirmed');
-  if(confRes && confRes.success && confRes.orders && confRes.orders.length){
-    noConf.style.display = 'none';
-    confRes.orders.forEach(o => {
-      const card = document.createElement('div');
-      card.className = 'request-card';
-      card.id = 'conf-'+o.id;
-      card.innerHTML = `
-        <div class="req-top">
-          <div class="req-left">
-            <div class="req-type">${CAT_ICON[o.service_type]||'📦'} ${o.customer_name||'Customer'}</div>
-            <div class="req-customer">📱 ${o.customer_phone||''} • 📍 ${o.address||''}</div>
-          </div>
-          <span class="badge b-confirmed">Confirmed</span>
+  const confRes = await api.get('/orders/seller?status=confirmed');
+  if (confRes && confRes.success && confRes.orders && confRes.orders.length) {
+    confList.innerHTML = '';
+    confRes.orders.forEach(o => confList.appendChild(makeOrderCard(o, 'confirmed')));
+  } else {
+    confList.innerHTML = '<div class="empty-state"><span class="e-icon">📋</span><p>Koi confirmed booking nahi</p></div>';
+  }
+}
+
+function makeOrderCard(o, type) {
+  const div = document.createElement('div');
+  div.className = 'request-card' + (type === 'pending' ? ' urgent' : '');
+  div.id = 'order-card-' + o.id;
+
+  const callBtn = o.customer_phone
+    ? `<a href="tel:${o.customer_phone}" class="btn-call">📞 Call</a>`
+    : '';
+
+  if (type === 'pending') {
+    div.innerHTML = `
+      <div class="req-top">
+        <div>
+          <div class="req-type">${CAT_ICON[o.service_type]||'📦'} ${o.service_type.charAt(0).toUpperCase()+o.service_type.slice(1)}</div>
+          <div class="req-customer">👤 ${o.customer_name||'Customer'} ${o.customer_phone ? '• 📱 '+o.customer_phone : ''}</div>
         </div>
-        <div class="req-body">${o.notes||'—'}</div>
-        <div class="req-meta">📅 ${o.booking_date||''}</div>
-        <div class="req-amount">Total: ₹${o.total_amount}</div>
-        <div class="req-actions">
-          <button class="btn-complete" onclick="updateOrderStatus(${o.id},'completed','conf-${o.id}')">✓ Kaam Poora Kiya</button>
-          <button class="btn-call" onclick="showToast('${o.customer_phone||''} par call karo')">📞 Call</button>
-        </div>`;
-      confList.appendChild(card);
-    });
+        <span class="badge b-new">Nayi</span>
+      </div>
+      <div class="req-body">${o.notes || '—'}</div>
+      <div class="req-meta">📅 ${o.booking_date||'Date nahi'} · 📍 ${o.address||'Address nahi'}</div>
+      ${o.total_amount > 0 ? `<div class="req-amount">Total: ₹${o.total_amount}</div>` : ''}
+      <div class="req-actions">
+        <button class="btn-accept" onclick="updateOrderStatus(${o.id},'confirmed','order-card-${o.id}', 'pending')">✓ Accept Karo</button>
+        ${callBtn}
+        <button class="btn-decline" onclick="updateOrderStatus(${o.id},'cancelled','order-card-${o.id}', 'pending')">✕</button>
+      </div>`;
+  } else {
+    div.innerHTML = `
+      <div class="req-top">
+        <div>
+          <div class="req-type">${CAT_ICON[o.service_type]||'📦'} ${o.customer_name||'Customer'}</div>
+          <div class="req-customer">${o.customer_phone ? '📱 '+o.customer_phone : ''} · 📍 ${o.address||''}</div>
+        </div>
+        <span class="badge b-confirmed">Confirmed</span>
+      </div>
+      <div class="req-body">${o.notes || '—'}</div>
+      <div class="req-meta">📅 ${o.booking_date||'—'}</div>
+      <div class="req-actions">
+        <button class="btn-complete" onclick="updateOrderStatus(${o.id},'completed','order-card-${o.id}', 'confirmed')">✓ Kaam Poora Kiya</button>
+        ${callBtn}
+      </div>`;
+  }
+  return div;
+}
+
+async function updateOrderStatus(orderId, status, cardId, fromType) {
+  const res = await api.put('/orders/' + orderId + '/status', { status });
+  if (res && res.success) {
+    const card = document.getElementById(cardId);
+    if (card) card.remove();
+    const msgs = { confirmed: '✅ Order accept kar liya!', completed: '🎉 Order complete! Payment le lena.', cancelled: '❌ Order decline kar diya.' };
+    showToast(msgs[status] || 'Status update ho gaya!');
+    loadDashboard();
+    // Reload opposite list if moving between pending/confirmed
+    if (status === 'confirmed') loadOrders();
+  } else {
+    showToast('❌ Error: ' + (res?.message || 'Try again'));
   }
 }
 
-async function loadProfile(){
-  const user = api.getUser();
-  if(user){
-    const av = document.getElementById('sp-avatar');
-    if(av) av.textContent = user.name.charAt(0).toUpperCase();
+// ── My Services ──
+async function loadMyServices() {
+  const el = document.getElementById('my-services-list');
+  el.innerHTML = '<div class="loader"><div class="loader-spin"></div></div>';
+  const res = await api.get('/seller/services');
+  if (!res || !res.success || !res.services || !res.services.length) {
+    el.innerHTML = `<div class="empty-state"><span class="e-icon">🛠️</span><p>Abhi koi service add nahi ki</p><p style="font-size:12px;margin-top:6px;">+ Add Karo button se nayi service add karein</p></div>`;
+    return;
   }
-  const res = await api.get('/seller/dashboard');
-  if(!res||!res.success) return;
-  const s = res.stats;
-  const set = (id,val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
-  set('sp-rating',       s.rating||0);
-  set('sp-reviews',      s.total_reviews||0);
-  set('sp-total-orders', s.total_orders||0);
-  set('sp-completed',    s.completed_orders||0);
-  set('sp-earned',       '₹'+(s.total_earned||0));
+  el.innerHTML = '';
+  res.services.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'my-service-card';
+    div.innerHTML = `
+      <div class="msc-top">
+        <div>
+          <div class="msc-name">${CAT_ICON[s.type]||'🏪'} ${s.title}</div>
+          <div class="msc-type">${s.type} · ${s.is_active ? '🟢 Active' : '🔴 Inactive'}</div>
+        </div>
+        <div class="msc-price">₹${s.price}<span style="font-size:10px;font-weight:400;color:var(--text3);">/${s.price_unit}</span></div>
+      </div>
+      ${s.description ? `<div style="font-size:12px;color:var(--text2);margin-bottom:8px;">${s.description}</div>` : ''}
+      <div class="msc-actions">
+        <button class="btn-sm btn-sm-orange" onclick="editService(${s.id},'${s.type}','${s.title.replace(/'/g,"\\'")}','${(s.description||'').replace(/'/g,"\\'")}',${s.price},'${s.price_unit}')">✏️ Edit</button>
+        <button class="btn-sm" style="background:${s.is_active?'var(--red-light)':'var(--green-light)'};color:${s.is_active?'var(--red)':'var(--green)'};" 
+          onclick="toggleService(${s.id}, ${s.is_active?0:1})">${s.is_active ? '⏸ Deactivate' : '▶ Activate'}</button>
+      </div>`;
+    el.appendChild(div);
+  });
+}
 
-  // Seller profile details
-  const profRes = await api.get('/auth/profile');
-  if(profRes && profRes.success && profRes.user){
-    const u = profRes.user;
-    set('sp-business-name', u.business_name || u.name);
-    const det = document.getElementById('sp-details');
-    if(det) det.innerHTML = u.name+'<br>📱 '+u.phone+(u.village?' • '+u.village:'');
-    // UPI fields bhi fill karo
-    const upiInput = document.getElementById('upi-id-input');
-    const bizInput = document.getElementById('upi-business-name');
-    if(upiInput && u.upi_id) upiInput.value = u.upi_id;
-    if(bizInput && u.business_name) bizInput.value = u.business_name;
+function openAddServiceModal() {
+  document.getElementById('svc-edit-id').value = '';
+  document.getElementById('svc-title').value = '';
+  document.getElementById('svc-desc').value = '';
+  document.getElementById('svc-price').value = '';
+  document.getElementById('add-service-modal').classList.add('open');
+}
+
+function editService(id, type, title, desc, price, unit) {
+  document.getElementById('svc-edit-id').value = id;
+  document.getElementById('svc-type').value = type;
+  document.getElementById('svc-title').value = title;
+  document.getElementById('svc-desc').value = desc;
+  document.getElementById('svc-price').value = price;
+  document.getElementById('svc-unit').value = unit;
+  document.getElementById('add-service-modal').classList.add('open');
+}
+
+async function saveService() {
+  const id = document.getElementById('svc-edit-id').value;
+  const type = document.getElementById('svc-type').value;
+  const title = document.getElementById('svc-title').value.trim();
+  const desc = document.getElementById('svc-desc').value.trim();
+  const price = parseFloat(document.getElementById('svc-price').value);
+  const unit = document.getElementById('svc-unit').value;
+  if (!title) return showToast('Title/Naam bharein');
+  if (!price || isNaN(price)) return showToast('Sahi price bharein');
+
+  const body = { type, title, description: desc, price, price_unit: unit };
+  if (id) body.id = parseInt(id);
+
+  const res = await api.post('/seller/services', body);
+  if (res && res.success) {
+    showToast('✅ Service save ho gayi!');
+    document.getElementById('add-service-modal').classList.remove('open');
+    loadMyServices();
+  } else {
+    showToast('❌ ' + (res?.message || 'Save failed'));
   }
 }
 
-async function loadKamaai(){
+async function toggleService(id, newActive) {
+  const res = await api.post('/seller/services', { id, is_active: newActive });
+  if (res && res.success) { showToast(newActive ? '✅ Service active ho gayi!' : '⏸ Service inactive ho gayi'); loadMyServices(); }
+  else showToast('❌ Update failed');
+}
+
+function closeAddModal(e) {
+  if (e.target === document.getElementById('add-service-modal')) document.getElementById('add-service-modal').classList.remove('open');
+}
+
+// ── Kamaai ──
+async function loadKamaai() {
   const res = await api.get('/seller/dashboard');
-  if(!res||!res.success) return;
+  if (!res || !res.success) return;
   const s = res.stats;
   const now = new Date();
-  document.getElementById('earn-month-label').textContent = now.toLocaleString('hi-IN',{month:'long',year:'numeric'})+' ki kamaai';
-  document.getElementById('earn-total').textContent = '₹'+(s.month_earned||0);
-  document.getElementById('earn-today').textContent = '₹'+(s.today_earned||0);
-  document.getElementById('earn-week').textContent = '₹'+(s.week_earned||0);
-  document.getElementById('earn-orders').textContent = s.completed_orders||0;
-  document.getElementById('earn-pending').textContent = '₹'+(s.pending_amount||0);
-  document.getElementById('earn-subtitle').textContent = 'Real-time data';
+  document.getElementById('earn-month-label').textContent = now.toLocaleString('hi-IN', {month:'long', year:'numeric'}) + ' ki kamaai';
+  document.getElementById('earn-total').textContent = '₹' + (s.month_earned || 0);
+  document.getElementById('earn-today').textContent = '₹' + (s.today_earned || 0);
+  document.getElementById('earn-week').textContent = '₹' + (s.week_earned || 0);
+  document.getElementById('earn-orders').textContent = s.completed_orders || 0;
+  document.getElementById('earn-pending').textContent = '₹' + (s.pending_amount || 0);
 
   const txnRes = await api.get('/payment/transactions');
   const txnList = document.getElementById('txn-list');
-  if(txnRes && txnRes.success && txnRes.transactions && txnRes.transactions.length){
+  if (txnRes && txnRes.success && txnRes.transactions && txnRes.transactions.length) {
     txnList.innerHTML = '';
     txnRes.transactions.forEach(t => {
       const div = document.createElement('div');
       div.className = 'txn-item';
-      div.innerHTML = `
-        <div class="txn-icon credit">💰</div>
-        <div class="txn-info">
-          <div class="txn-name">${t.customer_name||'Order #'+t.order_id}</div>
-          <div class="txn-date">${new Date(t.created_at).toLocaleDateString('hi-IN')} • ${t.upi_ref?'UPI':'Cash'}</div>
-        </div>
-        <div class="txn-amount credit">+₹${t.amount}</div>`;
+      div.innerHTML = `<div class="txn-icon credit">💰</div><div class="txn-info"><div class="txn-name">${t.customer_name||'Order #'+t.order_id}</div><div class="txn-date">${new Date(t.created_at).toLocaleDateString('hi-IN')}</div></div><div class="txn-amount">+₹${t.amount}</div>`;
       txnList.appendChild(div);
     });
   }
 }
 
-async function updateOrderStatus(orderId, status, cardId){
-  const res = await api.put('/orders/'+orderId+'/status', {status});
-  if(res && res.success){
-    const card = document.getElementById(cardId);
-    if(card) card.remove();
-    showToast(status==='confirmed'?'✅ Order accept kar liya!':status==='completed'?'🎉 Order complete!':'❌ Order decline kar diya');
-    loadDashboard();
-  } else {
-    showToast('❌ Error: '+(res?.message||'Try again'));
+// ── Profile (from DB) ──
+async function loadProfile() {
+  const profRes = await api.get('/auth/profile');
+  if (profRes && profRes.success && profRes.user) {
+    const u = profRes.user;
+    // Update localStorage
+    const updatedUser = { ...(api.getUser()||{}), ...u };
+    localStorage.setItem('gb_user', JSON.stringify(updatedUser));
+
+    const initials = u.name ? u.name.charAt(0).toUpperCase() : '?';
+    const av = document.getElementById('sp-avatar'); if (av) av.textContent = initials;
+    const tag = document.getElementById('seller-tag'); if (tag) tag.textContent = profRes.sellerProfile?.business_name || u.name;
+
+    document.getElementById('sp-business-name').textContent = profRes.sellerProfile?.business_name || u.name;
+    document.getElementById('sp-details').innerHTML = u.name + '<br>📱 ' + u.phone + (u.village ? ' • ' + u.village : '');
+
+    // Fill UPI fields from DB
+    const upiInput = document.getElementById('upi-id-input');
+    const bizInput = document.getElementById('upi-business-name');
+    const mobInput = document.getElementById('upi-mobile');
+    if (upiInput && profRes.sellerProfile?.upi_id) upiInput.value = profRes.sellerProfile.upi_id;
+    if (bizInput && profRes.sellerProfile?.business_name) bizInput.value = profRes.sellerProfile.business_name;
+    if (mobInput) mobInput.value = u.phone || '';
+  }
+
+  const dashRes = await api.get('/seller/dashboard');
+  if (dashRes && dashRes.success) {
+    const s = dashRes.stats;
+    document.getElementById('sp-rating').textContent = parseFloat(s.rating||0).toFixed(1);
+    document.getElementById('sp-reviews').textContent = s.total_reviews || 0;
+    document.getElementById('sp-total-orders').textContent = s.total_orders || 0;
+    document.getElementById('sp-completed').textContent = s.completed_orders || 0;
+    document.getElementById('sp-earned').textContent = '₹' + (s.total_earned || 0);
   }
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
-  loadDashboard();
-  loadOrders();
-  loadProfile();
-  loadKamaai();
-  const logoutBtn = document.getElementById('logout-btn');
-  if(logoutBtn) logoutBtn.onclick = () => { api.logout(); };
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const page = item.dataset.page;
-      if(page === 'earnings') loadKamaai();
-      if(page === 'profile') loadProfile();
-    });
-  });
-});
+async function saveProfile() {
+  const bizName = document.getElementById('upi-business-name').value.trim();
+  const upiId = document.getElementById('upi-id-input').value.trim();
+  const user = api.getUser();
+  if (!bizName) return showToast('Business naam bharein');
 
-if(socket){
+  const res = await api.put('/auth/profile', {
+    name: user?.name,
+    email: user?.email,
+    village: user?.village,
+    district: user?.district,
+    business_name: bizName,
+    upi_id: upiId
+  });
+  if (res && res.success) { showToast('✅ Profile save ho gayi!'); loadProfile(); }
+  else showToast('❌ ' + (res?.message || 'Save failed'));
+}
+
+// ── Toast ──
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Socket ──
+if (socket) {
   socket.on('new_order', data => {
     loadDashboard();
     loadOrders();
-    showToast('🔔 Nayi booking! '+data.customer_name+' – ₹'+data.total_amount);
+    showToast('🔔 Nayi booking! ' + data.customer_name + (data.service_type ? ' – ' + data.service_type : ''));
+    // Browser notification
+    if (Notification && Notification.permission === 'granted') {
+      new Notification('🔔 Gram Bazaar – Nayi Booking!', { body: data.customer_name + ' ne booking ki hai', icon: '/favicon.ico' });
+    }
+  });
+  socket.on('order_update', data => {
+    showToast('📦 Order update: ' + (data.status||''));
+    loadDashboard();
   });
 }
+
+// ── Request notification permission ──
+function requestNotifPermission() {
+  if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+
+// ── Logout ──
+document.getElementById('logout-btn').onclick = () => api.logout();
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  requestNotifPermission();
+  loadDashboard();
+  loadOrders();
+  // Load profile for seller tag
+  (async () => {
+    const profRes = await api.get('/auth/profile');
+    if (profRes && profRes.success) {
+      const tag = document.getElementById('seller-tag');
+      if (tag) tag.textContent = profRes.sellerProfile?.business_name || profRes.user?.name || 'Seller';
+      const av = document.getElementById('sp-avatar');
+      if (av && profRes.user?.name) av.textContent = profRes.user.name.charAt(0).toUpperCase();
+    }
+  })();
+});
 </script>
+</body>
+</html>
