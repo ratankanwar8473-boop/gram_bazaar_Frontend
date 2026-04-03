@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Apni Services Chunein – Gram Bazaar</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Hind',sans-serif;background:#f5f5f0;min-height:100vh;}
+  .header{background:linear-gradient(135deg,#7c3a1a,#c25c2c);padding:20px 16px 24px;color:white;text-align:center;}
+  .header h1{font-family:'Baloo 2';font-size:22px;font-weight:800;}
+  .header p{font-size:13px;opacity:0.85;margin-top:4px;}
+  .subtitle{background:white;margin:14px;border-radius:12px;padding:14px 16px;font-size:13px;color:#555;border-left:4px solid #c25c2c;}
+  .subtitle strong{color:#7c3a1a;display:block;margin-bottom:4px;font-size:14px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px 14px;}
+  .cat-card{background:white;border-radius:14px;padding:16px 12px;text-align:center;border:2px solid #e0e0e0;cursor:pointer;transition:all .2s;user-select:none;}
+  .cat-card:active{transform:scale(0.97);}
+  .cat-card.selected{border-color:#c25c2c;background:#fff8f5;}
+  .cat-card .icon{font-size:32px;margin-bottom:8px;}
+  .cat-card .name{font-family:'Baloo 2';font-size:14px;font-weight:700;color:#1a1a2e;}
+  .cat-card .desc{font-size:11px;color:#888;margin-top:3px;}
+  .cat-card .check{display:none;position:absolute;top:8px;right:8px;background:#c25c2c;color:white;border-radius:50%;width:20px;height:20px;font-size:11px;align-items:center;justify-content:center;}
+  .cat-card{position:relative;}
+  .cat-card.selected .check{display:flex;}
+  .footer{padding:14px;position:sticky;bottom:0;background:#f5f5f0;}
+  .btn-save{width:100%;padding:16px;background:linear-gradient(135deg,#7c3a1a,#c25c2c);color:white;border:none;border-radius:14px;font-family:'Baloo 2';font-size:16px;font-weight:700;cursor:pointer;}
+  .btn-save:disabled{opacity:0.5;cursor:not-allowed;}
+  .count-badge{background:rgba(255,255,255,0.25);border-radius:20px;padding:2px 10px;font-size:12px;margin-top:8px;display:inline-block;}
+  .skip-btn{text-align:center;padding:0 14px 16px;color:#888;font-size:13px;cursor:pointer;text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏪 Apni Services Chunein</h1>
+  <p>Aap kaunsa kaam karte hain?</p>
+  <div class="count-badge" id="count-badge">0 selected</div>
+</div>
+
+<div class="subtitle">
+  <strong>👋 Welcome!</strong>
+  Neeche apni services select karo — customers inhi ke basis pe aapko dhundhenge. Baad mein bhi change kar sakte hain.
+</div>
+
+<div class="grid" id="cat-grid">
+  <div class="cat-card" data-type="tent" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">⛺</div>
+    <div class="name">Tent / Shamiyana</div>
+    <div class="desc">Shadi, function, jagran</div>
+  </div>
+  <div class="cat-card" data-type="kirana" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">🛒</div>
+    <div class="name">Kirana</div>
+    <div class="desc">Grocery, daily items</div>
+  </div>
+  <div class="cat-card" data-type="gadi" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">🚗</div>
+    <div class="name">Gadi Rent</div>
+    <div class="desc">Car, jeep, local travel</div>
+  </div>
+  <div class="cat-card" data-type="tractor" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">🚜</div>
+    <div class="name">Tractor</div>
+    <div class="desc">Kheti, jotai, transport</div>
+  </div>
+  <div class="cat-card" data-type="khana" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">🍛</div>
+    <div class="name">Khana / Catering</div>
+    <div class="desc">Tiffin, function khana</div>
+  </div>
+  <div class="cat-card" data-type="karigar" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">🔧</div>
+    <div class="name">Karigar</div>
+    <div class="desc">Mistri, plumber, electrician</div>
+  </div>
+  <div class="cat-card" data-type="garments" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">👕</div>
+    <div class="name">Garments</div>
+    <div class="desc">Kapde, stitching, boutique</div>
+  </div>
+  <div class="cat-card" data-type="hardware" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">🏗️</div>
+    <div class="name">Hardware</div>
+    <div class="desc">Tiles, cement, iron</div>
+  </div>
+  <div class="cat-card" data-type="electronics" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">📱</div>
+    <div class="name">Electronics</div>
+    <div class="desc">Mobile, repair, gadgets</div>
+  </div>
+  <div class="cat-card" data-type="furniture" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">🪑</div>
+    <div class="name">Furniture</div>
+    <div class="desc">Sofa, bed, almirah</div>
+  </div>
+  <div class="cat-card" data-type="medical" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">💊</div>
+    <div class="name">Medical / Pharmacy</div>
+    <div class="desc">Dawai, health products</div>
+  </div>
+  <div class="cat-card" data-type="other" onclick="toggle(this)">
+    <div class="check">✓</div>
+    <div class="icon">🏪</div>
+    <div class="name">Other</div>
+    <div class="desc">Koi bhi aur service</div>
+  </div>
+</div>
+
+<div class="footer">
+  <button class="btn-save" id="save-btn" onclick="saveServices()" disabled>
+    Services Save Karo →
+  </button>
+</div>
+<div class="skip-btn" onclick="skip()">Baad mein set karenge →</div>
+
+<script src="../shared/js/config.js"></script>
+<script src="../shared/js/api.js"></script>
+<script>
+(function(){
+  if(!api.isLoggedIn()) { window.location.href='../auth/login.html'; return; }
+  if(api.getRole()!=='seller') { window.location.href='../auth/login.html'; return; }
+})();
+
+const selected = new Set();
+
+function toggle(card){
+  const type = card.dataset.type;
+  if(selected.has(type)){
+    selected.delete(type);
+    card.classList.remove('selected');
+  } else {
+    selected.add(type);
+    card.classList.add('selected');
+  }
+  const badge = document.getElementById('count-badge');
+  badge.textContent = selected.size + ' selected';
+  document.getElementById('save-btn').disabled = selected.size === 0;
+}
+
+async function saveServices(){
+  const btn = document.getElementById('save-btn');
+  btn.textContent = 'Save ho raha hai...';
+  btn.disabled = true;
+
+  const user = api.getUser();
+  const bizName = user?.business_name || user?.name || 'My Shop';
+
+  // Har selected category ke liye ek service entry banao
+  const promises = [...selected].map(type =>
+    api.post('/seller/services', {
+      type,
+      title: bizName,
+      description: '',
+      price: 0,
+      price_unit: 'per order',
+      is_active: 1
+    })
+  );
+
+  await Promise.all(promises);
+  window.location.href = 'index.html';
+}
+
+function skip(){
+  window.location.href = 'index.html';
+}
+</script>
+</body>
+</html>

@@ -47,7 +47,13 @@ const api = {
     localStorage.setItem('gb_role',  user.role);
   },
 
-  logout() {
+  async logout() {
+    try {
+      await fetch(API_BASE + '/auth/logout', {
+        method: 'POST',
+        headers: this.headers()
+      });
+    } catch(e) { /* ignore network errors on logout */ }
     localStorage.clear();
     window.location.href = '../auth/login.html';
   }

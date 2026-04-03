@@ -254,7 +254,11 @@ async function doRegister() {
   api.setSession(res.token, res.user);
   showToast('🎉 Welcome, ' + res.user.name + '!');
   setTimeout(() => {
-    window.location.href = urlRole === 'seller' ? '../seller/index.html' : '../customer/index.html';
+    if (urlRole === 'seller') {
+      window.location.href = '../seller/setup.html';
+    } else {
+      window.location.href = '../customer/index.html';
+    }
   }, 700);
 }
 
