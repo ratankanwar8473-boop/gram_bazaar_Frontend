@@ -777,57 +777,10 @@ select.form-input { cursor: pointer; }
     <div style="padding:14px 14px 0;">
       <div class="section-title" style="margin-bottom:12px;">Meri Bookings & Orders</div>
       <div class="order-list">
-        <div class="order-card">
-          <div class="order-top">
-            <div>
-              <div class="order-id">#ORD-2025-001</div>
-              <div class="order-type">⛺ Shadi Tent</div>
-            </div>
-            <span class="status-badge s-confirmed">Confirmed</span>
-          </div>
-          <div class="order-detail">300 log • Generator + DJ + Sound</div>
-          <div class="order-meta">📅 20–22 May 2025 • Raju Tent House • 📍 Rampur Gaon</div>
-          <div class="order-actions">
-            <button class="btn-sm btn-sm-green" onclick="showQRModal('Raju Tent House','rajutent@upi')">💳 Pay Karo</button>
-            <button class="btn-sm btn-sm-outline">📞 Call</button>
-          </div>
-        </div>
-        <div class="order-card">
-          <div class="order-top">
-            <div>
-              <div class="order-id">#ORD-2025-002</div>
-              <div class="order-type">🛒 Saman Order</div>
-            </div>
-            <span class="status-badge s-delivered">Delivered</span>
-          </div>
-          <div class="order-detail">Gehu, Doodh, Surf Excel, Sarson Tel</div>
-          <div class="order-meta">📅 1 May 2025 • Ram ki Dukan • ₹295 paid</div>
-        </div>
-        <div class="order-card">
-          <div class="order-top">
-            <div>
-              <div class="order-id">#ORD-2025-003</div>
-              <div class="order-type">🚜 Tractor Booking</div>
-            </div>
-            <span class="status-badge s-pending">Pending</span>
-          </div>
-          <div class="order-detail">Jotai ke liye • 2 din • Mahindra 575</div>
-          <div class="order-meta">📅 Aaj • Jailal Patel</div>
-          <div class="order-actions">
-            <button class="btn-sm btn-sm-green" onclick="showQRModal('Jailal Tractor','jailal.tractor@upi')">💳 Advance Do</button>
-            <button class="btn-sm btn-sm-outline">❌ Cancel</button>
-          </div>
-        </div>
-        <div class="order-card">
-          <div class="order-top">
-            <div>
-              <div class="order-id">#ORD-2025-004</div>
-              <div class="order-type">🔌 Karigar – Bijli Mistri</div>
-            </div>
-            <span class="status-badge s-delivered">Completed</span>
-          </div>
-          <div class="order-detail">Ghar ki wiring • Ramkhelawan Ji</div>
-          <div class="order-meta">📅 28 Apr 2025 • ₹600 paid</div>
+        <div id="no-orders-msg" style="text-align:center;padding:40px;color:#888;">
+          <div style="font-size:36px;margin-bottom:10px;">📦</div>
+          <div>Abhi koi order nahi hai</div>
+          <div style="font-size:12px;margin-top:6px;">Koi bhi service book karo!</div>
         </div>
       </div>
     </div>
@@ -836,13 +789,13 @@ select.form-input { cursor: pointer; }
   <!-- ═══ PAGE: PROFILE ═══ -->
   <div id="page-profile" class="page">
     <div class="profile-hero">
-      <div class="profile-avatar">R</div>
-      <div class="profile-name">Ramesh Kumar</div>
-      <div class="profile-phone">📱 98765-43210 • Rampur Gaon</div>
+      <div class="profile-avatar" id="profile-avatar">?</div>
+      <div class="profile-name" id="profile-name">Loading...</div>
+      <div class="profile-phone" id="profile-phone">📱 —</div>
     </div>
     <div class="stats-strip">
       <div class="stat-box">
-        <div class="stat-num">12</div>
+        <div class="stat-num" id="profile-orders">0</div>
         <div class="stat-label">Orders</div>
       </div>
       <div class="stat-box">
@@ -1085,18 +1038,48 @@ function showToast(msg) {
   if(user){const a=document.querySelector('.user-avatar');if(a)a.textContent=user.name.charAt(0).toUpperCase();}
 })();
 const socket=initSocket();
-function statusLabel(s){return{pending:'Pending',confirmed:'Confirm',in_progress:'Chal raha',completed:'Complete',cancelled:'Cancel'}[s]||s;}
+const CAT_ICON={tent:'⛺',kirana:'🛒',gadi:'🚗',tractor:'🚜',khana:'🍛',karigar:'🔧',garments:'👕',hardware:'🏗️',electronics:'📱',furniture:'🪑',medical:'💊',other:'🏪'};
+function statusLabel(s){return{pending:'Pending',confirmed:'Confirmed',in_progress:'Chal raha',completed:'Complete',cancelled:'Cancel'}[s]||s;}
 function statusColor(s){const m={pending:{bg:'#fff3e0',fg:'#e07b00'},confirmed:{bg:'#e3f0ff',fg:'#1565c0'},in_progress:{bg:'#f0faf2',fg:'#2d6a4f'},completed:{bg:'#d8f3dc',fg:'#1b4332'},cancelled:{bg:'#fdecea',fg:'#c62828'}};return m[s]||{bg:'#eee',fg:'#555'};}
 async function loadMyOrders(){
-  const res=await api.get('/orders/my');
-  if(!res||!res.success)return;
-  const list=document.querySelector('.order-list');
-  if(!list||!res.orders.length)return;
-  list.innerHTML=res.orders.map(o=>`<div class="order-card"><div class="order-top"><div><div class="order-id">${o.order_number}</div><div class="order-type">${o.service_type}</div></div><span class="status-badge" style="background:${statusColor(o.status).bg};color:${statusColor(o.status).fg}">${statusLabel(o.status)}</span></div><div class="order-detail">${o.business_name||o.seller_name||''}</div><div class="order-meta">📅 ${new Date(o.created_at).toLocaleDateString('hi-IN')} &nbsp;·&nbsp; 💰 ₹${o.total_amount}</div></div>`).join('');
+  const res = await api.get('/orders/my');
+  const list = document.querySelector('.order-list');
+  const noMsg = document.getElementById('no-orders-msg');
+  if(!res||!res.success||!res.orders||!res.orders.length){
+    if(noMsg) noMsg.style.display='block'; return;
+  }
+  if(noMsg) noMsg.style.display='none';
+  list.innerHTML = res.orders.map(o=>`
+    <div class="order-card">
+      <div class="order-top">
+        <div>
+          <div class="order-id">${o.order_number}</div>
+          <div class="order-type">${CAT_ICON[o.service_type]||'📦'} ${o.service_type}</div>
+        </div>
+        <span class="status-badge" style="background:${statusColor(o.status).bg};color:${statusColor(o.status).fg}">${statusLabel(o.status)}</span>
+      </div>
+      <div class="order-detail">${o.business_name||o.seller_name||'—'}</div>
+      <div class="order-meta">📅 ${new Date(o.created_at).toLocaleDateString('hi-IN')} · 💰 ₹${o.total_amount}</div>
+    </div>`).join('');
+}
+function loadProfile(){
+  const user = api.getUser();
+  if(!user) return;
+  const av = document.getElementById('profile-avatar');
+  const nm = document.getElementById('profile-name');
+  const ph = document.getElementById('profile-phone');
+  if(av) av.textContent = user.name.charAt(0).toUpperCase();
+  if(nm) nm.textContent = user.name;
+  if(ph) ph.textContent = '📱 '+user.phone+(user.village?' • '+user.village:'');
 }
 document.addEventListener('DOMContentLoaded',()=>{
   loadMyOrders();
+  loadProfile();
   const a=document.querySelector('.user-avatar');
   if(a)a.onclick=()=>{if(confirm('Logout karna chahte hain?'))api.logout();};
+  document.querySelectorAll('.menu-item').forEach(item=>{
+    if(item.style.color&&item.style.color.includes('c62828'))
+      item.onclick=()=>{if(confirm('Logout?'))api.logout();};
+  });
 });
 </script>

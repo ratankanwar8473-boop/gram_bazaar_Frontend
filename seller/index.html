@@ -247,91 +247,19 @@ body { font-family: 'Hind', sans-serif; }
     <div class="section">
       <div class="section-title">🔔 Nayi Requests</div>
       <div class="request-list" id="new-requests-list">
-        <div class="request-card urgent" id="req-1">
-          <div class="req-top">
-            <div class="req-left">
-              <div class="req-type">⛺ Shadi Tent Booking</div>
-              <div class="req-customer">👤 Suresh Sharma • 📱 98123-45678</div>
-            </div>
-            <span class="badge b-new">Nayi</span>
-          </div>
-          <div class="req-body">300 log • Generator + DJ + Sound chahiye</div>
-          <div class="req-meta">📅 20–22 May 2025 • 📍 Shivpur Gaon</div>
-          <div class="req-amount">Estimated: ₹8,000–₹12,000</div>
-          <div class="req-actions">
-            <button class="btn-accept" onclick="acceptReq('req-1','Suresh Sharma')">✓ Accept Karo</button>
-            <button class="btn-call" onclick="showToast('Suresh Sharma ko call kar raha hai: 98123-45678')">📞 Call</button>
-            <button class="btn-decline" onclick="declineReq('req-1')">✕</button>
-          </div>
-        </div>
-
-        <div class="request-card urgent" id="req-2">
-          <div class="req-top">
-            <div class="req-left">
-              <div class="req-type">🎪 Jagran Tent</div>
-              <div class="req-customer">👤 Geeta Devi • 📱 98765-01234</div>
-            </div>
-            <span class="badge b-new">Nayi</span>
-          </div>
-          <div class="req-body">150 log • Kursi/table bhi chahiye • Raat bhar</div>
-          <div class="req-meta">📅 18 May 2025 • 📍 Rampur main chowk</div>
-          <div class="req-amount">Estimated: ₹3,500–₹5,000</div>
-          <div class="req-actions">
-            <button class="btn-accept" onclick="acceptReq('req-2','Geeta Devi')">✓ Accept Karo</button>
-            <button class="btn-call" onclick="showToast('Geeta Devi ko call kar raha hai...')">📞 Call</button>
-            <button class="btn-decline" onclick="declineReq('req-2')">✕</button>
-          </div>
-        </div>
-
-        <div class="request-card urgent" id="req-3">
-          <div class="req-top">
-            <div class="req-left">
-              <div class="req-type">🎂 Birthday Tent</div>
-              <div class="req-customer">👤 Meena Kumari • 📱 93456-78901</div>
-            </div>
-            <span class="badge b-new">Nayi</span>
-          </div>
-          <div class="req-body">50 log • Choti tent + decoration chahiye</div>
-          <div class="req-meta">📅 16 May 2025 • 📍 Gali no. 3, Rampur</div>
-          <div class="req-amount">Estimated: ₹1,500–₹2,500</div>
-          <div class="req-actions">
-            <button class="btn-accept" onclick="acceptReq('req-3','Meena Kumari')">✓ Accept Karo</button>
-            <button class="btn-call" onclick="showToast('Meena Kumari ko call kar raha hai...')">📞 Call</button>
-            <button class="btn-decline" onclick="declineReq('req-3')">✕</button>
-          </div>
+        <div id="no-new-requests" style="text-align:center;padding:30px;color:#888;">
+          <div style="font-size:32px;margin-bottom:8px;">📭</div>
+          <div>Abhi koi nayi request nahi</div>
         </div>
       </div>
     </div>
 
     <div class="section" style="margin-top:6px;">
       <div class="section-title">📋 Confirmed Bookings</div>
-      <div class="request-list">
-        <div class="request-card" id="conf-1">
-          <div class="req-top">
-            <div class="req-left">
-              <div class="req-type">⛺ Shadi – Ram Prasad</div>
-              <div class="req-customer">📱 99887-76655 • 📍 Khandela Road</div>
-            </div>
-            <span class="badge b-confirmed">Confirmed</span>
-          </div>
-          <div class="req-body">500 log • Sound + Generator + DJ + Lighting</div>
-          <div class="req-meta">📅 10–12 May 2025</div>
-          <div class="req-amount">Total: ₹18,000 • Advance: ₹5,000 ✓ mila</div>
-          <div class="req-actions">
-            <button class="btn-complete" onclick="markDone('conf-1')">✓ Kaam Poora Kiya</button>
-            <button class="btn-call">📞 Call Karein</button>
-          </div>
-        </div>
-        <div class="request-card">
-          <div class="req-top">
-            <div class="req-left">
-              <div class="req-type">🎪 Function – Kavita Kumari</div>
-              <div class="req-customer">📱 97788-99001</div>
-            </div>
-            <span class="badge b-done">Complete</span>
-          </div>
-          <div class="req-body">Birthday • 100 log • 3 May</div>
-          <div class="req-amount" style="color:#888;">₹4,500 received ✓</div>
+      <div class="request-list" id="confirmed-orders-list">
+        <div id="no-confirmed" style="text-align:center;padding:30px;color:#888;">
+          <div style="font-size:32px;margin-bottom:8px;">📋</div>
+          <div>Koi confirmed booking nahi</div>
         </div>
       </div>
     </div>
@@ -340,63 +268,35 @@ body { font-family: 'Hind', sans-serif; }
   <!-- ═══ PAGE: EARNINGS ═══ -->
   <div id="page-earnings" class="page">
     <div class="earn-hero">
-      <p>Is mahine ki total kamaai (May 2025)</p>
-      <h2>₹12,400</h2>
-      <span>+38% pichle mahine se</span>
+      <p id="earn-month-label">Is mahine ki total kamaai</p>
+      <h2 id="earn-total">₹0</h2>
+      <span id="earn-subtitle">Loading...</span>
     </div>
     <div class="earn-grid">
       <div class="earn-card">
         <div class="earn-card-label">Aaj</div>
-        <div class="earn-card-val">₹2,500</div>
+        <div class="earn-card-val" id="earn-today">₹0</div>
       </div>
       <div class="earn-card">
         <div class="earn-card-label">Is hafte</div>
-        <div class="earn-card-val">₹7,800</div>
+        <div class="earn-card-val" id="earn-week">₹0</div>
       </div>
       <div class="earn-card">
         <div class="earn-card-label">Orders complete</div>
-        <div class="earn-card-val orange">28</div>
+        <div class="earn-card-val orange" id="earn-orders">0</div>
       </div>
       <div class="earn-card">
         <div class="earn-card-label">Pending payment</div>
-        <div class="earn-card-val amber">₹13,000</div>
+        <div class="earn-card-val amber" id="earn-pending">₹0</div>
       </div>
     </div>
     <div class="section" style="margin-top:12px;">
       <div class="section-title">Recent Transactions</div>
     </div>
-    <div class="transaction-list">
-      <div class="txn-item">
-        <div class="txn-icon credit">💰</div>
-        <div class="txn-info">
-          <div class="txn-name">Ram Prasad – Advance</div>
-          <div class="txn-date">1 May • UPI</div>
-        </div>
-        <div class="txn-amount credit">+₹5,000</div>
-      </div>
-      <div class="txn-item">
-        <div class="txn-icon credit">💰</div>
-        <div class="txn-info">
-          <div class="txn-name">Kavita Kumari – Birthday tent</div>
-          <div class="txn-date">3 May • UPI</div>
-        </div>
-        <div class="txn-amount credit">+₹4,500</div>
-      </div>
-      <div class="txn-item">
-        <div class="txn-icon credit">💰</div>
-        <div class="txn-info">
-          <div class="txn-name">Mohan Ji – Function tent</div>
-          <div class="txn-date">28 Apr • Cash</div>
-        </div>
-        <div class="txn-amount credit">+₹3,200</div>
-      </div>
-      <div class="txn-item">
-        <div class="txn-icon pending">⏳</div>
-        <div class="txn-info">
-          <div class="txn-name">Ram Prasad – Baaki payment</div>
-          <div class="txn-date">Due: 12 May</div>
-        </div>
-        <div class="txn-amount pending-amt">₹13,000 baaki</div>
+    <div class="transaction-list" id="txn-list">
+      <div style="text-align:center;padding:30px;color:#888;">
+        <div style="font-size:32px;margin-bottom:8px;">💰</div>
+        <div>Abhi koi transaction nahi</div>
       </div>
     </div>
     <div style="padding:14px;">
@@ -779,11 +679,18 @@ window.addEventListener('load', () => {
   if(user){const e=document.querySelector('.seller-tag');if(e)e.textContent=user.name;}
 })();
 const socket=initSocket();
+
+const CAT_ICON = {
+  tent:'⛺', kirana:'🛒', gadi:'🚗', tractor:'🚜', khana:'🍛',
+  karigar:'🔧', garments:'👕', hardware:'🏗️', electronics:'📱',
+  furniture:'🪑', medical:'💊', other:'🏪'
+};
+
 async function loadDashboard(){
-  const res=await api.get('/seller/dashboard');
-  if(!res||!res.success)return;
-  const s=res.stats;
-  const els={
+  const res = await api.get('/seller/dashboard');
+  if(!res||!res.success) return;
+  const s = res.stats;
+  const els = {
     'stat-new':     s.new_orders||0,
     'stat-active':  s.active_orders||0,
     'stat-done':    s.completed_orders||0,
@@ -791,19 +698,129 @@ async function loadDashboard(){
   };
   Object.entries(els).forEach(([id,val])=>{const el=document.getElementById(id);if(el)el.textContent=val;});
 }
-async function loadSellerOrders(){
-  const res=await api.get('/orders/seller?status=pending');
-  if(!res||!res.success)return;
-  // Orders already rendered in HTML, API data can extend UI
+
+async function loadOrders(){
+  // Pending orders
+  const pendingRes = await api.get('/orders/seller?status=pending');
+  const newList = document.getElementById('new-requests-list');
+  const noNew = document.getElementById('no-new-requests');
+  if(pendingRes && pendingRes.success && pendingRes.orders && pendingRes.orders.length){
+    noNew.style.display = 'none';
+    pendingRes.orders.forEach(o => {
+      const card = document.createElement('div');
+      card.className = 'request-card urgent';
+      card.id = 'order-'+o.id;
+      card.innerHTML = `
+        <div class="req-top">
+          <div class="req-left">
+            <div class="req-type">${CAT_ICON[o.service_type]||'📦'} ${o.service_type.charAt(0).toUpperCase()+o.service_type.slice(1)}</div>
+            <div class="req-customer">👤 ${o.customer_name||'Customer'} • 📱 ${o.customer_phone||''}</div>
+          </div>
+          <span class="badge b-new">Nayi</span>
+        </div>
+        <div class="req-body">${o.notes||'—'}</div>
+        <div class="req-meta">📅 ${o.booking_date||''} • 📍 ${o.address||''}</div>
+        <div class="req-amount">Total: ₹${o.total_amount}</div>
+        <div class="req-actions">
+          <button class="btn-accept" onclick="updateOrderStatus(${o.id},'confirmed','order-${o.id}')">✓ Accept Karo</button>
+          <button class="btn-call" onclick="showToast('${o.customer_phone||''} par call karo')">📞 Call</button>
+          <button class="btn-decline" onclick="updateOrderStatus(${o.id},'cancelled','order-${o.id}')">✕</button>
+        </div>`;
+      newList.appendChild(card);
+    });
+  }
+
+  // Confirmed orders
+  const confRes = await api.get('/orders/seller?status=confirmed');
+  const confList = document.getElementById('confirmed-orders-list');
+  const noConf = document.getElementById('no-confirmed');
+  if(confRes && confRes.success && confRes.orders && confRes.orders.length){
+    noConf.style.display = 'none';
+    confRes.orders.forEach(o => {
+      const card = document.createElement('div');
+      card.className = 'request-card';
+      card.id = 'conf-'+o.id;
+      card.innerHTML = `
+        <div class="req-top">
+          <div class="req-left">
+            <div class="req-type">${CAT_ICON[o.service_type]||'📦'} ${o.customer_name||'Customer'}</div>
+            <div class="req-customer">📱 ${o.customer_phone||''} • 📍 ${o.address||''}</div>
+          </div>
+          <span class="badge b-confirmed">Confirmed</span>
+        </div>
+        <div class="req-body">${o.notes||'—'}</div>
+        <div class="req-meta">📅 ${o.booking_date||''}</div>
+        <div class="req-amount">Total: ₹${o.total_amount}</div>
+        <div class="req-actions">
+          <button class="btn-complete" onclick="updateOrderStatus(${o.id},'completed','conf-${o.id}')">✓ Kaam Poora Kiya</button>
+          <button class="btn-call" onclick="showToast('${o.customer_phone||''} par call karo')">📞 Call</button>
+        </div>`;
+      confList.appendChild(card);
+    });
+  }
 }
+
+async function loadEarnings(){
+  const res = await api.get('/seller/dashboard');
+  if(!res||!res.success) return;
+  const s = res.stats;
+  const now = new Date();
+  document.getElementById('earn-month-label').textContent = now.toLocaleString('hi-IN',{month:'long',year:'numeric'})+' ki kamaai';
+  document.getElementById('earn-total').textContent = '₹'+(s.month_earned||0);
+  document.getElementById('earn-today').textContent = '₹'+(s.today_earned||0);
+  document.getElementById('earn-week').textContent = '₹'+(s.week_earned||0);
+  document.getElementById('earn-orders').textContent = s.completed_orders||0;
+  document.getElementById('earn-pending').textContent = '₹'+(s.pending_amount||0);
+  document.getElementById('earn-subtitle').textContent = 'Real-time data';
+
+  const txnRes = await api.get('/payment/transactions');
+  const txnList = document.getElementById('txn-list');
+  if(txnRes && txnRes.success && txnRes.transactions && txnRes.transactions.length){
+    txnList.innerHTML = '';
+    txnRes.transactions.forEach(t => {
+      const div = document.createElement('div');
+      div.className = 'txn-item';
+      div.innerHTML = `
+        <div class="txn-icon credit">💰</div>
+        <div class="txn-info">
+          <div class="txn-name">${t.customer_name||'Order #'+t.order_id}</div>
+          <div class="txn-date">${new Date(t.created_at).toLocaleDateString('hi-IN')} • ${t.upi_ref?'UPI':'Cash'}</div>
+        </div>
+        <div class="txn-amount credit">+₹${t.amount}</div>`;
+      txnList.appendChild(div);
+    });
+  }
+}
+
+async function updateOrderStatus(orderId, status, cardId){
+  const res = await api.put('/orders/'+orderId+'/status', {status});
+  if(res && res.success){
+    const card = document.getElementById(cardId);
+    if(card) card.remove();
+    showToast(status==='confirmed'?'✅ Order accept kar liya!':status==='completed'?'🎉 Order complete!':'❌ Order decline kar diya');
+    loadDashboard();
+  } else {
+    showToast('❌ Error: '+(res?.message||'Try again'));
+  }
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   loadDashboard();
-  const logoutBtn=document.querySelector('.seller-tag');
-  if(logoutBtn)logoutBtn.ondblclick=()=>{if(confirm('Logout?'))api.logout();};
+  loadOrders();
+  const logoutBtn = document.querySelector('.seller-tag');
+  if(logoutBtn) logoutBtn.ondblclick = () => { if(confirm('Logout?')) api.logout(); };
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const page = item.dataset.page;
+      if(page === 'earnings') loadEarnings();
+    });
+  });
 });
+
 if(socket){
-  socket.on('new_order',data=>{
+  socket.on('new_order', data => {
     loadDashboard();
+    loadOrders();
     showToast('🔔 Nayi booking! '+data.customer_name+' – ₹'+data.total_amount);
   });
 }
