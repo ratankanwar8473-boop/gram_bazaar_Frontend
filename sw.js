@@ -1,99 +1,72 @@
-// ═══ Gram Bazaar – Service Worker v1.0 ═══
-const CACHE_NAME = 'gram-bazaar-v1';
+const CACHE_NAME = 'gram-bazaar-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/manifest.json',
   '/auth/login.html',
   '/customer/index.html',
   '/seller/index.html',
   '/admin/index.html',
+  '/super-admin/index.html',
   '/shared/js/api.js',
+  '/shared/js/config.js',
   '/shared/icons/icon-192.png',
   '/shared/icons/icon-512.png',
-  'https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Hind:wght@400;500;600&display=swap'
+  '/manifest.json'
 ];
 
-// Install: cache static assets
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      console.log('[SW] Caching static assets');
-      return cache.addAll(STATIC_ASSETS.filter(url => !url.startsWith('http')));
-    })
-  );
+// Install – cache static assets
+self.addEventListener('install', (event) => {
   self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS)).catch(e => console.warn('[SW] Cache failed:', e))
+  );
 });
 
-// Activate: delete old caches
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
+// Activate – clean old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// Fetch strategy:
-// - API calls → Network only (always fresh data)
-// - Static files → Cache first, then network
-// - Navigation → Cache first fallback to index.html
-self.addEventListener('fetch', (e) => {
-  const url = new URL(e.request.url);
+// Fetch – cache-first for static, network-first for API
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
 
-  // Skip chrome-extension and non-http
-  if (!e.request.url.startsWith('http')) return;
+  // Skip non-GET and API requests (always fresh)
+  if (event.request.method !== 'GET') return;
+  if (url.pathname.startsWith('/api/')) return;
 
-  // API calls → Network only
-  if (url.pathname.startsWith('/api/') || url.hostname !== self.location.hostname) {
-    e.respondWith(fetch(e.request).catch(() =>
-      new Response(JSON.stringify({ success: false, message: 'Offline hain. Internet check karein.' }), {
-        headers: { 'Content-Type': 'application/json' }
-      })
-    ));
-    return;
-  }
-
-  // HTML navigation → Network first, fallback to cache, then index.html
-  if (e.request.mode === 'navigate') {
-    e.respondWith(
-      fetch(e.request)
-        .then(res => { caches.open(CACHE_NAME).then(c => c.put(e.request, res.clone())); return res; })
-        .catch(() => caches.match(e.request).then(r => r || caches.match('/index.html')))
-    );
-    return;
-  }
-
-  // Static assets → Cache first, network fallback
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(res => {
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      const networkFetch = fetch(event.request).then(res => {
         if (res.ok) {
-          caches.open(CACHE_NAME).then(c => c.put(e.request, res.clone()));
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
         }
         return res;
-      });
+      }).catch(() => cached);
+      return cached || networkFetch;
     })
   );
 });
 
-// Push notifications (future ready)
-self.addEventListener('push', (e) => {
-  const data = e.data?.json() || { title: 'Gram Bazaar', body: 'Nayi notification!' };
-  e.waitUntil(
-    self.registration.showNotification(data.title, {
-      body: data.body,
+// Push notifications
+self.addEventListener('push', (event) => {
+  const data = event.data?.json() || {};
+  event.waitUntil(
+    self.registration.showNotification(data.title || 'Gram Bazaar', {
+      body: data.body || '',
       icon: '/shared/icons/icon-192.png',
       badge: '/shared/icons/icon-192.png',
-      vibrate: [200, 100, 200],
-      data: { url: data.url || '/' }
+      data: data
     })
   );
 });
 
-self.addEventListener('notificationclick', (e) => {
-  e.notification.close();
-  e.waitUntil(clients.openWindow(e.notification.data?.url || '/'));
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(clients.openWindow('/'));
 });

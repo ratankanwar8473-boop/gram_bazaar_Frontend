@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f3460">
+<title>Super Admin – Gram Bazaar</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f3460;--navy2:#16213e;--navy3:#1a1a2e;
+  --green:#2d6a4f;--green-mid:#40916c;--green-light:#d8f3dc;--green-pale:#f0faf2;
+  --orange:#c25c2c;--orange-light:#fdf0eb;
+  --blue:#1565c0;--blue-light:#e3f0ff;
+  --red:#c62828;--red-light:#fdecea;
+  --amber:#e07b00;--amber-light:#fff3e0;
+  --gold:#f4b942;--gold-light:#fff8e1;
+  --gray:#f5f5f0;--border:#e0e0d8;--text:#1a1a1a;--text2:#555;--text3:#888;
+  --sidebar-w:250px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Hind',sans-serif;background:var(--gray);color:var(--text);min-height:100vh;}
+
+/* ── MOBILE LAYOUT ── */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);width:85vw!important;max-width:280px;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0!important;}
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;}
+  .overlay.show{display:block;}
+  .topbar{padding:14px 16px!important;}
+  .content{padding:16px!important;}
+  .stats-grid{grid-template-columns:1fr 1fr!important;}
+  .table-scroll{overflow-x:auto;}
+  table{min-width:600px;}
+  .hamburger{display:flex!important;}
+}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);background:linear-gradient(180deg,var(--navy3) 0%,var(--navy2) 50%,var(--navy) 100%);color:white;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .3s ease;overflow-y:auto;}
+.sb-logo{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sb-logo .brand{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.sb-logo .brand-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--gold),#f97316);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.sb-logo h1{font-family:'Baloo 2';font-size:18px;font-weight:800;line-height:1.1;}
+.sb-logo .sub{font-size:10px;opacity:.5;margin-top:2px;}
+.sb-badge{background:linear-gradient(135deg,var(--gold),#f97316);font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700;color:#1a1a1a;display:inline-block;margin-top:6px;}
+.sb-user{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;}
+.sb-avatar{width:36px;height:36px;background:linear-gradient(135deg,var(--gold),#f97316);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2';font-size:15px;font-weight:700;color:#1a1a1a;flex-shrink:0;}
+.sb-user-info{flex:1;min-width:0;}
+.sb-user-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-user-role{font-size:10px;opacity:.55;margin-top:1px;}
+nav{flex:1;padding:10px 0;}
+.nav-section{padding:8px 20px 4px;font-size:10px;font-weight:700;letter-spacing:1.2px;opacity:.4;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 20px;cursor:pointer;border-left:3px solid transparent;transition:all .18s;font-size:13px;font-weight:500;}
+.nav-item:hover{background:rgba(255,255,255,.06);}
+.nav-item.active{background:rgba(255,255,255,.1);border-left-color:var(--gold);}
+.nav-icon{font-size:17px;width:22px;text-align:center;}
+.nav-badge{background:var(--orange);color:white;font-size:9px;padding:2px 6px;border-radius:10px;margin-left:auto;font-weight:700;}
+.sb-footer{padding:14px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;opacity:.5;cursor:pointer;}
+.sb-footer:hover{opacity:1;}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{background:white;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;gap:12px;}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.hamburger{display:none;background:none;border:none;font-size:22px;cursor:pointer;padding:4px;}
+.topbar h2{font-family:'Baloo 2';font-size:18px;font-weight:700;color:var(--text);}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.super-chip{background:linear-gradient(135deg,var(--navy3),var(--navy));color:white;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;}
+.content{padding:22px 24px;flex:1;}
+.page{display:none;}.page.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.page.active>*{animation:fadeUp .25s ease both;}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+.stat-card{background:white;border-radius:14px;padding:18px;border:1px solid var(--border);box-shadow:0 1px 6px rgba(0,0,0,.05);position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.stat-card.s-gold::before{background:linear-gradient(90deg,var(--gold),#f97316);}
+.stat-card.s-green::before{background:linear-gradient(90deg,var(--green),var(--green-mid));}
+.stat-card.s-blue::before{background:linear-gradient(90deg,var(--blue),#42a5f5);}
+.stat-card.s-red::before{background:linear-gradient(90deg,var(--red),#ef5350);}
+.stat-card.s-navy::before{background:linear-gradient(90deg,var(--navy),#5c6bc0);}
+.stat-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px;}
+.stat-num{font-family:'Baloo 2';font-size:26px;font-weight:700;}
+.stat-label{font-size:11px;color:var(--text3);margin-top:2px;}
+.stat-change{font-size:11px;margin-top:6px;font-weight:600;}
+.up{color:var(--green);} .down{color:var(--red);}
+
+/* ── CARDS ── */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+@media(max-width:600px){.card-grid{grid-template-columns:1fr;}}
+.panel{background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden;margin-bottom:18px;box-shadow:0 1px 6px rgba(0,0,0,.04);}
+.panel-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.panel-title{font-family:'Baloo 2';font-size:15px;font-weight:700;}
+.panel-body{padding:16px 18px;}
+
+/* ── TABLES ── */
+.table-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+th{background:var(--gray);padding:10px 14px;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;text-align:left;white-space:nowrap;}
+td{padding:11px 14px;font-size:13px;border-top:1px solid var(--border);vertical-align:middle;}
+tr:hover td{background:#fafaf8;}
+.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block;white-space:nowrap;}
+.b-customer{background:var(--blue-light);color:var(--blue);}
+.b-seller{background:var(--green-light);color:var(--green);}
+.b-admin{background:var(--orange-light);color:var(--orange);}
+.b-super{background:linear-gradient(135deg,var(--navy3),var(--navy));color:white;}
+.b-active{background:var(--green-light);color:var(--green-dark);}
+.b-inactive{background:var(--red-light);color:var(--red);}
+.b-pending{background:var(--amber-light);color:var(--amber);}
+.b-valid{background:var(--green-light);color:var(--green-dark);}
+.b-expired{background:var(--red-light);color:var(--red);}
+.b-trial{background:var(--gold-light);color:#b8860b;}
+
+/* ── BUTTONS ── */
+.btn{padding:10px 18px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'Hind';transition:opacity .15s;}
+.btn:active{opacity:.8;}
+.btn-sm{padding:7px 12px;font-size:12px;border-radius:7px;}
+.btn-primary{background:var(--navy);color:white;}
+.btn-green{background:var(--green);color:white;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#f97316);color:#1a1a1a;}
+.btn-red{background:var(--red);color:white;}
+.btn-gray{background:var(--gray);color:var(--text2);border:1px solid var(--border);}
+.btn-orange{background:var(--orange);color:white;}
+.btns{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* ── FORMS ── */
+.form-group{margin-bottom:14px;}
+.form-label{font-size:12px;color:var(--text2);font-weight:500;display:block;margin-bottom:5px;}
+.form-input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-family:'Hind';font-size:14px;color:var(--text);background:var(--gray);outline:none;transition:border-color .15s;}
+.form-input:focus{border-color:var(--navy);background:white;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:480px){.form-row{grid-template-columns:1fr;}}
+.form-section{background:var(--gray);border-radius:10px;padding:14px;margin-bottom:12px;}
+.form-section-title{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
+
+/* ── LICENSE ── */
+.license-card{background:white;border-radius:14px;border:1px solid var(--border);padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 6px rgba(0,0,0,.04);}
+.lc-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.lc-info{flex:1;min-width:0;}
+.lc-biz{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lc-detail{font-size:12px;color:var(--text3);margin-top:2px;}
+.lc-expiry{font-size:11px;font-weight:600;margin-top:4px;}
+.lc-expiry.expiring{color:var(--amber);}
+.lc-expiry.expired{color:var(--red);}
+.lc-expiry.valid{color:var(--green);}
+.lc-actions{display:flex;gap:6px;flex-shrink:0;}
+
+/* ── SETTINGS ── */
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);}
+.setting-row:last-child{border-bottom:none;}
+.setting-info .setting-label{font-size:14px;font-weight:600;}
+.setting-info .setting-sub{font-size:12px;color:var(--text3);margin-top:2px;}
+.toggle{width:46px;height:26px;background:#ccc;border-radius:13px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;}
+.toggle.on{background:var(--green);}
+.toggle-knob{width:20px;height:20px;background:white;border-radius:50%;position:absolute;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.toggle.on .toggle-knob{left:23px;}
+
+/* ── PASSWORD CHANGE ── */
+.profile-section{max-width:480px;}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.show{display:flex;}
+.modal{background:white;border-radius:18px;padding:24px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;}
+.modal-title{font-family:'Baloo 2';font-size:18px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.modal-close{margin-left:auto;background:none;border:none;font-size:22px;cursor:pointer;color:var(--text3);}
+
+/* ── SEARCH ── */
+.search-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.search-input{flex:1;min-width:160px;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;font-family:'Hind';outline:none;}
+.search-input:focus{border-color:var(--navy);}
+select.search-input{cursor:pointer;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a1a;color:white;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;transition:all .3s;pointer-events:none;z-index:999;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:40px 20px;color:var(--text3);}
+.empty .e-icon{font-size:40px;margin-bottom:10px;}
+.empty p{font-size:14px;}
+
+/* ── SECTION HEADER ── */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;flex-wrap:wrap;}
+.section-title{font-family:'Baloo 2';font-size:16px;font-weight:700;}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="brand">
+      <div class="brand-icon">🛡️</div>
+      <div>
+        <h1>Gram Bazaar</h1>
+        <div class="sub">Management Console</div>
+      </div>
+    </div>
+    <div class="sb-badge">⚡ SUPER ADMIN</div>
+  </div>
+  <div class="sb-user">
+    <div class="sb-avatar" id="sb-initials">L</div>
+    <div class="sb-user-info">
+      <div class="sb-user-name" id="sb-name">Loading...</div>
+      <div class="sb-user-role">Super Administrator</div>
+    </div>
+  </div>
+  <nav>
+    <div class="nav-section">Dashboard</div>
+    <div class="nav-item active" onclick="showPage('dashboard')"><span class="nav-icon">📊</span>Overview</div>
+
+    <div class="nav-section">Users</div>
+    <div class="nav-item" onclick="showPage('users')"><span class="nav-icon">👥</span>Sabhi Users</div>
+    <div class="nav-item" onclick="showPage('sellers')"><span class="nav-icon">🏪</span>Sellers</div>
+
+    <div class="nav-section">Business</div>
+    <div class="nav-item" onclick="showPage('licenses')"><span class="nav-icon">🪪</span>Seller Licenses<span class="nav-badge" id="exp-badge">0</span></div>
+    <div class="nav-item" onclick="showPage('orders')"><span class="nav-icon">📦</span>Sabhi Orders</div>
+
+    <div class="nav-section">System</div>
+    <div class="nav-item" onclick="showPage('broadcast')"><span class="nav-icon">📢</span>Broadcast</div>
+    <div class="nav-item" onclick="showPage('settings')"><span class="nav-icon">⚙️</span>Settings</div>
+    <div class="nav-item" onclick="showPage('profile')"><span class="nav-icon">👤</span>My Profile</div>
+  </nav>
+  <div class="sb-footer" onclick="doLogout()">🚪 Logout</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <h2 id="page-title">Overview</h2>
+    </div>
+    <div class="topbar-right">
+      <div class="super-chip">🛡️ Super Admin</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card s-gold">
+          <div class="stat-icon" style="background:#fff8e1;">👥</div>
+          <div class="stat-num" id="stat-users">—</div>
+          <div class="stat-label">Total Users</div>
+          <div class="stat-change up" id="stat-users-new"></div>
+        </div>
+        <div class="stat-card s-green">
+          <div class="stat-icon" style="background:#d8f3dc;">🏪</div>
+          <div class="stat-num" id="stat-sellers">—</div>
+          <div class="stat-label">Active Sellers</div>
+        </div>
+        <div class="stat-card s-blue">
+          <div class="stat-icon" style="background:#e3f0ff;">📦</div>
+          <div class="stat-num" id="stat-orders">—</div>
+          <div class="stat-label">Total Orders</div>
+        </div>
+        <div class="stat-card s-navy">
+          <div class="stat-icon" style="background:#e8eaf6;">💰</div>
+          <div class="stat-num" id="stat-gmv">—</div>
+          <div class="stat-label">Total Revenue</div>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">🪪 License Status</div>
+            <button class="btn btn-sm btn-gold" onclick="showPage('licenses')">Manage</button>
+          </div>
+          <div class="panel-body">
+            <div style="display:flex;flex-direction:column;gap:10px;" id="lic-summary">
+              <div class="empty"><div class="e-icon">🪪</div><p>Loading...</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">📦 Aaj ke Orders</div>
+          </div>
+          <div class="panel-body">
+            <div id="today-orders-list">
+              <div class="empty"><div class="e-icon">📦</div><p>Loading...</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">🏆 Top Sellers</div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>#</th><th>Business</th><th>Owner</th><th>Earnings</th><th>Rating</th><th>License</th></tr></thead>
+            <tbody id="top-sellers-tbody"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── USERS ── -->
+    <div class="page" id="page-users">
+      <div class="section-header">
+        <div class="section-title">All Users</div>
+        <button class="btn btn-primary" onclick="exportUsers()">⬇️ Export</button>
+      </div>
+      <div class="search-bar">
+        <input class="search-input" id="user-search" placeholder="🔍 Name ya phone search karein..." oninput="filterUsers()">
+        <select class="search-input" id="user-role-filter" onchange="filterUsers()" style="max-width:140px;">
+          <option value="">Sabhi Roles</option>
+          <option value="customer">Customer</option>
+          <option value="seller">Seller</option>
+          <option value="admin">Admin</option>
+        </select>
+        <select class="search-input" id="user-status-filter" onchange="filterUsers()" style="max-width:130px;">
+          <option value="">Sabhi Status</option>
+          <option value="1">Active</option>
+          <option value="0">Inactive</option>
+        </select>
+      </div>
+      <div class="panel">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>ID</th><th>Naam</th><th>Phone</th><th>Role</th><th>Village</th><th>Status</th><th>Registered</th><th>Action</th></tr></thead>
+            <tbody id="users-tbody"><tr><td colspan="8" class="empty">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SELLERS ── -->
+    <div class="page" id="page-sellers">
+      <div class="section-header">
+        <div class="section-title">Sellers / Providers</div>
+      </div>
+      <div class="search-bar">
+        <input class="search-input" id="seller-search" placeholder="🔍 Search seller..." oninput="filterSellers()">
+        <select class="search-input" id="seller-type-filter" onchange="filterSellers()" style="max-width:150px;">
+          <option value="">Sabhi Services</option>
+          <option value="tent">⛺ Tent</option>
+          <option value="saman">🛒 Saman</option>
+          <option value="gadi">🚗 Gadi</option>
+          <option value="tractor">🚜 Tractor</option>
+          <option value="khana">🍛 Khana</option>
+          <option value="karigar">🔧 Karigar</option>
+        </select>
+      </div>
+      <div class="panel">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>ID</th><th>Business</th><th>Owner</th><th>Phone</th><th>Earnings</th><th>Rating</th><th>Status</th><th>License</th><th>Action</th></tr></thead>
+            <tbody id="sellers-tbody"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LICENSES ── -->
+    <div class="page" id="page-licenses">
+      <div class="section-header">
+        <div class="section-title">🪪 Seller Licenses</div>
+        <button class="btn btn-gold" onclick="openAddLicense()">+ Naya License</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
+        <div class="panel" style="margin:0;padding:14px;text-align:center;">
+          <div style="font-family:'Baloo 2';font-size:22px;font-weight:700;color:var(--green);" id="lic-active-count">—</div>
+          <div style="font-size:12px;color:var(--text3);">Active</div>
+        </div>
+        <div class="panel" style="margin:0;padding:14px;text-align:center;">
+          <div style="font-family:'Baloo 2';font-size:22px;font-weight:700;color:var(--amber);" id="lic-expiring-count">—</div>
+          <div style="font-size:12px;color:var(--text3);">Expiring Soon</div>
+        </div>
+        <div class="panel" style="margin:0;padding:14px;text-align:center;">
+          <div style="font-family:'Baloo 2';font-size:22px;font-weight:700;color:var(--red);" id="lic-expired-count">—</div>
+          <div style="font-size:12px;color:var(--text3);">Expired</div>
+        </div>
+      </div>
+      <div id="licenses-list">
+        <div class="empty"><div class="e-icon">🪪</div><p>Loading licenses...</p></div>
+      </div>
+    </div>
+
+    <!-- ── ORDERS ── -->
+    <div class="page" id="page-orders">
+      <div class="section-header">
+        <div class="section-title">Sabhi Orders</div>
+      </div>
+      <div class="search-bar">
+        <select class="search-input" id="order-status-filter" onchange="loadOrders()" style="max-width:150px;">
+          <option value="">Sabhi Status</option>
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="in_progress">In Progress</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+        <select class="search-input" id="order-type-filter" onchange="loadOrders()" style="max-width:150px;">
+          <option value="">Sabhi Types</option>
+          <option value="tent">⛺ Tent</option>
+          <option value="saman">🛒 Saman</option>
+          <option value="gadi">🚗 Gadi</option>
+          <option value="tractor">🚜 Tractor</option>
+          <option value="khana">🍛 Khana</option>
+          <option value="karigar">🔧 Karigar</option>
+        </select>
+      </div>
+      <div class="panel">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Order #</th><th>Service</th><th>Customer</th><th>Seller</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody id="orders-tbody"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BROADCAST ── -->
+    <div class="page" id="page-broadcast">
+      <div class="section-header">
+        <div class="section-title">📢 Broadcast Notification</div>
+      </div>
+      <div class="panel" style="max-width:560px;">
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="form-label">📣 Title</label>
+            <input class="form-input" id="bc-title" placeholder="Jaise: Special Offer!">
+          </div>
+          <div class="form-group">
+            <label class="form-label">💬 Message</label>
+            <textarea class="form-input" id="bc-body" rows="4" placeholder="Aapka message yahaan likhein..." style="resize:vertical;"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">👥 Kisko bhejein?</label>
+            <select class="form-input" id="bc-role">
+              <option value="">Sabhi Users</option>
+              <option value="customer">Sirf Customers</option>
+              <option value="seller">Sirf Sellers</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" style="width:100%;" onclick="sendBroadcast()">📢 Broadcast Bhejein</button>
+        </div>
+      </div>
+      <div class="panel" style="max-width:560px;">
+        <div class="panel-head"><div class="panel-title">📜 Recent Broadcasts</div></div>
+        <div class="panel-body" id="bc-history">
+          <div class="empty"><div class="e-icon">📜</div><p>Koi broadcast history nahi</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SETTINGS ── -->
+    <div class="page" id="page-settings">
+      <div class="section-title" style="margin-bottom:16px;">⚙️ App Settings</div>
+      <div class="panel" style="max-width:560px;">
+        <div class="panel-body">
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">🌐 App Active</div>
+              <div class="setting-sub">Poori app ON/OFF karein</div>
+            </div>
+            <div class="toggle on" id="toggle-app" onclick="toggleSetting('app')"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">📝 New Registrations</div>
+              <div class="setting-sub">Naye users register ho sakein</div>
+            </div>
+            <div class="toggle on" id="toggle-reg" onclick="toggleSetting('reg')"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">💳 Online Payments</div>
+              <div class="setting-sub">UPI/Online payment allow karein</div>
+            </div>
+            <div class="toggle on" id="toggle-pay" onclick="toggleSetting('pay')"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">🆓 Customer Free Access</div>
+              <div class="setting-sub">Customers ke liye hamesha free</div>
+            </div>
+            <div class="toggle on" style="opacity:.5;cursor:not-allowed;"><div class="toggle-knob"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" style="max-width:560px;">
+        <div class="panel-head"><div class="panel-title">💰 License Pricing</div></div>
+        <div class="panel-body">
+          <div class="form-section">
+            <div class="form-section-title">Default License Plans</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Monthly Price (₹)</label>
+                <input class="form-input" id="price-monthly" type="number" value="299" min="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Yearly Price (₹)</label>
+                <input class="form-input" id="price-yearly" type="number" value="2499" min="0">
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="savePricing()">💾 Save Pricing</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROFILE ── -->
+    <div class="page" id="page-profile">
+      <div class="section-title" style="margin-bottom:16px;">👤 My Profile</div>
+      <div class="panel profile-section">
+        <div class="panel-head"><div class="panel-title">Profile Details</div></div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="form-label">Naam</label>
+            <input class="form-input" id="profile-name" placeholder="Aapka naam">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input class="form-input" id="profile-phone" readonly style="opacity:.6;">
+          </div>
+          <button class="btn btn-primary" onclick="updateProfile()">💾 Update Profile</button>
+        </div>
+      </div>
+      <div class="panel profile-section">
+        <div class="panel-head"><div class="panel-title">🔑 Password Change</div></div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="form-label">Current Password</label>
+            <input class="form-input" id="pwd-current" type="password" placeholder="Purana password">
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <input class="form-input" id="pwd-new" type="password" placeholder="Naya password">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm New Password</label>
+            <input class="form-input" id="pwd-confirm" type="password" placeholder="Dobara naya password">
+          </div>
+          <button class="btn btn-gold" onclick="changePassword()">🔑 Password Change Karein</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- LICENSE MODAL -->
+<div class="modal-overlay" id="license-modal">
+  <div class="modal">
+    <div class="modal-title">
+      🪪 <span id="lic-modal-title">License Assign Karein</span>
+      <button class="modal-close" onclick="closeLicenseModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Seller Select Karein</label>
+      <select class="form-input" id="lic-seller-select">
+        <option value="">-- Seller chunein --</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">License Type</label>
+        <select class="form-input" id="lic-type">
+          <option value="monthly">Monthly (1 Mahina)</option>
+          <option value="quarterly">Quarterly (3 Mahine)</option>
+          <option value="yearly">Yearly (1 Saal)</option>
+          <option value="lifetime">Lifetime</option>
+          <option value="trial">Trial (7 Din)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Amount (₹)</label>
+        <input class="form-input" id="lic-amount" type="number" value="299" min="0">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Start Date</label>
+        <input class="form-input" id="lic-start" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Expiry Date</label>
+        <input class="form-input" id="lic-expiry" type="date">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes (optional)</label>
+      <input class="form-input" id="lic-notes" placeholder="Koi note...">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:4px;">
+      <button class="btn btn-gold" style="flex:1;" onclick="saveLicense()">✅ License Save Karein</button>
+      <button class="btn btn-gray" onclick="closeLicenseModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="../shared/js/config.js"></script>
+<script src="../shared/js/api.js"></script>
+<script>
+// ── AUTH CHECK ──
+(function(){
+  if(!api.isLoggedIn()){window.location.href='../auth/login.html?role=super_admin';return;}
+  const u=api.getUser();
+  if(u.role!=='admin'&&u.role!=='super_admin'){window.location.href='../auth/login.html';return;}
+  document.getElementById('sb-name').textContent=u.name||'Admin';
+  document.getElementById('sb-initials').textContent=(u.name||'A')[0].toUpperCase();
+  document.getElementById('profile-name').value=u.name||'';
+  document.getElementById('profile-phone').value=u.phone||'';
+})();
+
+// ── STATE ──
+let allUsers=[], allSellers=[], allLicenses=[];
+let editingLicenseId=null;
+
+// ── NAV ──
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>{if(n.textContent.toLowerCase().includes(name.substring(0,4)))n.classList.add('active');});
+  const titles={dashboard:'Overview',users:'Sabhi Users',sellers:'Sellers',licenses:'Seller Licenses',orders:'Sabhi Orders',broadcast:'Broadcast',settings:'Settings',profile:'My Profile'};
+  document.getElementById('page-title').textContent=titles[name]||name;
+  closeSidebar();
+  if(name==='dashboard') loadDashboard();
+  else if(name==='users') loadUsers();
+  else if(name==='sellers') loadSellers();
+  else if(name==='licenses') loadLicenses();
+  else if(name==='orders') loadOrders();
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ── DASHBOARD ──
+async function loadDashboard(){
+  const res=await api.get('/admin/overview');
+  if(!res?.success) return;
+  const {stats,topSellers,recentOrders}=res;
+  document.getElementById('stat-users').textContent=stats.users.total||0;
+  document.getElementById('stat-sellers').textContent=stats.users.sellers||0;
+  document.getElementById('stat-orders').textContent=stats.orders.total||0;
+  document.getElementById('stat-gmv').textContent='₹'+(stats.orders.gmv||0).toLocaleString('en-IN');
+
+  // Top sellers
+  const tb=document.getElementById('top-sellers-tbody');
+  if(!topSellers||!topSellers.length){tb.innerHTML='<tr><td colspan="6" class="empty">Koi data nahi</td></tr>';return;}
+  tb.innerHTML=topSellers.map((s,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${s.business_name||'—'}</strong></td>
+      <td>${s.name}</td>
+      <td>₹${(s.total_earnings||0).toLocaleString('en-IN')}</td>
+      <td>⭐ ${s.rating||0}</td>
+      <td><span class="badge b-active">Active</span></td>
+    </tr>`).join('');
+
+  // Today orders
+  const todayList=document.getElementById('today-orders-list');
+  const todayOrders=recentOrders?.filter(o=>o.created_at&&new Date(o.created_at).toDateString()===new Date().toDateString())||[];
+  if(!todayOrders.length){todayList.innerHTML='<div class="empty"><div class="e-icon">📦</div><p>Aaj koi order nahi</p></div>';return;}
+  todayList.innerHTML=todayOrders.slice(0,5).map(o=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div><div style="font-weight:600;font-size:13px;">${o.order_number}</div><div style="font-size:11px;color:var(--text3);">${o.customer} → ${o.seller}</div></div>
+      <div style="text-align:right;"><div style="font-weight:700;font-size:14px;">₹${o.total_amount}</div><span class="badge ${statusBadge(o.status)}">${o.status}</span></div>
+    </div>`).join('');
+
+  // License summary (mock since we use localStorage for licenses)
+  await loadLicenseSummary();
+}
+
+async function loadLicenseSummary(){
+  const lics=getLicenses();
+  const now=new Date();
+  const active=lics.filter(l=>l.status==='active'&&(!l.expiry||new Date(l.expiry)>now));
+  const expiring=lics.filter(l=>{if(!l.expiry)return false;const d=new Date(l.expiry);const diff=(d-now)/(1000*60*60*24);return diff>0&&diff<=30;});
+  const expired=lics.filter(l=>l.expiry&&new Date(l.expiry)<now);
+  document.getElementById('exp-badge').textContent=expired.length+expiring.length;
+  const summary=document.getElementById('lic-summary');
+  summary.innerHTML=`
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:13px;">✅ Active Licenses</span><strong style="color:var(--green);">${active.length}</strong>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:13px;">⚠️ Expiring Soon</span><strong style="color:var(--amber);">${expiring.length}</strong>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;">
+      <span style="font-size:13px;">❌ Expired</span><strong style="color:var(--red);">${expired.length}</strong>
+    </div>
+    <button class="btn btn-gold btn-sm" style="width:100%;margin-top:10px;" onclick="showPage('licenses')">Manage Licenses →</button>`;
+}
+
+// ── USERS ──
+async function loadUsers(){
+  const res=await api.get('/admin/users');
+  if(!res?.success){document.getElementById('users-tbody').innerHTML='<tr><td colspan="8" class="empty">Error loading users</td></tr>';return;}
+  allUsers=res.users||[];
+  renderUsers(allUsers);
+}
+function renderUsers(users){
+  const tb=document.getElementById('users-tbody');
+  if(!users.length){tb.innerHTML='<tr><td colspan="8"><div class="empty"><div class="e-icon">👥</div><p>Koi user nahi mila</p></div></td></tr>';return;}
+  tb.innerHTML=users.map(u=>`
+    <tr>
+      <td style="color:var(--text3);">#${u.id}</td>
+      <td><strong>${escHtml(u.name)}</strong></td>
+      <td>${u.phone}</td>
+      <td><span class="badge b-${u.role}">${u.role}</span></td>
+      <td style="color:var(--text3);">${u.village||'—'}</td>
+      <td><span class="badge ${u.is_active?'b-active':'b-inactive'}">${u.is_active?'Active':'Inactive'}</span></td>
+      <td style="font-size:12px;color:var(--text3);">${fmtDate(u.created_at)}</td>
+      <td><button class="btn btn-sm ${u.is_active?'btn-red':'btn-green'}" onclick="toggleUser(${u.id},this)">${u.is_active?'Block':'Unblock'}</button></td>
+    </tr>`).join('');
+}
+function filterUsers(){
+  const q=document.getElementById('user-search').value.toLowerCase();
+  const role=document.getElementById('user-role-filter').value;
+  const status=document.getElementById('user-status-filter').value;
+  renderUsers(allUsers.filter(u=>{
+    const matchQ=!q||u.name?.toLowerCase().includes(q)||u.phone?.includes(q);
+    const matchR=!role||u.role===role;
+    const matchS=status===''||String(u.is_active)===status;
+    return matchQ&&matchR&&matchS;
+  }));
+}
+async function toggleUser(id,btn){
+  const res=await api.put('/admin/users/'+id+'/toggle');
+  if(!res?.success) return showToast('❌ Error');
+  const newActive=res.is_active;
+  btn.textContent=newActive?'Block':'Unblock';
+  btn.className='btn btn-sm '+(newActive?'btn-red':'btn-green');
+  const row=btn.closest('tr');
+  row.querySelector('.badge:last-of-type').className='badge '+(newActive?'b-active':'b-inactive');
+  row.querySelector('.badge:last-of-type').textContent=newActive?'Active':'Inactive';
+  showToast(newActive?'✅ User activated':'🚫 User blocked');
+  const u=allUsers.find(x=>x.id===id);
+  if(u) u.is_active=newActive;
+}
+function exportUsers(){
+  const rows=[['ID','Name','Phone','Role','Village','Status','Registered']];
+  allUsers.forEach(u=>rows.push([u.id,u.name,u.phone,u.role,u.village||'',u.is_active?'Active':'Inactive',fmtDate(u.created_at)]));
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='gram_bazaar_users_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+// ── SELLERS ──
+async function loadSellers(){
+  const res=await api.get('/sellers');
+  if(!res?.success){document.getElementById('sellers-tbody').innerHTML='<tr><td colspan="9" class="empty">Error</td></tr>';return;}
+  allSellers=res.sellers||[];
+  renderSellers(allSellers);
+}
+function renderSellers(sellers){
+  const tb=document.getElementById('sellers-tbody');
+  if(!sellers.length){tb.innerHTML='<tr><td colspan="9"><div class="empty"><div class="e-icon">🏪</div><p>Koi seller nahi</p></div></td></tr>';return;}
+  const lics=getLicenses();
+  tb.innerHTML=sellers.map(s=>{
+    const lic=lics.find(l=>l.seller_id===s.user_id||l.seller_id===s.id);
+    const licBadge=lic?`<span class="badge ${lic.expiry&&new Date(lic.expiry)<new Date()?'b-expired':'b-valid'}">${lic.type}</span>`:'<span class="badge b-inactive">No License</span>';
+    return `<tr>
+      <td style="color:var(--text3);">#${s.user_id||s.id}</td>
+      <td><strong>${escHtml(s.business_name)}</strong></td>
+      <td>${escHtml(s.name||'—')}</td>
+      <td>${s.phone||'—'}</td>
+      <td>₹${(s.total_earnings||0).toLocaleString('en-IN')}</td>
+      <td>⭐ ${s.rating||0}</td>
+      <td><span class="badge ${s.is_online?'b-active':'b-inactive'}">${s.is_online?'Online':'Offline'}</span></td>
+      <td>${licBadge}</td>
+      <td><button class="btn btn-sm btn-gold" onclick="quickLicense(${s.user_id||s.id},'${escHtml(s.business_name)}')">🪪</button></td>
+    </tr>`;
+  }).join('');
+}
+function filterSellers(){
+  const q=document.getElementById('seller-search').value.toLowerCase();
+  renderSellers(allSellers.filter(s=>!q||s.business_name?.toLowerCase().includes(q)||s.name?.toLowerCase().includes(q)));
+}
+
+// ── LICENSES (stored locally + synced) ──
+function getLicenses(){
+  try{return JSON.parse(localStorage.getItem('gb_licenses')||'[]');}catch{return[];}
+}
+function saveLicenses(lics){localStorage.setItem('gb_licenses',JSON.stringify(lics));}
+
+async function loadLicenses(){
+  const lics=getLicenses();
+  allLicenses=lics;
+  const now=new Date();
+  const active=lics.filter(l=>!l.expiry||new Date(l.expiry)>now);
+  const expiring=lics.filter(l=>{if(!l.expiry)return false;const d=new Date(l.expiry);const diff=(d-now)/(1000*60*60*24);return diff>0&&diff<=30;});
+  const expired=lics.filter(l=>l.expiry&&new Date(l.expiry)<now);
+  document.getElementById('lic-active-count').textContent=active.length;
+  document.getElementById('lic-expiring-count').textContent=expiring.length;
+  document.getElementById('lic-expired-count').textContent=expired.length;
+  renderLicenses(lics);
+  // Load sellers for dropdown
+  if(!allSellers.length){const r=await api.get('/sellers');if(r?.success)allSellers=r.sellers||[];}
+}
+
+function renderLicenses(lics){
+  const container=document.getElementById('licenses-list');
+  if(!lics.length){container.innerHTML='<div class="empty"><div class="e-icon">🪪</div><p>Abhi koi license nahi hai.<br>Upar "+ Naya License" click karein.</p></div>';return;}
+  const now=new Date();
+  container.innerHTML=lics.map(l=>{
+    const exp=l.expiry?new Date(l.expiry):null;
+    const isExpired=exp&&exp<now;
+    const isExpiring=exp&&!isExpired&&(exp-now)/(1000*60*60*24)<=30;
+    const expiryClass=isExpired?'expired':isExpiring?'expiring':'valid';
+    const expiryText=l.type==='lifetime'?'Lifetime':exp?'Expiry: '+fmtDate(l.expiry):'No expiry';
+    return `<div class="license-card">
+      <div class="lc-icon" style="background:${isExpired?'#fdecea':isExpiring?'#fff3e0':'#d8f3dc'};">🪪</div>
+      <div class="lc-info">
+        <div class="lc-biz">${escHtml(l.business_name||'Unknown Seller')}</div>
+        <div class="lc-detail">${l.seller_name||''} • ${l.type} • ₹${l.amount||0}</div>
+        <div class="lc-expiry ${expiryClass}">${isExpired?'⚠️ Expired':'✅'} ${expiryText}</div>
+        ${l.notes?`<div style="font-size:11px;color:var(--text3);margin-top:2px;">📝 ${escHtml(l.notes)}</div>`:''}
+      </div>
+      <div class="lc-actions">
+        <button class="btn btn-sm btn-gold" onclick="editLicense('${l.id}')">Renew</button>
+        <button class="btn btn-sm btn-red" onclick="deleteLicense('${l.id}')">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAddLicense(){
+  editingLicenseId=null;
+  document.getElementById('lic-modal-title').textContent='License Assign Karein';
+  document.getElementById('lic-seller-select').value='';
+  document.getElementById('lic-type').value='monthly';
+  document.getElementById('lic-amount').value=299;
+  const today=new Date().toISOString().slice(0,10);
+  document.getElementById('lic-start').value=today;
+  const expiry=new Date(); expiry.setMonth(expiry.getMonth()+1);
+  document.getElementById('lic-expiry').value=expiry.toISOString().slice(0,10);
+  document.getElementById('lic-notes').value='';
+  // Populate seller dropdown
+  const sel=document.getElementById('lic-seller-select');
+  sel.innerHTML='<option value="">-- Seller chunein --</option>'+
+    allSellers.map(s=>`<option value="${s.user_id||s.id}" data-name="${escHtml(s.business_name)}" data-owner="${escHtml(s.name||'')}">${escHtml(s.business_name)} (${s.name||''})</option>`).join('');
+  document.getElementById('license-modal').classList.add('show');
+  // Auto-set expiry on type change
+  document.getElementById('lic-type').onchange=autoSetExpiry;
+}
+
+function quickLicense(sellerId,bizName){
+  openAddLicense();
+  document.getElementById('lic-seller-select').value=String(sellerId);
+}
+
+function autoSetExpiry(){
+  const type=document.getElementById('lic-type').value;
+  const start=new Date(document.getElementById('lic-start').value||new Date());
+  const exp=new Date(start);
+  const prices={monthly:299,quarterly:799,yearly:2499,lifetime:0,trial:0};
+  document.getElementById('lic-amount').value=prices[type]||0;
+  if(type==='monthly') exp.setMonth(exp.getMonth()+1);
+  else if(type==='quarterly') exp.setMonth(exp.getMonth()+3);
+  else if(type==='yearly') exp.setFullYear(exp.getFullYear()+1);
+  else if(type==='trial') exp.setDate(exp.getDate()+7);
+  else if(type==='lifetime'){document.getElementById('lic-expiry').value='';return;}
+  document.getElementById('lic-expiry').value=exp.toISOString().slice(0,10);
+}
+
+function editLicense(id){
+  const lic=getLicenses().find(l=>l.id===id);
+  if(!lic) return;
+  editingLicenseId=id;
+  document.getElementById('lic-modal-title').textContent='License Renew/Edit Karein';
+  const sel=document.getElementById('lic-seller-select');
+  if(!sel.querySelector(`option[value="${lic.seller_id}"]`)){
+    const opt=document.createElement('option');
+    opt.value=lic.seller_id; opt.textContent=lic.business_name;
+    sel.appendChild(opt);
+  }
+  sel.value=lic.seller_id;
+  document.getElementById('lic-type').value=lic.type;
+  document.getElementById('lic-amount').value=lic.amount||0;
+  document.getElementById('lic-start').value=lic.start_date||'';
+  document.getElementById('lic-expiry').value=lic.expiry||'';
+  document.getElementById('lic-notes').value=lic.notes||'';
+  document.getElementById('license-modal').classList.add('show');
+}
+
+function saveLicense(){
+  const sellerId=document.getElementById('lic-seller-select').value;
+  if(!sellerId){showToast('❌ Seller select karein');return;}
+  const selOpt=document.getElementById('lic-seller-select').selectedOptions[0];
+  const lics=getLicenses();
+  const newLic={
+    id: editingLicenseId || 'lic_'+Date.now(),
+    seller_id: Number(sellerId),
+    business_name: selOpt.dataset.name||selOpt.textContent.split('(')[0].trim(),
+    seller_name: selOpt.dataset.owner||'',
+    type: document.getElementById('lic-type').value,
+    amount: Number(document.getElementById('lic-amount').value)||0,
+    start_date: document.getElementById('lic-start').value,
+    expiry: document.getElementById('lic-expiry').value||null,
+    notes: document.getElementById('lic-notes').value,
+    status: 'active',
+    issued_by: api.getUser()?.name||'Super Admin',
+    issued_at: new Date().toISOString()
+  };
+  if(editingLicenseId){
+    const idx=lics.findIndex(l=>l.id===editingLicenseId);
+    if(idx>=0) lics[idx]=newLic; else lics.push(newLic);
+  } else {
+    lics.unshift(newLic);
+  }
+  saveLicenses(lics);
+  closeLicenseModal();
+  loadLicenses();
+  showToast('✅ License saved!');
+}
+
+function deleteLicense(id){
+  if(!confirm('Yeh license delete karna chahte hain?')) return;
+  const lics=getLicenses().filter(l=>l.id!==id);
+  saveLicenses(lics);
+  loadLicenses();
+  showToast('🗑️ License deleted');
+}
+
+function closeLicenseModal(){
+  document.getElementById('license-modal').classList.remove('show');
+  editingLicenseId=null;
+}
+
+// ── ORDERS ──
+async function loadOrders(){
+  const status=document.getElementById('order-status-filter').value;
+  const res=await api.get('/admin/orders'+(status?'?status='+status:''));
+  if(!res?.success){document.getElementById('orders-tbody').innerHTML='<tr><td colspan="7" class="empty">Error</td></tr>';return;}
+  const orders=res.orders||[];
+  const typeFilter=document.getElementById('order-type-filter').value;
+  const filtered=typeFilter?orders.filter(o=>o.service_type===typeFilter):orders;
+  const tb=document.getElementById('orders-tbody');
+  if(!filtered.length){tb.innerHTML='<tr><td colspan="7"><div class="empty"><div class="e-icon">📦</div><p>Koi order nahi mila</p></div></td></tr>';return;}
+  tb.innerHTML=filtered.map(o=>`
+    <tr>
+      <td><strong style="font-size:12px;">${o.order_number}</strong></td>
+      <td>${svcEmoji(o.service_type)} ${o.service_type}</td>
+      <td>${escHtml(o.customer_name||'—')}</td>
+      <td>${escHtml(o.seller_name||'—')}</td>
+      <td><strong>₹${o.total_amount}</strong></td>
+      <td><span class="badge ${statusBadge(o.status)}">${o.status}</span></td>
+      <td style="font-size:12px;color:var(--text3);">${fmtDate(o.created_at)}</td>
+    </tr>`).join('');
+}
+
+// ── BROADCAST ──
+async function sendBroadcast(){
+  const title=document.getElementById('bc-title').value.trim();
+  const body=document.getElementById('bc-body').value.trim();
+  const role=document.getElementById('bc-role').value;
+  if(!title||!body){showToast('❌ Title aur message zaroor bharo');return;}
+  const res=await api.post('/admin/broadcast',{title,body,role:role||undefined});
+  if(!res?.success){showToast('❌ Broadcast failed');return;}
+  showToast('📢 '+res.message);
+  document.getElementById('bc-title').value='';
+  document.getElementById('bc-body').value='';
+  // Save to history
+  const hist=JSON.parse(localStorage.getItem('bc_history')||'[]');
+  hist.unshift({title,body,role:role||'all',time:new Date().toISOString()});
+  localStorage.setItem('bc_history',JSON.stringify(hist.slice(0,20)));
+  renderBroadcastHistory();
+}
+function renderBroadcastHistory(){
+  const hist=JSON.parse(localStorage.getItem('bc_history')||'[]');
+  const el=document.getElementById('bc-history');
+  if(!hist.length){el.innerHTML='<div class="empty"><div class="e-icon">📜</div><p>Koi broadcast history nahi</p></div>';return;}
+  el.innerHTML=hist.map(h=>`
+    <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <strong style="font-size:13px;">${escHtml(h.title)}</strong>
+        <span style="font-size:11px;color:var(--text3);">${fmtDate(h.time)}</span>
+      </div>
+      <div style="font-size:12px;color:var(--text2);">${escHtml(h.body)}</div>
+      <div style="margin-top:4px;"><span class="badge b-customer" style="font-size:10px;">${h.role==='all'?'Sabhi':h.role}</span></div>
+    </div>`).join('');
+}
+
+// ── SETTINGS ──
+const settings={app:true,reg:true,pay:true};
+function toggleSetting(key){
+  settings[key]=!settings[key];
+  const el=document.getElementById('toggle-'+key);
+  el.classList.toggle('on',settings[key]);
+  localStorage.setItem('gb_settings',JSON.stringify(settings));
+  showToast(settings[key]?'✅ Enabled':'🔴 Disabled');
+}
+function savePricing(){
+  const m=document.getElementById('price-monthly').value;
+  const y=document.getElementById('price-yearly').value;
+  localStorage.setItem('gb_pricing',JSON.stringify({monthly:Number(m),yearly:Number(y)}));
+  showToast('💾 Pricing saved!');
+}
+
+// ── PROFILE ──
+async function updateProfile(){
+  const name=document.getElementById('profile-name').value.trim();
+  if(!name){showToast('❌ Naam dalein');return;}
+  const res=await api.put('/auth/profile',{name});
+  if(!res?.success){showToast('❌ Update failed');return;}
+  const u=api.getUser(); u.name=name;
+  localStorage.setItem('gb_user',JSON.stringify(u));
+  document.getElementById('sb-name').textContent=name;
+  document.getElementById('sb-initials').textContent=name[0].toUpperCase();
+  showToast('✅ Profile updated!');
+}
+async function changePassword(){
+  const cur=document.getElementById('pwd-current').value;
+  const nw=document.getElementById('pwd-new').value;
+  const cnf=document.getElementById('pwd-confirm').value;
+  if(!cur||!nw||!cnf){showToast('❌ Sabhi fields bharo');return;}
+  if(nw.length<6){showToast('❌ New password 6+ characters ka hona chahiye');return;}
+  if(nw!==cnf){showToast('❌ New passwords match nahi karte');return;}
+  const res=await api.put('/auth/change-password',{current_password:cur,new_password:nw});
+  if(!res?.success){showToast('❌ '+(res?.message||'Error'));return;}
+  ['pwd-current','pwd-new','pwd-confirm'].forEach(id=>document.getElementById(id).value='');
+  showToast('🔑 Password changed!');
+}
+
+// ── HELPERS ──
+function statusBadge(s){return{pending:'b-pending',confirmed:'b-active',in_progress:'b-trial',completed:'b-valid',cancelled:'b-inactive'}[s]||'b-pending';}
+function svcEmoji(t){return{tent:'⛺',saman:'🛒',gadi:'🚗',tractor:'🚜',khana:'🍛',karigar:'🔧'}[t]||'📦';}
+function fmtDate(d){if(!d)return'—';const dt=new Date(d);return dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
+function escHtml(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function doLogout(){if(confirm('Logout karna chahte hain?')) api.logout();}
+
+// ── INIT ──
+loadDashboard();
+renderBroadcastHistory();
+const savedSettings=JSON.parse(localStorage.getItem('gb_settings')||'{}');
+Object.assign(settings,savedSettings);
+Object.keys(settings).forEach(k=>{const el=document.getElementById('toggle-'+k);if(el)el.classList.toggle('on',settings[k]);});
+</script>
+</body>
+</html>

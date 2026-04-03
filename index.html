@@ -5,15 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1b4332">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Gram Bazaar">
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="shared/icons/icon-192.png">
 <title>Gram Bazaar – गाँव की अपनी दुकान</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;background:linear-gradient(160deg,#1b4332 0%,#2d6a4f 40%,#40916c 70%,#52b788 100%);}
 body{font-family:'Hind',sans-serif;display:flex;align-items:center;justify-content:center;padding:20px;min-height:100vh;}
-.card{width:100%;max-width:390px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px 60px;text-align:center;}
+.card{width:100%;max-width:390px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px 80px;text-align:center;}
 .logo-wrap{width:90px;height:90px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:46px;margin-bottom:22px;box-shadow:0 8px 32px rgba(0,0,0,0.2);animation:popIn .6s cubic-bezier(.34,1.56,.64,1) both;}
 @keyframes popIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -42,6 +44,27 @@ body{font-family:'Hind',sans-serif;display:flex;align-items:center;justify-conte
 .btn-seller .role-arrow{color:white;}
 .footer-note{margin-top:36px;font-size:11px;color:rgba(255,255,255,.45);animation:fadeUp .5s .5s ease both;}
 .footer-note strong{color:rgba(255,255,255,.7);}
+
+/* Install Banner */
+#installBanner{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#1b4332,#2d6a4f);padding:14px 16px;align-items:center;gap:10px;box-shadow:0 -4px 20px rgba(0,0,0,.3);}
+.ib-icon{font-size:26px;flex-shrink:0;}
+.ib-text{flex:1;color:white;}
+.ib-title{font-family:'Baloo 2';font-weight:700;font-size:14px;}
+.ib-sub{font-size:11px;opacity:.8;margin-top:1px;}
+#installBtn{background:white;color:#1b4332;border:none;border-radius:10px;padding:9px 14px;font-weight:700;font-size:12px;cursor:pointer;font-family:'Hind';white-space:nowrap;flex-shrink:0;}
+#dismissBtn{background:rgba(255,255,255,.15);color:white;border:none;border-radius:10px;padding:9px 10px;font-size:12px;cursor:pointer;flex-shrink:0;}
+
+/* iOS Popup */
+#iosPopup{display:none;position:fixed;bottom:20px;left:16px;right:16px;z-index:1000;background:white;border-radius:20px;padding:20px 20px 16px;box-shadow:0 8px 40px rgba(0,0,0,.3);}
+#iosPopup::after{content:'';position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);border-left:9px solid transparent;border-right:9px solid transparent;border-top:9px solid white;}
+.ios-title{font-family:'Baloo 2';font-size:16px;font-weight:700;color:#1b4332;margin-bottom:10px;}
+.ios-steps{list-style:none;font-size:13px;color:#444;}
+.ios-steps li{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f0f0f0;}
+.ios-steps li:last-child{border:none;}
+.ios-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#aaa;}
+
+/* FAB */
+#fabInstall{display:none;position:fixed;bottom:80px;right:16px;z-index:998;background:linear-gradient(135deg,#1b4332,#40916c);color:white;border:none;border-radius:50px;padding:12px 18px;font-family:'Baloo 2';font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(27,67,50,.5);align-items:center;gap:6px;}
 </style>
 </head>
 <body>
@@ -68,78 +91,94 @@ body{font-family:'Hind',sans-serif;display:flex;align-items:center;justify-conte
       <span class="role-arrow">›</span>
     </a>
   </div>
-  <div class="footer-note">Made with ❤️ for Rural India &nbsp;·&nbsp; <strong>Gram Bazaar v1.0</strong></div>
+  <div class="footer-note">Made with ❤️ for Rural India &nbsp;·&nbsp; <strong>Gram Bazaar v2.0</strong></div>
 </div>
+
+<!-- Android Install Banner -->
+<div id="installBanner">
+  <div class="ib-icon">📲</div>
+  <div class="ib-text">
+    <div class="ib-title">App Install Karein – Free!</div>
+    <div class="ib-sub">Home screen par add karein, offline bhi chalega</div>
+  </div>
+  <button id="installBtn">Install</button>
+  <button id="dismissBtn">✕</button>
+</div>
+
+<!-- iOS Install Popup -->
+<div id="iosPopup">
+  <button class="ios-close" onclick="document.getElementById('iosPopup').style.display='none'">✕</button>
+  <div class="ios-title">📲 iPhone/iPad par Install Karein</div>
+  <ul class="ios-steps">
+    <li><span>1️⃣</span> Neeche <strong>Share ⬆️</strong> button dabayein</li>
+    <li><span>2️⃣</span> <strong>"Add to Home Screen"</strong> select karein</li>
+    <li><span>3️⃣</span> <strong>"Add"</strong> par tap karein ✅</li>
+  </ul>
+  <p style="font-size:11px;color:#aaa;margin-top:10px;text-align:center;">App Store ki zaroorat nahi!</p>
+</div>
+
+<!-- FAB for manual trigger -->
+<button id="fabInstall" onclick="triggerInstall()">📲 App Install</button>
+
 <script>
-// Auto redirect if already logged in
 const token = localStorage.getItem('gb_token');
 const role  = localStorage.getItem('gb_role');
 if (token && role) {
-  if (role === 'seller') window.location.href = 'seller/index.html';
-  else if (role === 'admin') window.location.href = 'admin/index.html';
-  else window.location.href = 'customer/index.html';
-}
-</script>
-
-<!-- Install Banner -->
-<div id="installBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#1b4332,#2d6a4f);padding:16px 20px;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.3);">
-  <div style="font-size:28px">📲</div>
-  <div style="flex:1;color:white;">
-    <div style="font-family:Baloo 2,sans-serif;font-weight:700;font-size:15px">App Install Karein</div>
-    <div style="font-size:12px;opacity:.8;margin-top:2px">Home screen par add karein – offline bhi chalega!</div>
-  </div>
-  <button id="installBtn" style="background:white;color:#1b4332;border:none;border-radius:10px;padding:10px 16px;font-weight:700;font-size:13px;cursor:pointer;font-family:Hind,sans-serif;white-space:nowrap;">Install</button>
-  <button id="dismissBtn" style="background:rgba(255,255,255,.15);color:white;border:none;border-radius:10px;padding:10px 12px;font-size:13px;cursor:pointer;">✕</button>
-</div>
-
-<script>
-// ─── Service Worker Registration ───
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('[SW] Registered:', reg.scope))
-      .catch(err => console.warn('[SW] Failed:', err));
-  });
+  const dest = {seller:'seller/index.html',admin:'admin/index.html',super_admin:'super-admin/index.html'};
+  window.location.href = dest[role] || 'customer/index.html';
 }
 
-// ─── PWA Install Prompt ───
-let deferredPrompt;
-const installBanner = document.getElementById('installBanner');
-const installBtn = document.getElementById('installBtn');
-const dismissBtn = document.getElementById('dismissBtn');
+let deferredPrompt = null;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+const wasDismissed = sessionStorage.getItem('gb_dismissed');
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  // Show banner after 2 seconds
-  setTimeout(() => {
-    if (installBanner) installBanner.style.display = 'flex';
-  }, 2000);
+  if (!isStandalone && !wasDismissed) {
+    setTimeout(() => { document.getElementById('installBanner').style.display = 'flex'; }, 2200);
+  }
+  document.getElementById('fabInstall').style.display = 'flex';
 });
 
-if (installBtn) {
-  installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log('Install outcome:', outcome);
-    deferredPrompt = null;
-    installBanner.style.display = 'none';
-  });
+if (isIOS && !isStandalone && !wasDismissed) {
+  setTimeout(() => {
+    document.getElementById('iosPopup').style.display = 'block';
+    document.getElementById('fabInstall').style.display = 'flex';
+  }, 2500);
 }
 
-if (dismissBtn) {
-  dismissBtn.addEventListener('click', () => {
-    installBanner.style.display = 'none';
-    sessionStorage.setItem('gb_install_dismissed', '1');
-  });
+function triggerInstall() {
+  if (deferredPrompt) {
+    document.getElementById('installBanner').style.display = 'flex';
+  } else if (isIOS) {
+    document.getElementById('iosPopup').style.display = 'block';
+  }
 }
+
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('installBanner').style.display = 'none';
+  document.getElementById('fabInstall').style.display = 'none';
+});
+
+document.getElementById('dismissBtn').addEventListener('click', () => {
+  document.getElementById('installBanner').style.display = 'none';
+  sessionStorage.setItem('gb_dismissed', '1');
+});
 
 window.addEventListener('appinstalled', () => {
-  console.log('[PWA] App installed!');
-  if (installBanner) installBanner.style.display = 'none';
-  deferredPrompt = null;
+  document.getElementById('installBanner').style.display = 'none';
+  document.getElementById('fabInstall').style.display = 'none';
 });
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+}
 </script>
 </body>
 </html>
