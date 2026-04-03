@@ -232,11 +232,11 @@ select.form-input { cursor: pointer; }
             <p>Aapka Gaon, Aapka Bazaar</p>
           </div>
         </div>
-        <div class="user-avatar" onclick="switchPage('profile')">R</div>
+        <div class="user-avatar" id="top-avatar" onclick="switchPage('profile')">?</div>
       </div>
       <div class="location-pill">
         <span>📍</span>
-        <span>Rampur Gaon, Rajasthan</span>
+        <span id="user-location">📍 —</span>
       </div>
     </div>
     <div class="search-wrap">
@@ -251,7 +251,7 @@ select.form-input { cursor: pointer; }
   <div id="page-home" class="page active">
     <div class="hero-banner">
       <div>
-        <h2>Namaskar Ramesh ji! 🙏</h2>
+        <h2 id="greeting-name">Namaskar! 🙏</h2>
         <p>Ghar baithe mangao, book karo</p>
       </div>
       <span class="hero-emoji">🏡</span>
@@ -800,11 +800,11 @@ select.form-input { cursor: pointer; }
         <div class="stat-label">Orders</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num">4</div>
+        <div class="stat-num" id="profile-bookings">0</div>
         <div class="stat-label">Bookings</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num">4.8⭐</div>
+        <div class="stat-num" id="profile-rating">—</div>
         <div class="stat-label">Rating</div>
       </div>
     </div>
@@ -840,7 +840,7 @@ select.form-input { cursor: pointer; }
         <span class="menu-arrow">›</span>
       </div>
     </div>
-    <div style="text-align:center; padding:20px; color:var(--text3); font-size:12px;">Gram Bazaar v1.0 • Rampur Gaon Panchayat</div>
+    <div style="text-align:center; padding:20px; color:var(--text3); font-size:12px;" id="footer-location">Gram Bazaar v1.0</div>
   </div>
 
   <!-- ═══ BOTTOM NAV ═══ -->
@@ -1063,15 +1063,53 @@ async function loadMyOrders(){
       <div class="order-meta">📅 ${new Date(o.created_at).toLocaleDateString('hi-IN')} · 💰 ₹${o.total_amount}</div>
     </div>`).join('');
 }
-function loadProfile(){
+async function loadProfile(){
   const user = api.getUser();
   if(!user) return;
+
+  // Top avatar
+  const topAv = document.getElementById('top-avatar');
+  if(topAv) topAv.textContent = user.name.charAt(0).toUpperCase();
+
+  // Greeting
+  const gr = document.getElementById('greeting-name');
+  if(gr) gr.textContent = 'Namaskar ' + user.name.split(' ')[0] + ' ji! 🙏';
+
+  // Location
+  const loc = document.getElementById('user-location');
+  if(loc) loc.textContent = (user.village ? user.village + ', ' : '') + (user.district || '');
+
+  // Profile page
   const av = document.getElementById('profile-avatar');
   const nm = document.getElementById('profile-name');
   const ph = document.getElementById('profile-phone');
   if(av) av.textContent = user.name.charAt(0).toUpperCase();
   if(nm) nm.textContent = user.name;
-  if(ph) ph.textContent = '📱 '+user.phone+(user.village?' • '+user.village:'');
+  if(ph) ph.textContent = '📱 ' + user.phone + (user.village ? ' • ' + user.village : '');
+
+  // Fetch live stats from API
+  const res = await api.get('/auth/profile');
+  if(res?.success){
+    const u = res.user;
+    // Update location if available in profile
+    if(loc && (u.village || u.district)){
+      loc.textContent = (u.village ? u.village + ', ' : '') + (u.district || '');
+    }
+  }
+
+  // Footer location
+  const footer = document.getElementById('footer-location');
+  if(footer && user.village) footer.textContent = 'Gram Bazaar v1.0 • ' + user.village;
+
+  // Orders count
+  const ordRes = await api.get('/orders/my');
+  if(ordRes?.success){
+    const orders = ordRes.orders || [];
+    const el = document.getElementById('profile-orders');
+    if(el) el.textContent = orders.length;
+    const bk = document.getElementById('profile-bookings');
+    if(bk) bk.textContent = orders.filter(o=>o.status==='completed').length;
+  }
 }
 document.addEventListener('DOMContentLoaded',()=>{
   loadMyOrders();
