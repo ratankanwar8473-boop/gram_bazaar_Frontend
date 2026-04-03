@@ -686,7 +686,8 @@ async function loadDashboard(){
 }
 
 async function loadLicenseSummary(){
-  const lics=getLicenses();
+  if(!allLicenses.length){const r=await api.get('/admin/licenses');if(r?.success)allLicenses=r.licenses||[];}
+  const lics=allLicenses;
   const now=new Date();
   const active=lics.filter(l=>l.status==='active'&&(!l.expiry||new Date(l.expiry)>now));
   const expiring=lics.filter(l=>{if(!l.expiry)return false;const d=new Date(l.expiry);const diff=(d-now)/(1000*60*60*24);return diff>0&&diff<=30;});
@@ -772,10 +773,9 @@ async function loadSellers(){
 function renderSellers(sellers){
   const tb=document.getElementById('sellers-tbody');
   if(!sellers.length){tb.innerHTML='<tr><td colspan="9"><div class="empty"><div class="e-icon">🏪</div><p>Koi seller nahi</p></div></td></tr>';return;}
-  const lics=getLicenses();
   tb.innerHTML=sellers.map(s=>{
-    const lic=lics.find(l=>l.seller_id===s.user_id||l.seller_id===s.id);
-    const licBadge=lic?`<span class="badge ${lic.expiry&&new Date(lic.expiry)<new Date()?'b-expired':'b-valid'}">${lic.type}</span>`:'<span class="badge b-inactive">No License</span>';
+    const lic=allLicenses.find(l=>l.seller_id===(s.user_id||s.id));
+    const licBadge=lic?`<span class="badge ${lic.expiry_date&&new Date(lic.expiry_date)<new Date()?'b-expired':'b-valid'}">${lic.type}</span>`:'<span class="badge b-inactive">No License</span>';
     return `<tr>
       <td style="color:var(--text3);">#${s.user_id||s.id}</td>
       <td><strong>${escHtml(s.business_name)}</strong></td>
@@ -794,24 +794,19 @@ function filterSellers(){
   renderSellers(allSellers.filter(s=>!q||s.business_name?.toLowerCase().includes(q)||s.name?.toLowerCase().includes(q)));
 }
 
-// ── LICENSES (stored locally + synced) ──
-function getLicenses(){
-  try{return JSON.parse(localStorage.getItem('gb_licenses')||'[]');}catch{return[];}
-}
-function saveLicenses(lics){localStorage.setItem('gb_licenses',JSON.stringify(lics));}
-
+// ── LICENSES (API based) ──
 async function loadLicenses(){
-  const lics=getLicenses();
+  const res=await api.get('/admin/licenses');
+  const lics=res?.success ? res.licenses : [];
   allLicenses=lics;
   const now=new Date();
-  const active=lics.filter(l=>!l.expiry||new Date(l.expiry)>now);
-  const expiring=lics.filter(l=>{if(!l.expiry)return false;const d=new Date(l.expiry);const diff=(d-now)/(1000*60*60*24);return diff>0&&diff<=30;});
-  const expired=lics.filter(l=>l.expiry&&new Date(l.expiry)<now);
+  const active=lics.filter(l=>l.status==='active'&&(!l.expiry_date||new Date(l.expiry_date)>now));
+  const expiring=lics.filter(l=>{if(!l.expiry_date)return false;const d=new Date(l.expiry_date);const diff=(d-now)/(1000*60*60*24);return diff>0&&diff<=30;});
+  const expired=lics.filter(l=>l.expiry_date&&new Date(l.expiry_date)<now);
   document.getElementById('lic-active-count').textContent=active.length;
   document.getElementById('lic-expiring-count').textContent=expiring.length;
   document.getElementById('lic-expired-count').textContent=expired.length;
   renderLicenses(lics);
-  // Load sellers for dropdown
   if(!allSellers.length){const r=await api.get('/sellers');if(r?.success)allSellers=r.sellers||[];}
 }
 
@@ -820,22 +815,22 @@ function renderLicenses(lics){
   if(!lics.length){container.innerHTML='<div class="empty"><div class="e-icon">🪪</div><p>Abhi koi license nahi hai.<br>Upar "+ Naya License" click karein.</p></div>';return;}
   const now=new Date();
   container.innerHTML=lics.map(l=>{
-    const exp=l.expiry?new Date(l.expiry):null;
+    const exp=l.expiry_date?new Date(l.expiry_date):null;
     const isExpired=exp&&exp<now;
     const isExpiring=exp&&!isExpired&&(exp-now)/(1000*60*60*24)<=30;
     const expiryClass=isExpired?'expired':isExpiring?'expiring':'valid';
-    const expiryText=l.type==='lifetime'?'Lifetime':exp?'Expiry: '+fmtDate(l.expiry):'No expiry';
+    const expiryText=l.type==='lifetime'?'Lifetime':exp?'Expiry: '+fmtDate(l.expiry_date):'No expiry';
     return `<div class="license-card">
       <div class="lc-icon" style="background:${isExpired?'#fdecea':isExpiring?'#fff3e0':'#d8f3dc'};">🪪</div>
       <div class="lc-info">
         <div class="lc-biz">${escHtml(l.business_name||'Unknown Seller')}</div>
-        <div class="lc-detail">${l.seller_name||''} • ${l.type} • ₹${l.amount||0}</div>
+        <div class="lc-detail">${l.seller_name||''} • ${l.type} • ₹${l.amount_paid||0}</div>
         <div class="lc-expiry ${expiryClass}">${isExpired?'⚠️ Expired':'✅'} ${expiryText}</div>
         ${l.notes?`<div style="font-size:11px;color:var(--text3);margin-top:2px;">📝 ${escHtml(l.notes)}</div>`:''}
       </div>
       <div class="lc-actions">
-        <button class="btn btn-sm btn-gold" onclick="editLicense('${l.id}')">Renew</button>
-        <button class="btn btn-sm btn-red" onclick="deleteLicense('${l.id}')">✕</button>
+        <button class="btn btn-sm btn-gold" onclick="editLicense(${l.id})">Renew</button>
+        <button class="btn btn-sm btn-red" onclick="deleteLicense(${l.id})">✕</button>
       </div>
     </div>`;
   }).join('');
@@ -881,7 +876,7 @@ function autoSetExpiry(){
 }
 
 function editLicense(id){
-  const lic=getLicenses().find(l=>l.id===id);
+  const lic=allLicenses.find(l=>l.id===id);
   if(!lic) return;
   editingLicenseId=id;
   document.getElementById('lic-modal-title').textContent='License Renew/Edit Karein';
@@ -893,50 +888,43 @@ function editLicense(id){
   }
   sel.value=lic.seller_id;
   document.getElementById('lic-type').value=lic.type;
-  document.getElementById('lic-amount').value=lic.amount||0;
-  document.getElementById('lic-start').value=lic.start_date||'';
-  document.getElementById('lic-expiry').value=lic.expiry||'';
+  document.getElementById('lic-amount').value=lic.amount_paid||0;
+  document.getElementById('lic-start').value=lic.start_date?lic.start_date.slice(0,10):'';
+  document.getElementById('lic-expiry').value=lic.expiry_date?lic.expiry_date.slice(0,10):'';
   document.getElementById('lic-notes').value=lic.notes||'';
   document.getElementById('license-modal').classList.add('show');
 }
 
-function saveLicense(){
+async function saveLicense(){
   const sellerId=document.getElementById('lic-seller-select').value;
   if(!sellerId){showToast('❌ Seller select karein');return;}
-  const selOpt=document.getElementById('lic-seller-select').selectedOptions[0];
-  const lics=getLicenses();
-  const newLic={
-    id: editingLicenseId || 'lic_'+Date.now(),
+  const payload={
     seller_id: Number(sellerId),
-    business_name: selOpt.dataset.name||selOpt.textContent.split('(')[0].trim(),
-    seller_name: selOpt.dataset.owner||'',
     type: document.getElementById('lic-type').value,
     amount: Number(document.getElementById('lic-amount').value)||0,
     start_date: document.getElementById('lic-start').value,
-    expiry: document.getElementById('lic-expiry').value||null,
-    notes: document.getElementById('lic-notes').value,
-    status: 'active',
-    issued_by: api.getUser()?.name||'Super Admin',
-    issued_at: new Date().toISOString()
+    expiry_date: document.getElementById('lic-expiry').value||null,
+    notes: document.getElementById('lic-notes').value||null
   };
+  let res;
   if(editingLicenseId){
-    const idx=lics.findIndex(l=>l.id===editingLicenseId);
-    if(idx>=0) lics[idx]=newLic; else lics.push(newLic);
+    res=await api.put('/admin/licenses/'+editingLicenseId, payload);
   } else {
-    lics.unshift(newLic);
+    res=await api.post('/admin/licenses', payload);
   }
-  saveLicenses(lics);
+  if(!res?.success){showToast('❌ '+(res?.message||'Error'));return;}
   closeLicenseModal();
-  loadLicenses();
+  await loadLicenses();
+  await loadSellers();
   showToast('✅ License saved!');
 }
 
-function deleteLicense(id){
-  if(!confirm('Yeh license delete karna chahte hain?')) return;
-  const lics=getLicenses().filter(l=>l.id!==id);
-  saveLicenses(lics);
-  loadLicenses();
-  showToast('🗑️ License deleted');
+async function deleteLicense(id){
+  const res=await api.delete('/admin/licenses/'+id);
+  if(!res?.success){showToast('❌ '+(res?.message||'Error'));return;}
+  await loadLicenses();
+  await loadSellers();
+  showToast('🗑️ License delete ho gayi');
 }
 
 function closeLicenseModal(){
