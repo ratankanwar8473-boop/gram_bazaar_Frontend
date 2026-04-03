@@ -1,6 +1,6 @@
 // ═══ Gram Bazaar – API Client ═══
 // Production mein VITE_API_URL ya window.GB_API_BASE se URL aata hai
-const API_BASE = window.GB_API_BASE || 'https://gram-bazaar-backend.up.railway.app/api';
+const API_BASE = window.GB_API_BASE || 'https://web-production-06696.up.railway.app/api';
 
 const api = {
   token: () => localStorage.getItem('gb_token'),
@@ -17,6 +17,7 @@ const api = {
         method,
         headers: this.headers(),
         body: body ? JSON.stringify(body) : undefined,
+        credentials: 'include',
       });
       const data = await res.json();
       if (res.status === 401) {
@@ -60,7 +61,7 @@ const api = {
 };
 
 // ─── Socket.io real-time ────────────────────────────────
-const SOCKET_BASE = window.GB_SOCKET_BASE || 'https://gram-bazaar-backend.up.railway.app';
+const SOCKET_BASE = window.GB_SOCKET_BASE || 'https://web-production-06696.up.railway.app';
 
 function initSocket() {
   if (!api.token() || typeof io === 'undefined') return null;
