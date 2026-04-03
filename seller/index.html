@@ -386,29 +386,29 @@ body { font-family: 'Hind', sans-serif; }
   <!-- ═══ PAGE: PROFILE ═══ -->
   <div id="page-profile" class="page">
     <div class="profile-hero">
-      <div class="profile-avatar">R</div>
+      <div class="profile-avatar" id="sp-avatar">?</div>
       <div>
-        <div class="profile-name">Raju Tent House</div>
-        <div class="profile-details">Raju Kumar<br>📱 9876543210 • Rampur Gaon</div>
+        <div class="profile-name" id="sp-business-name">Loading...</div>
+        <div class="profile-details" id="sp-details">—</div>
         <div class="rating-strip">
           <span class="stars">★★★★★</span>
-          <span class="rating-num">4.8</span>
-          <span style="font-size:11px; opacity:0.8;">(128 reviews)</span>
+          <span class="rating-num" id="sp-rating">0</span>
+          <span style="font-size:11px; opacity:0.8;">(<span id="sp-reviews">0</span> reviews)</span>
         </div>
       </div>
     </div>
     <div class="profile-stats">
       <div class="ps-box">
-        <div class="ps-num">128</div>
+        <div class="ps-num" id="sp-total-orders">0</div>
         <div class="ps-label">Total orders</div>
       </div>
       <div class="ps-box">
-        <div class="ps-num">6 saal</div>
-        <div class="ps-label">Experience</div>
+        <div class="ps-num" id="sp-completed">0</div>
+        <div class="ps-label">Complete</div>
       </div>
       <div class="ps-box">
-        <div class="ps-num">₹1.2L</div>
-        <div class="ps-label">Saal ki kamaai</div>
+        <div class="ps-num" id="sp-earned">₹0</div>
+        <div class="ps-label">Total kamaai</div>
       </div>
     </div>
     <div style="padding:14px;">
@@ -759,7 +759,38 @@ async function loadOrders(){
   }
 }
 
-async function loadEarnings(){
+async function loadProfile(){
+  const user = api.getUser();
+  if(user){
+    const av = document.getElementById('sp-avatar');
+    if(av) av.textContent = user.name.charAt(0).toUpperCase();
+  }
+  const res = await api.get('/seller/dashboard');
+  if(!res||!res.success) return;
+  const s = res.stats;
+  const set = (id,val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  set('sp-rating',       s.rating||0);
+  set('sp-reviews',      s.total_reviews||0);
+  set('sp-total-orders', s.total_orders||0);
+  set('sp-completed',    s.completed_orders||0);
+  set('sp-earned',       '₹'+(s.total_earned||0));
+
+  // Seller profile details
+  const profRes = await api.get('/auth/profile');
+  if(profRes && profRes.success && profRes.user){
+    const u = profRes.user;
+    set('sp-business-name', u.business_name || u.name);
+    const det = document.getElementById('sp-details');
+    if(det) det.innerHTML = u.name+'<br>📱 '+u.phone+(u.village?' • '+u.village:'');
+    // UPI fields bhi fill karo
+    const upiInput = document.getElementById('upi-id-input');
+    const bizInput = document.getElementById('upi-business-name');
+    if(upiInput && u.upi_id) upiInput.value = u.upi_id;
+    if(bizInput && u.business_name) bizInput.value = u.business_name;
+  }
+}
+
+
   const res = await api.get('/seller/dashboard');
   if(!res||!res.success) return;
   const s = res.stats;
@@ -806,12 +837,14 @@ async function updateOrderStatus(orderId, status, cardId){
 document.addEventListener('DOMContentLoaded',()=>{
   loadDashboard();
   loadOrders();
+  loadProfile();
   const logoutBtn = document.querySelector('.seller-tag');
   if(logoutBtn) logoutBtn.ondblclick = () => { if(confirm('Logout?')) api.logout(); };
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
       const page = item.dataset.page;
       if(page === 'earnings') loadEarnings();
+      if(page === 'profile') loadProfile();
     });
   });
 });
