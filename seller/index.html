@@ -214,19 +214,19 @@ body { font-family: 'Hind', sans-serif; }
     </div>
     <div class="stats-grid">
       <div class="stat-pill">
-        <div class="sp-num" id="stat-new">3</div>
+        <div class="sp-num" id="stat-new">0</div>
         <div class="sp-label">Nayi requests</div>
       </div>
       <div class="stat-pill">
-        <div class="sp-num">7</div>
+        <div class="sp-num" id="stat-active">0</div>
         <div class="sp-label">Active jobs</div>
       </div>
       <div class="stat-pill">
-        <div class="sp-num">₹12k</div>
+        <div class="sp-num" id="stat-earning">₹0</div>
         <div class="sp-label">Is mahine</div>
       </div>
       <div class="stat-pill">
-        <div class="sp-num">4.8⭐</div>
+        <div class="sp-num" id="stat-rating">0⭐</div>
         <div class="sp-label">Rating</div>
       </div>
     </div>
@@ -690,13 +690,12 @@ async function loadDashboard(){
   const res = await api.get('/seller/dashboard');
   if(!res||!res.success) return;
   const s = res.stats;
-  const els = {
-    'stat-new':     s.new_orders||0,
-    'stat-active':  s.active_orders||0,
-    'stat-done':    s.completed_orders||0,
-    'stat-earning': '₹'+(s.week_earned||0)
-  };
-  Object.entries(els).forEach(([id,val])=>{const el=document.getElementById(id);if(el)el.textContent=val;});
+  const set = (id,val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  set('stat-new',     s.new_orders||0);
+  set('stat-active',  s.active_orders||0);
+  set('stat-earning', '₹'+(s.month_earned||s.week_earned||0));
+  set('stat-rating',  (s.rating||0)+'⭐');
+  set('stat-done',    s.completed_orders||0);
 }
 
 async function loadOrders(){
