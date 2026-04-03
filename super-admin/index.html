@@ -1045,7 +1045,7 @@ function svcEmoji(t){return{tent:'⛺',saman:'🛒',gadi:'🚗',tractor:'🚜',k
 function fmtDate(d){if(!d)return'—';const dt=new Date(d);return dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
 function escHtml(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function doLogout(){if(confirm('Logout karna chahte hain?')) api.logout();}
+function doLogout(){api.logout();}
 
 // ── INIT ──
 loadDashboard();

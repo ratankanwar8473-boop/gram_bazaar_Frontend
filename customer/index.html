@@ -1077,10 +1077,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   loadMyOrders();
   loadProfile();
   const a=document.querySelector('.user-avatar');
-  if(a)a.onclick=()=>{if(confirm('Logout karna chahte hain?'))api.logout();};
+  if(a)a.onclick=()=>{api.logout();};
   document.querySelectorAll('.menu-item').forEach(item=>{
     if(item.style.color&&item.style.color.includes('c62828'))
-      item.onclick=()=>{if(confirm('Logout?'))api.logout();};
+      item.onclick=()=>{api.logout();};
   });
 });
 </script>

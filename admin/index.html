@@ -539,7 +539,7 @@ async function sendBroadcast(){
 
 // ─── Helpers ─────────────────────────────────────────────
 function serviceEmoji(t){return{tent:'⛺',saman:'🛒',gadi:'🚗',tractor:'🚜',khana:'🍛',karigar:'🔧'}[t]||'📦';}
-function doLogout(){ if(confirm('Logout karna chahte hain?')) api.logout(); }
+function doLogout(){ api.logout(); }
 
 // ─── Socket ──────────────────────────────────────────────
 if(socket){

@@ -841,7 +841,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   loadProfile();
   loadKamaai();
   const logoutBtn = document.getElementById('logout-btn');
-  if(logoutBtn) logoutBtn.onclick = () => { if(confirm('Logout karna chahte ho?')) api.logout(); };
+  if(logoutBtn) logoutBtn.onclick = () => { api.logout(); };
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
       const page = item.dataset.page;

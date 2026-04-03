@@ -17,7 +17,6 @@ const api = {
         method,
         headers: this.headers(),
         body: body ? JSON.stringify(body) : undefined,
-        credentials: 'include',
       });
       const data = await res.json();
       if (res.status === 401) {
