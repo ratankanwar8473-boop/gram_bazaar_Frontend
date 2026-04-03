@@ -441,7 +441,7 @@ body { font-family: 'Hind', sans-serif; }
         <span class="menu-text2">Help / Support</span>
         <span class="menu-arrow2">›</span>
       </div>
-      <div class="menu-item">
+      <div class="menu-item" id="logout-btn" style="cursor:pointer;">
         <span class="menu-icon2">🚪</span>
         <span class="menu-text2" style="color:#c62828;">Logout</span>
         <span class="menu-arrow2">›</span>
@@ -839,8 +839,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   loadDashboard();
   loadOrders();
   loadProfile();
-  const logoutBtn = document.querySelector('.seller-tag');
-  if(logoutBtn) logoutBtn.ondblclick = () => { if(confirm('Logout?')) api.logout(); };
+  const logoutBtn = document.getElementById('logout-btn');
+  if(logoutBtn) logoutBtn.onclick = () => { if(confirm('Logout karna chahte ho?')) api.logout(); };
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
       const page = item.dataset.page;
